@@ -19,11 +19,11 @@ namespace INV.Implementation.Service.ProductServices
             List<Error> errorList = validateProductCreate(product);
             if (errorList.Any())
                 return Result.Failure(errorList.First());
-    
+
             bool designationExists = await productStorage.ProductExistsByaDesignation(product.Designation);
             if (designationExists)
                 errorList.Add(ProductError.DesignationExsist);
-    
+
             if (errorList.Any())
                 return Result.Failure(errorList.First());
 
@@ -52,8 +52,13 @@ namespace INV.Implementation.Service.ProductServices
 
             if (string.IsNullOrWhiteSpace(product.Designation))
                 errors.Add(ProductError.DesignationExsist);
-    
+
             return errors;
+        }
+
+        public async ValueTask<ProductInfo> GetProductById(Guid id)
+        {
+            return await productStorage.GetProductById(id);
         }
     }
 }

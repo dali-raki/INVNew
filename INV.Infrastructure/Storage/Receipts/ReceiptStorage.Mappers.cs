@@ -30,6 +30,8 @@ namespace INV.Infrastructure.Storage.Receipts
             return new ReceiptInfo
             {
                 Id = reader.GetGuid(reader.GetOrdinal("Id")),
+                Number = reader.IsDBNull(reader.GetOrdinal("Number")) ? null : reader.GetString(reader.GetOrdinal("Number")),
+
                 PurchaseId = reader.GetGuid(reader.GetOrdinal("PurchaseId")),
                 purchaseNumber = reader.GetString(reader.GetOrdinal("PurchaseNumber")),
                 PurchaseDate = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("PurchaseDate"))),
@@ -61,7 +63,6 @@ namespace INV.Infrastructure.Storage.Receipts
                 ProductId = (Guid)row["ProductId"],
                 Quantity = (int)row["Quantity"],
                 Designation = (string)row["Designation"],
-       
             };
         }
 
@@ -70,14 +71,28 @@ namespace INV.Infrastructure.Storage.Receipts
             return new ReceiptInfo()
             {
                 Id = (Guid)row["Id"],
+                Number = row.IsNull("Number") ? null : (string)row["Number"],
                 PurchaseId = (Guid)row["PurchaseId"],
                 Date = row.IsNull("Date") ? (DateOnly?)null : DateOnly.FromDateTime((DateTime)row["Date"]),
-                purchaseNumber = row.IsNull("purchaseNumber") ? null : (string)row["purchaseNumber"],
+                purchaseNumber = row.IsNull("PurchaseNumber") ? null : (string)row["PurchaseNumber"],
                 supplierId = (Guid)row["supplierId"],
                 supplierName = row.IsNull("supplierName") ? null : (string)row["supplierName"],
                 DeliveryNumber = row.IsNull("DeliveryNumber") ? null : (string)row["DeliveryNumber"],
                 DeliveryDate = row.IsNull("DeliveryDate") ? (DateOnly?)null : DateOnly.FromDateTime((DateTime)row["DeliveryDate"]),
                 Status = (ReceiptStatus)row["Status"]
+            };
+        }
+
+        private static ReceiptInfo GetReceiptDatabyidsupplier(SqlDataReader reader)
+        {
+            return new ReceiptInfo
+            {
+                Id = reader.GetGuid(reader.GetOrdinal("ReceptionId")),
+                PurchaseId = reader.GetGuid(reader.GetOrdinal("PurchaseId")),
+                Date = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("ReceptionDate"))),
+                DeliveryNumber = reader.GetString(reader.GetOrdinal("DeliveryNumber")),
+                DeliveryDate = DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("DeliveryDate"))),
+                Status = (ReceiptStatus)reader.GetInt32(reader.GetOrdinal("ReceptionStatus"))
             };
         }
     }

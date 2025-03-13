@@ -122,6 +122,7 @@ h1:focus {
     }
 
 .footer-form {
+    width:100%;
     display: flex;
     justify-content: space-between;
 }

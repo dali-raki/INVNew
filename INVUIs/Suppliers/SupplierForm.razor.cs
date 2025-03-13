@@ -9,11 +9,18 @@ namespace INVUIs.Suppliers
     public partial class SupplierForm : ComponentBase
     {
         [Parameter] public EventCallback<SupplierInfo> OnSave { get; set; }
+        [Parameter] public EventCallback<SupplierInfo> OnSupplierCreated { get; set; }
+
+        [Parameter] public bool Update { get; set; } = false;
+        [Parameter] public string CreateButtonLabel { get; set; } = "Create";
+        [Parameter] public SupplierModel SupplierToEdit { get; set; } // New parameter to accept supplier data for editing
         [Inject] public ISupplierService SupplierService { get; set; }
-        SupplierModel newSupplier = new SupplierModel();
+        [Inject] public NavigationManager navigationManager { get; set; }
+        private SupplierModel newSupplier = new SupplierModel();
         private bool displayModal = false;
-        Result result;
-        private String success = String.Empty;
+        private Result result;
+        private int resultUpdate;
+        private string success = string.Empty;
 
         private void close()
         {
@@ -22,9 +29,19 @@ namespace INVUIs.Suppliers
             StateHasChanged();
         }
 
+        public void closeModel()
+        {
+            newSupplier = new SupplierModel();
+            displayModal = false;
+            StateHasChanged();
+        }
 
         public void ShowModal()
         {
+            if (Update && SupplierToEdit != null)
+            {
+                newSupplier = SupplierToEdit; // Populate the form with existing supplier data
+            }
             displayModal = true;
             StateHasChanged();
         }
@@ -33,7 +50,7 @@ namespace INVUIs.Suppliers
         {
             var sup = new Supplier()
             {
-                Id = Guid.NewGuid(),
+                Id = Update ? SupplierToEdit.ID : Guid.NewGuid(), // Use existing ID if updating
                 ManagerName = newSupplier.NameSupplier,
                 CompanyName = newSupplier.NameCompany,
                 Email = newSupplier.Email,
@@ -44,16 +61,42 @@ namespace INVUIs.Suppliers
                 RC = newSupplier.RC,
                 NIS = newSupplier.NIS,
                 RIB = newSupplier.RIB,
-                BankAgency = newSupplier.BankAgency
+                BankAgency = newSupplier.BankAgency,
+                State = SupplierState.Active
             };
 
-            result = await SupplierService.AddSupplier(sup);
-
-            success = "the supplier has been added successfully";
-            /*if (result.Successed)
+            if (Update)
             {
-              
-            }*/
+                resultUpdate = await SupplierService.SetSupplier(sup);
+            }
+            else
+            {
+                result = await SupplierService.AddSupplier(sup);
+            }
+
+            success = "The supplier has been " + (Update ? "updated" : "added") + " successfully";
+            await ClearForm();
+            close();
+            var createdSupplierInfo = new SupplierInfo
+            {
+                ID = sup.Id,
+                Name = sup.ManagerName,
+                CompanyName = sup.CompanyName,
+                Email = sup.Email,
+                Address = sup.Address,
+                Phone = sup.Phone,
+                ART = sup.ART,
+                NIF = sup.NIF,
+                RC = sup.RC,
+                NIS = sup.NIS,
+                RIB = sup.RIB,
+                BankAgency = sup.BankAgency
+            };
+
+            await OnSupplierCreated.InvokeAsync(createdSupplierInfo);
+            // await OnSave.InvokeAsync(createdSupplierInfo);
+            closeModel();
+            success = "The supplier has been added successfully";
             await ClearForm();
         }
 

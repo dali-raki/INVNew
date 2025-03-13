@@ -7,7 +7,7 @@
                 <ValidationSummary />
                 <div class="commend-content">
                     <div class="titel-primary">
-                        <h2>Information of Supplier</h2>
+                        <h2>@(Update ? "Edit Supplier" : "Information of Supplier")</h2>
                     </div>
 
                     <div class="input">
@@ -15,15 +15,16 @@
                             <label>Full Name</label>
                             <InputText @bind-Value="newSupplier.NameSupplier" placeholder="Enter Supplier Name" />
                             <ValidationMessage For="() => newSupplier.NameSupplier" />
-                        </div>  
                         </div>
-                        <div class="input">
+                    </div>
+                    <div class="input">
                         <div class="commend-input">
                             <label>Company Name (Legal from determination)</label>
                             <InputText @bind-Value="newSupplier.NameCompany" placeholder="Enter Supplier Company" />
                             <ValidationMessage For="() => newSupplier.NameCompany" />
-                        </div> </div>
-                        <div class="input">
+                        </div>
+                    </div>
+                    <div class="input">
                         <div class="commend-input">
                             <label>Address</label>
                             <InputText @bind-Value="newSupplier.Address" placeholder="Enter Supplier Address" />
@@ -39,8 +40,8 @@
                         </div>
                         <div class="commend-input">
                             <label>Email</label>
-                            <InputText @bind-Value="newSupplier.Email" placeholder="Enter Supplier Email"/>
-                            <ValidationMessage For="() => newSupplier.Email"/>
+                            <InputText @bind-Value="newSupplier.Email" placeholder="Enter Supplier Email" />
+                            <ValidationMessage For="() => newSupplier.Email" />
                         </div>
                     </div>
 
@@ -52,16 +53,16 @@
                         </div>
                         <div class="commend-input">
                             <label>Article number (ART)</label>
-                            <InputText @bind-Value="newSupplier.ART" placeholder="Enter ART"/>
-                            <ValidationMessage For="() => newSupplier.ART"/>
+                            <InputText @bind-Value="newSupplier.ART" placeholder="Enter ART" />
+                            <ValidationMessage For="() => newSupplier.ART" />
                         </div>
                     </div>
 
                     <div class="input2">
                         <div class="commend-input">
                             <label>NIF</label>
-                            <InputText @bind-Value="newSupplier.NIF" placeholder="Enter NIF"/>
-                            <ValidationMessage For="() => newSupplier.NIF"/>
+                            <InputText @bind-Value="newSupplier.NIF" placeholder="Enter NIF" />
+                            <ValidationMessage For="() => newSupplier.NIF" />
                         </div>
                         <div class="commend-input">
                             <label>NIS</label>
@@ -69,7 +70,7 @@
                             <ValidationMessage For="() => newSupplier.NIS" />
                         </div>
                     </div>
-                    
+
                     <div class="input2">
                         <div class="commend-input">
                             <label>Bank Account (RIB)</label>
@@ -83,19 +84,13 @@
                             <ValidationMessage For="() => newSupplier.BankAgency" />
                         </div>
                     </div>
-                    @*
-                    @if (@result != null) { @if (@result.ErrorCodes is not null) { <div class="D-eroor-text">@foreach (var error in result.ErrorCodes) { <span> @error.Message !</span> }</div> }
-                    @if (@result.Successed) { <div class="D-success-text">"Laboratory is Created"</div>} }
-                    *@
+
                     <div class="footer-form">
                         <button class="btn-custom btn-cancel" type="button" @onclick="close">Close</button>
-                        <button class="btn-custom btn-submit" type="submit">Create</button>
-                        
+                        <button class="btn-custom btn-submit" type="submit">@((Update ? "Update" : "Create"))</button>
                     </div>
                 </div>
             </EditForm>
         </div>
     </div>
-
-
 }

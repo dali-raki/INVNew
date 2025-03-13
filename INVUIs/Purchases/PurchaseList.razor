@@ -22,7 +22,10 @@ else
                 <RadzenDataGridColumn Property="@nameof(PurchaseOrderInfo.Status)" Title="Status" />
                 <RadzenDataGridColumn Property="@nameof(PurchaseOrderInfo.Number)" Title="Number" />
                 <RadzenDataGridColumn Property="@nameof(PurchaseOrderInfo.Date)" Title="Date" />
-                <RadzenDataGridColumn Property="@nameof(PurchaseOrderInfo.SupplierName)" Title="Supplier Name" />
+                @if (ShowSupplier){
+                    <RadzenDataGridColumn Property="@nameof(PurchaseOrderInfo.SupplierName)" Title="Supplier Name" />
+                }
+               
 
             </Columns>
         </RadzenDataGrid>

@@ -20,6 +20,7 @@ namespace INV.Infrastructure.Storage.Receipts
         private const string selectAllReceiptsQuery = "SELECT * FROM [reception].[List]";
         private const string selectReceiptByIdQuery = "SELECT * FROM [reception].[HEADERS] WHERE Id = @aId";
         private const string selectReceiptsByPurchaseIdQuery = "SELECT * FROM [reception].[HEADERS] WHERE PurchaseId = @aPurchaseId";
+        private const string selectReceiptsByPurchaseIdQueryWhenStatus1 = "SELECT * FROM [reception].[HEADERS] WHERE PurchaseId = @aPurchaseId and Status=1";
 
         private const string insertReceiptCommand = @"
             INSERT INTO [reception].[HEADERS] (Id, PurchaseId, Date, DeliveryNumber, DeliveryDate, Status)
@@ -54,6 +55,17 @@ namespace INV.Infrastructure.Storage.Receipts
         private const string CreateReceiptFromPurchaseCommand = "reception.CreateFromPurchase";
         private const string getReceiptInfoById = "[reception].[GetById]";
 
+        private const string selectReceiptsBySupplierIdQuery = @"SELECT
+    H.Id AS ReceptionId,
+    H.PurchaseId,
+    H.Date AS ReceptionDate,
+    H.DeliveryNumber,
+    H.DeliveryDate,
+    H.Status AS ReceptionStatus
+FROM [INV].[reception].[HEADERS] H
+JOIN [INV].[purchase].[ORDERS] O ON H.PurchaseId = O.Id
+WHERE O.SupplierId = @aSupplierId;";
+
         public async ValueTask<ReceiptInfo> CreateReceiptFromPurchase(Guid purchaseId)
         {
             using var connection = new SqlConnection(_connectionString);
@@ -65,7 +77,7 @@ namespace INV.Infrastructure.Storage.Receipts
             SqlDataAdapter da = new(cmd);
             await connection.OpenAsync();
             da.Fill(ds);
-            return getReceiptFromDataSet(ds, true);
+            return GetReceiptFromDataSet(ds, true);
         }
 
         public async ValueTask<List<ReceiptInfo>> SelectAllReceipts()
@@ -100,6 +112,23 @@ namespace INV.Infrastructure.Storage.Receipts
             var receipts = new List<Receipt>();
             using var sqlConnection = new SqlConnection(_connectionString);
             var cmd = new SqlCommand(selectReceiptsByPurchaseIdQuery, sqlConnection);
+            cmd.Parameters.AddWithValue("@aPurchaseId", purchaseId);
+            await sqlConnection.OpenAsync();
+
+            using var reader = await cmd.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                receipts.Add(GetReceiptData(reader));
+            }
+
+            return receipts;
+        }
+
+        public async ValueTask<List<Receipt>> SelectReceiptsByPurchaseIdWhenStatus1(Guid purchaseId)
+        {
+            var receipts = new List<Receipt>();
+            using var sqlConnection = new SqlConnection(_connectionString);
+            var cmd = new SqlCommand(selectReceiptsByPurchaseIdQueryWhenStatus1, sqlConnection);
             cmd.Parameters.AddWithValue("@aPurchaseId", purchaseId);
             await sqlConnection.OpenAsync();
 
@@ -225,22 +254,74 @@ namespace INV.Infrastructure.Storage.Receipts
             return await cmd.ExecuteNonQueryAsync();
         }
 
-        public async ValueTask<ReceiptInfo> GetReceiptInfoById(Guid receiptId, bool includeProducts = false)
+        public async ValueTask<ReceiptInfo> GetReceiptInfoById(Guid receiptId, bool includeProducts = true)
         {
-            await using var sqlConnection = new SqlConnection(_connectionString);
-
-            var cmd = new SqlCommand(getReceiptInfoById, sqlConnection)
+            if (receiptId == Guid.Empty)
             {
-                CommandType = CommandType.StoredProcedure
+                throw new ArgumentException("Receipt ID cannot be empty.", nameof(receiptId));
+            }
+
+            try
+            {
+                await using var sqlConnection = new SqlConnection(_connectionString);
+                using var cmd = new SqlCommand("[reception].[GetById]", sqlConnection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                cmd.Parameters.AddWithValue("@aReceptionId", receiptId);
+
+                await sqlConnection.OpenAsync();
+
+                using var da = new SqlDataAdapter(cmd);
+                var ds = new DataSet();
+                da.Fill(ds);
+
+                var receiptInfo = GetReceiptFromDataSet(ds, includeProducts);
+                if (receiptInfo == null)
+                {
+                    throw new KeyNotFoundException($"Receipt with ID {receiptId} not found.");
+                }
+
+                return receiptInfo;
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception($"Database error occurred while retrieving receipt info for ID {receiptId}: {ex.Message}", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error retrieving receipt info for ID {receiptId}: {ex.Message}", ex);
+            }
+        }
+
+        private ReceiptInfo GetReceiptFromDataSet(DataSet ds, bool includeProducts)
+        {
+            if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+            {
+                return null; // Receipt not found (e.g., return 1001)
+            }
+
+            var receiptInfo = GetReceiptInfoFromDataRow(ds.Tables[0].Rows[0]);
+            receiptInfo.ReceiptProducts = includeProducts && ds.Tables.Count > 1 && ds.Tables[1].Rows.Count > 0
+                ? ds.Tables[1].AsEnumerable().Select(GetReceiptProductInfoFromDataRow).ToList()
+                : new List<ReceiptProductInfo>();
+
+            return receiptInfo;
+        }
+
+        private ReceiptProductInfo GetReceiptProductInfoFromDataRow(DataRow row)
+        {
+            return new ReceiptProductInfo
+            {
+                ReceptionId = row.IsNull("ReceptionId") ? Guid.Empty : row.Field<Guid>("ReceptionId"),
+                ProductId = row.IsNull("ProductId") ? Guid.Empty : row.Field<Guid>("ProductId"),
+                Quantity = row.IsNull("Quantity") ? 0 : row.Field<int>("Quantity"),
+                Designation = row.IsNull("Designation") ? string.Empty : row.Field<string>("Designation"),
+                UnitPrice = row.IsNull("UnitPrice") ? 0m : row.Field<decimal?>("UnitPrice") ?? 0m,
+                Received = row.IsNull("Received") ? 0 : row.Field<int>("Received"),
+                DefaultWareHouseId = row.IsNull("WareHouseId") ? Guid.Empty : row.Field<Guid>("WareHouseId")
             };
-
-            cmd.Parameters.AddWithValue("@aReceptionId", receiptId);
-            DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            await sqlConnection.OpenAsync();
-            da.Fill(ds);
-
-            return getReceiptFromDataSet(ds, includeProducts);
         }
 
         private ReceiptInfo getReceiptFromDataSet(DataSet ds, bool includeProducts)
@@ -304,6 +385,36 @@ namespace INV.Infrastructure.Storage.Receipts
             {
                 throw new Exception($"Error validating receipt: {ex.Message}", ex);
             }
+        }
+
+        public async ValueTask<List<ReceiptInfo>> SelectReceiptsBySupplierId(Guid supplierId)
+        {
+            var receipts = new List<ReceiptInfo>();
+            using var sqlConnection = new SqlConnection(_connectionString);
+            var cmd = new SqlCommand(selectReceiptsBySupplierIdQuery, sqlConnection);
+            cmd.Parameters.AddWithValue("@aSupplierId", supplierId);
+
+            await sqlConnection.OpenAsync();
+            using var reader = await cmd.ExecuteReaderAsync();
+
+            while (await reader.ReadAsync())
+            {
+                receipts.Add(GetReceiptDatabyidsupplier(reader));
+            }
+
+            return receipts;
+        }
+
+        public async ValueTask<bool> ReceiptExistById(Guid id)
+        {
+            using var sqlConnection = new SqlConnection(_connectionString);
+            var cmd = new SqlCommand("SELECT COUNT(1) FROM [reception].[HEADERS] WHERE Id = @aId", sqlConnection);
+            cmd.Parameters.AddWithValue("@aId", id);
+
+            await sqlConnection.OpenAsync();
+            var result = await cmd.ExecuteScalarAsync();
+
+            return Convert.ToInt32(result) > 0;
         }
     }
 }

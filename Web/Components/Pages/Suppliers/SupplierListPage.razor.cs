@@ -7,16 +7,13 @@ namespace INV.Web.Components.Pages.Suppliers
     {
         [Inject] public ISupplierService supplierService { get; set; }
 
-        
-
         private List<SupplierInfo> suppliers;
 
-        string texte = DateTime.Now.ToString("dd/MM/yyyy HH:ss");
+        private string texte = DateTime.Now.ToString("dd/MM/yyyy HH:ss");
 
         protected override async Task OnInitializedAsync()
         {
             suppliers = await supplierService.GetAllSupplier();
         }
-       
     }
 }

@@ -7,15 +7,18 @@
         }
         @Label
     </div>
-    <div class="info-box-text">@Value</div>
+ 
+    <div class="info-box-text">@Number</div>
 </div>
 
 @code {
     [Parameter] public string Label { get; set; }
-    [Parameter] public string Value { get; set; }
-    [Parameter] public DateOnly Date { get; set; }
-    [Parameter] public decimal Number { get; set; }
+    [Parameter] public int Number { get; set; }
     [Parameter] public string IconClass { get; set; } = String.Empty;
+   [Parameter] public string Value { get; set; }
+    [Parameter] public DateOnly Date { get; set; }
+    
+   
 	[Parameter] public PurchaseStatus Status { get; set; }
 
 }

@@ -3,32 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{58227CE6-8621-4565-BD75-4AF665172459}|INV.Infrastructure\\INV.Infrastructure.csproj|c:\\users\\dali_raki\\desktop\\new folder (2)\\inv_2.0\\inv.infrastructure\\storage\\receipts\\receiptstorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{58227CE6-8621-4565-BD75-4AF665172459}|INV.Infrastructure\\INV.Infrastructure.csproj|solutionrelative:inv.infrastructure\\storage\\receipts\\receiptstorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C4A70422-573D-4D8A-81A1-9923CD3A5846}|Web\\INV.Web.csproj|c:\\users\\dali_raki\\desktop\\new folder (2)\\inv_2.0\\web\\components\\pages\\products\\productdetailpage.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C4A70422-573D-4D8A-81A1-9923CD3A5846}|Web\\INV.Web.csproj|solutionrelative:web\\components\\pages\\products\\productdetailpage.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2CA4533B-949D-4985-96A2-627900575F4F}|INVUIs\\INVUIs.csproj|c:\\users\\dali_raki\\desktop\\new folder (2)\\inv_2.0\\invuis\\receptions\\newreception.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2CA4533B-949D-4985-96A2-627900575F4F}|INVUIs\\INVUIs.csproj|solutionrelative:invuis\\receptions\\newreception.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2CA4533B-949D-4985-96A2-627900575F4F}|INVUIs\\INVUIs.csproj|c:\\users\\dali_raki\\desktop\\new folder (2)\\inv_2.0\\invuis\\suppliers\\supplierform.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2CA4533B-949D-4985-96A2-627900575F4F}|INVUIs\\INVUIs.csproj|solutionrelative:invuis\\suppliers\\supplierform.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C4A70422-573D-4D8A-81A1-9923CD3A5846}|Web\\INV.Web.csproj|c:\\users\\dali_raki\\desktop\\new folder (2)\\inv_2.0\\web\\components\\pages\\purchases\\purchseorderlistpage.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C4A70422-573D-4D8A-81A1-9923CD3A5846}|Web\\INV.Web.csproj|solutionrelative:web\\components\\pages\\purchases\\purchseorderlistpage.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{58227CE6-8621-4565-BD75-4AF665172459}|INV.Infrastructure\\INV.Infrastructure.csproj|c:\\users\\dali_raki\\desktop\\new folder (2)\\inv_2.0\\inv.infrastructure\\storage\\products\\productstorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58227CE6-8621-4565-BD75-4AF665172459}|INV.Infrastructure\\INV.Infrastructure.csproj|solutionrelative:inv.infrastructure\\storage\\products\\productstorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2CA4533B-949D-4985-96A2-627900575F4F}|INVUIs\\INVUIs.csproj|c:\\users\\dali_raki\\desktop\\new folder (2)\\inv_2.0\\invuis\\receptions\\receptionlist.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2CA4533B-949D-4985-96A2-627900575F4F}|INVUIs\\INVUIs.csproj|solutionrelative:invuis\\receptions\\receptionlist.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DD8B2F0C-9879-4BA1-B1AD-A38C8F8D92E6}|INV.App\\INV.App.csproj|c:\\users\\dali_raki\\desktop\\new folder (2)\\inv_2.0\\inv.app\\products\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DD8B2F0C-9879-4BA1-B1AD-A38C8F8D92E6}|INV.App\\INV.App.csproj|solutionrelative:inv.app\\products\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C4A70422-573D-4D8A-81A1-9923CD3A5846}|Web\\INV.Web.csproj|c:\\users\\dali_raki\\desktop\\new folder (2)\\inv_2.0\\web\\components\\pages\\receipts\\receiptlistpage.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{C4A70422-573D-4D8A-81A1-9923CD3A5846}|Web\\INV.Web.csproj|solutionrelative:web\\components\\pages\\receipts\\receiptlistpage.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{6AB83862-F6EF-4941-BA4D-C266AFB3447B}|INV.Implementation\\INV.Implementation.csproj|c:\\users\\dali_raki\\desktop\\new folder (2)\\inv_2.0\\inv.implementation\\service\\productservices\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6AB83862-F6EF-4941-BA4D-C266AFB3447B}|INV.Implementation\\INV.Implementation.csproj|solutionrelative:inv.implementation\\service\\productservices\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C4A70422-573D-4D8A-81A1-9923CD3A5846}|Web\\INV.Web.csproj|c:\\users\\dali_raki\\desktop\\new folder (2)\\inv_2.0\\web\\components\\pages\\receipts\\receiptlistpage.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C4A70422-573D-4D8A-81A1-9923CD3A5846}|Web\\INV.Web.csproj|solutionrelative:web\\components\\pages\\receipts\\receiptlistpage.razor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{58227CE6-8621-4565-BD75-4AF665172459}|INV.Infrastructure\\INV.Infrastructure.csproj|c:\\users\\dali_raki\\desktop\\new folder (2)\\inv_2.0\\inv.infrastructure\\storage\\products\\iproductstorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{58227CE6-8621-4565-BD75-4AF665172459}|INV.Infrastructure\\INV.Infrastructure.csproj|solutionrelative:inv.infrastructure\\storage\\products\\iproductstorage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C4A70422-573D-4D8A-81A1-9923CD3A5846}|Web\\INV.Web.csproj|c:\\users\\dali_raki\\desktop\\new folder (2)\\inv_2.0\\web\\components\\pages\\purchases\\purchseorderlistpage.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{C4A70422-573D-4D8A-81A1-9923CD3A5846}|Web\\INV.Web.csproj|solutionrelative:web\\components\\pages\\purchases\\purchseorderlistpage.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{DD8B2F0C-9879-4BA1-B1AD-A38C8F8D92E6}|INV.App\\INV.App.csproj|c:\\users\\dali_raki\\desktop\\new folder (2)\\inv_2.0\\inv.app\\products\\productinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DD8B2F0C-9879-4BA1-B1AD-A38C8F8D92E6}|INV.App\\INV.App.csproj|solutionrelative:inv.app\\products\\productinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 14,
           "Children": [
             {
               "$type": "Bookmark",
@@ -74,93 +74,93 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ReceptionList.razor.cs",
-              "DocumentMoniker": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INVUIs\\Receptions\\ReceptionList.razor.cs",
-              "RelativeDocumentMoniker": "INVUIs\\Receptions\\ReceptionList.razor.cs",
-              "ToolTip": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INVUIs\\Receptions\\ReceptionList.razor.cs",
-              "RelativeToolTip": "INVUIs\\Receptions\\ReceptionList.razor.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-09T11:22:53.96Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ReceiptStorage.cs",
-              "DocumentMoniker": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INV.Infrastructure\\Storage\\Receipts\\ReceiptStorage.cs",
-              "RelativeDocumentMoniker": "INV.Infrastructure\\Storage\\Receipts\\ReceiptStorage.cs",
-              "ToolTip": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INV.Infrastructure\\Storage\\Receipts\\ReceiptStorage.cs",
-              "RelativeToolTip": "INV.Infrastructure\\Storage\\Receipts\\ReceiptStorage.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAswD8AAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-09T11:20:39.655Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "NewReception.razor.cs",
-              "DocumentMoniker": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INVUIs\\Receptions\\NewReception.razor.cs",
-              "RelativeDocumentMoniker": "INVUIs\\Receptions\\NewReception.razor.cs",
-              "ToolTip": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INVUIs\\Receptions\\NewReception.razor.cs",
-              "RelativeToolTip": "INVUIs\\Receptions\\NewReception.razor.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAWwFMAAAADAAAAAAAAAA==",
+              "Title": "SupplierForm.razor.cs",
+              "DocumentMoniker": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INVUIs\\Suppliers\\SupplierForm.razor.cs",
+              "RelativeDocumentMoniker": "INVUIs\\Suppliers\\SupplierForm.razor.cs",
+              "ToolTip": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INVUIs\\Suppliers\\SupplierForm.razor.cs",
+              "RelativeToolTip": "INVUIs\\Suppliers\\SupplierForm.razor.cs",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAawGQAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-09T11:20:39.668Z",
+              "WhenOpened": "2025-03-13T02:22:34.953Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PurchseOrderListPage.razor.cs",
-              "DocumentMoniker": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\Web\\Components\\Pages\\Purchases\\PurchseOrderListPage.razor.cs",
-              "RelativeDocumentMoniker": "Web\\Components\\Pages\\Purchases\\PurchseOrderListPage.razor.cs",
-              "ToolTip": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\Web\\Components\\Pages\\Purchases\\PurchseOrderListPage.razor.cs",
-              "RelativeToolTip": "Web\\Components\\Pages\\Purchases\\PurchseOrderListPage.razor.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAwAAAA6AAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "IProductService.cs",
+              "DocumentMoniker": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INV.App\\Products\\IProductService.cs",
+              "RelativeDocumentMoniker": "INV.App\\Products\\IProductService.cs",
+              "ToolTip": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INV.App\\Products\\IProductService.cs",
+              "RelativeToolTip": "INV.App\\Products\\IProductService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-09T11:19:30.821Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "PurchseOrderListPage.razor",
-              "DocumentMoniker": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\Web\\Components\\Pages\\Purchases\\PurchseOrderListPage.razor",
-              "RelativeDocumentMoniker": "Web\\Components\\Pages\\Purchases\\PurchseOrderListPage.razor",
-              "ToolTip": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\Web\\Components\\Pages\\Purchases\\PurchseOrderListPage.razor",
-              "RelativeToolTip": "Web\\Components\\Pages\\Purchases\\PurchseOrderListPage.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-03-09T11:19:27.298Z",
+              "WhenOpened": "2025-03-13T02:21:16.285Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "ReceiptListPage.razor",
-              "DocumentMoniker": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\Web\\Components\\Pages\\Receipts\\ReceiptListPage.razor",
-              "RelativeDocumentMoniker": "Web\\Components\\Pages\\Receipts\\ReceiptListPage.razor",
-              "ToolTip": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\Web\\Components\\Pages\\Receipts\\ReceiptListPage.razor",
-              "RelativeToolTip": "Web\\Components\\Pages\\Receipts\\ReceiptListPage.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-03-09T11:19:16.643Z",
+              "Title": "ProductService.cs",
+              "DocumentMoniker": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INV.Implementation\\Service\\ProductServices\\ProductService.cs",
+              "RelativeDocumentMoniker": "INV.Implementation\\Service\\ProductServices\\ProductService.cs",
+              "ToolTip": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INV.Implementation\\Service\\ProductServices\\ProductService.cs",
+              "RelativeToolTip": "INV.Implementation\\Service\\ProductServices\\ProductService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T02:21:04.478Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "ReceiptListPage.razor.cs",
-              "DocumentMoniker": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\Web\\Components\\Pages\\Receipts\\ReceiptListPage.razor.cs",
-              "RelativeDocumentMoniker": "Web\\Components\\Pages\\Receipts\\ReceiptListPage.razor.cs",
-              "ToolTip": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\Web\\Components\\Pages\\Receipts\\ReceiptListPage.razor.cs",
-              "RelativeToolTip": "Web\\Components\\Pages\\Receipts\\ReceiptListPage.razor.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAIAwwBYAAAAmAAAAAAAAAA==",
+              "Title": "IProductStorage.cs",
+              "DocumentMoniker": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INV.Infrastructure\\Storage\\Products\\IProductStorage.cs",
+              "RelativeDocumentMoniker": "INV.Infrastructure\\Storage\\Products\\IProductStorage.cs",
+              "ToolTip": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INV.Infrastructure\\Storage\\Products\\IProductStorage.cs",
+              "RelativeToolTip": "INV.Infrastructure\\Storage\\Products\\IProductStorage.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-09T11:19:39.42Z",
+              "WhenOpened": "2025-03-13T02:19:50.052Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ProductStorage.cs",
+              "DocumentMoniker": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INV.Infrastructure\\Storage\\Products\\ProductStorage.cs",
+              "RelativeDocumentMoniker": "INV.Infrastructure\\Storage\\Products\\ProductStorage.cs",
+              "ToolTip": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INV.Infrastructure\\Storage\\Products\\ProductStorage.cs",
+              "RelativeToolTip": "INV.Infrastructure\\Storage\\Products\\ProductStorage.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAjwHYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T02:18:28.685Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ProductInfo.cs",
+              "DocumentMoniker": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INV.App\\Products\\ProductInfo.cs",
+              "RelativeDocumentMoniker": "INV.App\\Products\\ProductInfo.cs",
+              "ToolTip": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\INV.App\\Products\\ProductInfo.cs",
+              "RelativeToolTip": "INV.App\\Products\\ProductInfo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-13T02:16:57.831Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductDetailPage.razor",
+              "DocumentMoniker": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\Web\\Components\\Pages\\Products\\ProductDetailPage.razor",
+              "RelativeDocumentMoniker": "Web\\Components\\Pages\\Products\\ProductDetailPage.razor",
+              "ToolTip": "C:\\Users\\Dali_Raki\\Desktop\\New folder (2)\\INV_2.0\\Web\\Components\\Pages\\Products\\ProductDetailPage.razor",
+              "RelativeToolTip": "Web\\Components\\Pages\\Products\\ProductDetailPage.razor",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAADAAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-03-13T02:15:47.588Z",
               "EditorCaption": ""
             }
           ]

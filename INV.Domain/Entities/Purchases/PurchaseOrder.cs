@@ -29,9 +29,10 @@ namespace INV.Domain.Entities.Purchases
         //public decimal TotalTTC => TotalHT + TotalTVA;
 
         public int CompletionDelay { set; get; }
-        public string? VisaNumber { set; get; } 
+        public string? VisaNumber { set; get; } = "";
         public DateOnly? VisaDate { set; get; }
 
+        public string Observation { get; set; } = "";
         public PurchaseStatus Status { set; get; }
 
         public List<PurchaseProduct> Products { get; set; } = new();

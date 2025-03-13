@@ -3,34 +3,32 @@ using INVUIs.Suppliers;
 using INVUIs.Suppliers.Models;
 using Microsoft.AspNetCore.Components;
 
+namespace INVUIs.Purchases;
 
-namespace INVUIs.Purchases
+public partial class PurchaseSupplier
 {
-    public partial class PurchaseSupplier
+    private bool isSupplierSelected = false;
+    public SupplierInfo selectedSupplier = null;
+    private SupplierForm supplierForm;
+    private List<SupplierInfo> supplierInfo = new();
+    private SupplierModel supplierModel = new();
+    private bool SupplierSelected = false;
+    public SupplierSelector supplierSelector;
+    [Parameter] public EventCallback<SupplierInfo> OnSupplierSelected { get; set; }
+    [Inject] public ISupplierService supplierService { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        [Parameter] public EventCallback<SupplierModel> OnSupplier { get; set; } 
-        [Inject] public ISupplierService supplierService { get; set; }
-        private SupplierForm supplierForm;
-        public SupplierSelector supplierSelector;
-        private SupplierModel supplierModel = new SupplierModel();
-        private List<SupplierInfo> supplierInfo = new List<SupplierInfo>();
+        supplierInfo = await supplierService.GetAllSupplier();
+    }
 
-        private bool SupplierSelected = false;
-        private SupplierInfo selectedSupplier = null;
-
-        protected override async Task OnParametersSetAsync()
+    private async Task supplierSelected(SupplierInfo supplier)
+    {
+        if (supplier != null)
         {
-            supplierInfo = await supplierService.GetAllSupplier();
+            selectedSupplier = supplier;
+            await OnSupplierSelected.InvokeAsync(supplier);
+            StateHasChanged();
         }
-        private void SupplierSelectednew(SupplierInfo supplier)
-        {
-            if (supplier != null)
-            {
-                selectedSupplier = supplier;
-                StateHasChanged();
-            }
-        }
-
-        
     }
 }

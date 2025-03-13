@@ -1,4 +1,8 @@
 ﻿using INV.App.Suppliers;
+using INV.Domain.Entities.Products;
+using INV.Domain.Entities.Purchases;
+using INV.Domain.Entities.Suppliers;
+using INV.Implementation.Service.Purchses;
 using Microsoft.AspNetCore.Components;
 
 namespace INVUIs.Suppliers
@@ -7,19 +11,28 @@ namespace INVUIs.Suppliers
     {
         [Inject] private ISupplierService supplierService { get; set; }
         [Parameter] public List<SupplierInfo> Suppliers { get; set; } = new();
+        private SupplierDeleteConformation supplierDeleteConformation;
         public List<SupplierInfo> supplierFilter { get; set; } = new();
+
+        public SupplierInfo supplierDelete;
+        private SupplierDeleteConformation deleteConfirmation;
         private string _searchName = "";
         [Inject] private NavigationManager navigationManager { get; set; }
+
         private string selectedLink(Guid id) => $"suppliers/{id}";
+
         private void NavigateToSupplierDetails(Guid supplierId)
         {
             navigationManager.NavigateTo($"/suppliers/{supplierId}");
         }
+
         protected override void OnParametersSet()
         {
             supplierFilter = Suppliers;
         }
+
         private SupplierForm supplierForm;
+
         private void showSupplierForm()
         {
             if (supplierForm != null)
@@ -27,6 +40,7 @@ namespace INVUIs.Suppliers
                 supplierForm.ShowModal();
             }
         }
+
         private string searchName
         {
             get => _searchName;
@@ -62,6 +76,13 @@ namespace INVUIs.Suppliers
 
         public void ShowModal()
         {
+            StateHasChanged();
+        }
+
+        private async Task DeleteSupplier(SupplierInfo Suppliers)
+        {
+            supplierDeleteConformation.supplierInfo = Suppliers;
+            supplierDeleteConformation.show();
             StateHasChanged();
         }
     }

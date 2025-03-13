@@ -13,9 +13,9 @@ namespace INVUIs.Components.Status
         {
             return status switch
             {
-                PurchaseStatus.Validated => "status-completed",
+                PurchaseStatus.Visi => "status-completed",
                 PurchaseStatus.Editing => "status-in-progress",
-                PurchaseStatus.Cancelled => "status-pending",
+                PurchaseStatus.Reject => "status-pending",
                 _ => string.Empty
             };
         }
@@ -24,9 +24,9 @@ namespace INVUIs.Components.Status
         {
             return status switch
             {
-                PurchaseStatus.Validated => "bi bi-check-circle", // Font Awesome icon for completed
+                PurchaseStatus.Visi => "bi bi-check-circle", // Font Awesome icon for completed
                 PurchaseStatus.Editing => "bi bi-clock", // Font Awesome spinning icon
-                PurchaseStatus.Cancelled => "bi bi-exclamation-circle", // Font Awesome clock icon
+                PurchaseStatus.Reject => "bi bi-exclamation-circle", // Font Awesome clock icon
                 _ => "fas fa-question-circle"
             };
         }

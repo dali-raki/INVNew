@@ -15,7 +15,7 @@ namespace INVUIs.Receptions
         [Parameter] public RenderFragment Pills { get; set; }
         [Inject] public NavigationManager navigationManager { set; get; }
 
-        public async Task navigatepage(Guid id) => Navigation.NavigateTo($"receptions/new/{id}");
+        public async Task navigatepage(Guid id) => Navigation.NavigateTo($"receptions/{id}");
 
         private ReceptionModel commandshow = new ReceptionModel();
 

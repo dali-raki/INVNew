@@ -1,3 +1,4 @@
+@using INV.Domain.Entities.Suppliers
 @using INVUIs.Shared
 <div class="container-supplier">
 	<div class="content-info-suplier">
@@ -40,10 +41,8 @@
 	</div>
 
 	<div class="btn-pos-supplier">
-		<button class="btn-custom btn-submit" type="button" @onclick="() => supplierForm.ShowModal()"><i class="bi bi-pen"></i>Edit</button>
-		<button class="btn-custom btn-cancel" type="button" @onclick="showMore">more info...</button>
+			<button class="btn-custom btn-cancel" type="button" @onclick="showMore">more info...</button>
 	</div>
 
 </div>
 
-<SupplierForm  @ref="supplierForm" />

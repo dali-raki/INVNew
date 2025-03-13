@@ -13,27 +13,29 @@
 }
 else
 {
+    <br />
+    <br />
     <div class="Container-list">
         <RadzenDataGrid Data="@Receptions" AllowSorting="true" AllowFiltering="true"
                         Style="width: 100%;" RowSelect="@((ReceiptInfo Receptions) => navigatepage(Receptions.Id))">
             <Columns>
-                <RadzenDataGridColumn Property="@nameof(ReceiptInfo.BudgetArticle)" Title="Article" />
-                <RadzenDataGridColumn Property="@nameof(ReceiptInfo.Date)" Title="Date">
+                <RadzenDataGridColumn Property="@nameof(ReceiptInfo.Number)" Title="Receipt N°" />
+                <RadzenDataGridColumn Property="@nameof(ReceiptInfo.Date)" Title="Receipt Date">
                     <Template Context="reception">
                         @(reception.Date == default ? string.Empty : reception.Date.ToString())
                     </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn Property="@nameof(ReceiptInfo.purchaseNumber)" Title="Purchase N°" />
-                <RadzenDataGridColumn Property="@nameof(ReceiptInfo.PurchaseDate)" Title="Purchase Date">
+
+                <RadzenDataGridColumn Title="Purchase">
                     <Template Context="reception">
-                        @(reception.PurchaseDate == default ? string.Empty : reception.PurchaseDate)
+                        N° @(reception.purchaseNumber) - @(reception.PurchaseDate == default ? string.Empty : reception.PurchaseDate)
                     </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn Property="@nameof(ReceiptInfo.supplierName)" Title="Supplier Name" />
-                <RadzenDataGridColumn Property="@nameof(ReceiptInfo.DeliveryNumber)" Title="Delivery Number" />
-                <RadzenDataGridColumn Property="@nameof(ReceiptInfo.DeliveryDate)" Title="Delivery Date">
+
+                <RadzenDataGridColumn Property="@nameof(ReceiptInfo.supplierName)" Title="Supplier" />
+                <RadzenDataGridColumn Title="Delivery" Sortable="false" Filterable="false">
                     <Template Context="reception">
-                        @(reception.DeliveryDate == default ? string.Empty : reception.DeliveryDate)
+                        N° @(reception.DeliveryNumber) - @(reception.DeliveryDate == default ? string.Empty : reception.DeliveryDate)
                     </Template>
                 </RadzenDataGridColumn>
             </Columns>

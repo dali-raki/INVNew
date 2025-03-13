@@ -2,28 +2,36 @@
 
 @rendermode InteractiveServer
 
-@if(Supplier is not null){
+@if (Supplier is not null)
+{
     <div class="content-profile">
         <div class="container-info-supplier ">
-            <SupplierCard Supplier="Supplier"/>
-        </div>
+            <SupplierCard Supplier="Supplier" />
+            <div style="display:flex; justify-content:end" class="m-2">
+                <button class="btn-custom btn-submit" type="button" @onclick="EditSupplier"><i class="bi bi-pen"></i>Edit</button>
+            </div>
+           
 
+        </div>
 
         <div class="container-work-supplier">
             <Tabs EnableFadeEffect="true" NavStyle="NavStyle.Pills">
-                <Tab Title="Command" IsActive="true">
+                <Tab Title="Purchases" IsActive="true">
                     <Content>
-                        <PurchaseList purchaseOrderInfos="Supplier.Purchases" ShowSupplier="false" />
+                        <PurchaseList purchaseOrderInfos="purchases" ShowSupplier="false" />
                     </Content>
                 </Tab>
-                <Tab Title="Reseption">
-                    <Content>
-                 
-                    </Content>
-                </Tab>
-
+                @if (Receptions != null && Receptions.Count > 0)
+                {
+                    <Tab Title="Reseption">
+                        <Content>
+                            <ReceptionList Receptions="Receptions" />
+                        </Content>
+                    </Tab>
+                }
+              
             </Tabs>
         </div>
-
     </div>
 }
+<SupplierForm @ref="supplierForm" Update="true" OnSupplierCreated="OnSupplierSaved" />

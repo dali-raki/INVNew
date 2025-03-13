@@ -1,0 +1,66 @@
+@using INV.App.Purchases
+@using INV.Domain.Entities.Products
+@using INV.Domain.Entities.Purchases
+@using INVUIs.Products.ProductsModel
+@if(display)
+{
+	<Modal Titel="Edit Product">
+		<Pills>
+			<EditForm Model="product" OnValidSubmit="Update">
+				<div class="titel-secondary">
+					<h4>@product.Designation</h4>
+				</div>
+				<div class="info-box">
+					<label>Quantity</label>
+					<InputNumber @bind-Value=@product.Quantity/>
+				</div>
+
+				<div class="info-box">
+					<label>UnitPrice</label>
+					<InputNumber @bind-Value=@product.UnitPrice />
+				</div>
+
+
+				<div class="footer-form mt-4">
+					<button type="button" class="btn-custom btn-cancel" @onclick="hide">No</button>
+					<button type="submit" class="btn-custom btn-submit">Yes</button>
+
+				</div>
+			</EditForm>
+		</Pills>
+	</Modal>
+}
+@code{
+	[Parameter] public PurchaseProductInfo product { get; set; }
+	[Inject] public IPurchaseOrderService purchaseOrderService { get; set; }
+	public bool display = false;
+	private PurchaseProduct editproduct;
+
+	public void show(){
+		display = true;
+		StateHasChanged();
+	}
+	public void hide()
+	{
+		display = false;
+		StateHasChanged();
+	}
+
+
+	public async Task Update()
+	{
+
+		editproduct = new PurchaseProduct
+			{
+				ProductId = product.ProductId,
+				PurchaseOrderId = product.PurchaseId,
+				Quantity = product.Quantity,
+				UnitPrice = product.UnitPrice,
+
+			};
+
+		await purchaseOrderService.UpdatePurchaseProduct(editproduct);
+		hide();
+	}
+
+}

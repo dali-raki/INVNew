@@ -14,25 +14,30 @@ namespace INVUIs.Receptions
         [Inject] public IPurchaseOrderService PurchaseOrderService { get; set; }
         [Inject] public IReceiptService receptionService { get; set; }
         [Parameter] public ReceiptInfo ReceiptInfo { get; set; }
-
         private List<ReceiptProductModel> products { get; set; }
+        private bool statusInput = false;
+        private bool restVisibility = true;
 
         protected override async Task OnInitializedAsync()
         {
             if (ReceiptInfo != null && ReceiptInfo.ReceiptProducts != null)
             {
+                if (ReceiptInfo.Status == ReceiptStatus.validated)
+                {
+                    CancelEditing();
+                    restVisibility = false;
+                }
                 products = ReceiptInfo.ReceiptProducts.Select(p => new ReceiptProductModel()
                 {
                     ProductId = p.ProductId,
                     UnitPrice = p.UnitPrice,
                     Quantity = p.Quantity,
                     Designation = p.Designation,
-                    Received = p.Quantity
+                    Received = p.Received
                 }).ToList();
             }
             else
             {
-                // Handle the case where ReceiptInfo or ReceiptProducts is null
                 products = new List<ReceiptProductModel>();
             }
         }
@@ -47,10 +52,9 @@ namespace INVUIs.Receptions
             statusInput = true;
             receptionService.ValidateReceipt(ReceiptInfo.Id);
             ReceiptInfo.Status = ReceiptStatus.validated;
+            restVisibility = false;
             StateHasChanged();
         }
-
-        private bool statusInput = false;
 
         private void StartEditing()
         {
@@ -62,7 +66,6 @@ namespace INVUIs.Receptions
             bool send = checkInputs();
             if (send)
             {
-                var result = await receptionService.GetReceiptById(ReceiptInfo.Id);
                 Receipt receiptToSave = new()
                 {
                     Id = ReceiptInfo.Id,
@@ -80,7 +83,9 @@ namespace INVUIs.Receptions
                     Status = ReceiptStatus.editing
                 };
 
-                if (result != null)
+                var result = await receptionService.GetReceiptById(ReceiptInfo.Id);
+
+                if (result.IsSuccess)
                 {
                     await receptionService.UpdateReceipt(receiptToSave);
                 }

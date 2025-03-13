@@ -13,22 +13,38 @@ namespace INV.Infrastructure.Storage.SupplierStorages
             _connectionString = configuration.GetConnectionString("INV");
         }
 
-
-        private const string insertSupplierCommand= @"
-             INSERT INTO [dbo].[SUPPLIERS] (Id,CompanyName,ManagerName,Address,Phone,Email, RC, NIS, ART,NIF, RIB,  BankAgency)
-             VALUES (@aId, @aCompanyName, @aManagerName, @aAddress, @aPhone, @aEmail, @aRC, @aNIS, @aART, @aNIF, @aRIB, @aBankAgency)";
+        private const string insertSupplierCommand = @"INSERT INTO [dbo].[SUPPLIERS]
+    (Id, CompanyName, ManagerName, Address, Phone, Email, RC, NIS, ART, NIF, RIB, BankAgency, Status)
+VALUES
+    (@aId, @aCompanyName, @aManagerName, @aAddress, @aPhone, @aEmail, @aRC, @aNIS, @aART, @aNIF, @aRIB, @aBankAgency, @aStatus);
+";
 
         private const string selectAllSuppliersQuery = "SELECT * FROM [dbo].[SUPPLIERS]";
         private const string selectSuppliersByIdQuery = "SELECT * FROM [dbo].[SUPPLIERS] where Id=@aId";
 
-        private const string updateSupplierCommand = @"
-             UPDATE [dbo].[SUPPLIERS] 
-             SET CompanyName = @aCompanyName,ManagerName = @aManagerName,Address = @aAddress, Phone = @aPhone,Email = @aEmail,
-             RC = @aRC, NIS = @aNIS, ART = @aART,NIF = @aNIF,RIB = @aRIB,NIF= @aNIF,BankAgency = @aBankAgency WHERE Id = @aId";
-        
+        private const string updateSupplierCommand = @"UPDATE [dbo].[SUPPLIERS]
+SET
+    CompanyName = @aCompanyName,
+    ManagerName = @aManagerName,
+    Address = @aAddress,
+    Phone = @aPhone,
+    Email = @aEmail,
+    RC = @aRC,
+    NIS = @aNIS,
+    ART = @aART,
+    NIF = @aNIF,
+    RIB = @aRIB,
+    BankAgency = @aBankAgency
+WHERE Id = @aId;";
+
         private const string selectSupplierCountByRcQuery = "select count(*) from [dbo].[SUPPLIERS]  WHERE RC = @aRC";
         private const string selectSupplierCountByNISQuery = "select count(*) from [dbo].[SUPPLIERS]  WHERE NIS = @aNIS";
         private const string selectSupplierCountByRIBQuery = "select count(*) from [dbo].[SUPPLIERS]  WHERE RIB = @aRIB";
+
+        private const string deleteSupplierByIdQuery = @"
+IF NOT EXISTS (SELECT 1 FROM [INV].[purchase].[ORDERS] WHERE SupplierId = @aId)
+    DELETE FROM [INV].[dbo].[SUPPLIERS] WHERE Id = @aId;
+";
 
         private static Supplier getSupplierData(SqlDataReader reader)
         {
@@ -65,9 +81,10 @@ namespace INV.Infrastructure.Storage.SupplierStorages
             cmd.Parameters.AddWithValue("@aRC", supplier.RC);
             cmd.Parameters.AddWithValue("@aNIS", supplier.NIS);
             cmd.Parameters.AddWithValue("@aART", supplier.ART);
-            cmd.Parameters.AddWithValue("@NIF", supplier.NIF);
+            cmd.Parameters.AddWithValue("@aNIF", supplier.NIF);
             cmd.Parameters.AddWithValue("@aRIB", supplier.RIB);
             cmd.Parameters.AddWithValue("@aBankAgency", supplier.BankAgency);
+            cmd.Parameters.AddWithValue("@aStatus", supplier.State);
             await sqlConnection.OpenAsync();
             return await cmd.ExecuteNonQueryAsync();
         }
@@ -99,9 +116,7 @@ namespace INV.Infrastructure.Storage.SupplierStorages
             await sqlConnection.OpenAsync();
             using var reader = await cmd.ExecuteReaderAsync();
 
-            return await  reader.ReadAsync() ? getSupplierData(reader) : null;
-            
-            
+            return await reader.ReadAsync() ? getSupplierData(reader) : null;
         }
 
         public async Task<int> UpdateSupplier(Supplier supplier)
@@ -125,7 +140,7 @@ namespace INV.Infrastructure.Storage.SupplierStorages
             await sqlConnection.OpenAsync();
             return await cmd.ExecuteNonQueryAsync();
         }
-     
+
         public async Task<bool> SupplierExistsByRC(string rc)
         {
             await using var connection = new SqlConnection(_connectionString);
@@ -138,6 +153,7 @@ namespace INV.Infrastructure.Storage.SupplierStorages
 
             return count > 0;
         }
+
         public async Task<bool> SupplierExistsByNIS(string nis)
         {
             await using var connection = new SqlConnection(_connectionString);
@@ -150,6 +166,7 @@ namespace INV.Infrastructure.Storage.SupplierStorages
 
             return count > 0;
         }
+
         public async Task<bool> SupplierExistsByRIB(string rib)
         {
             await using var connection = new SqlConnection(_connectionString);
@@ -162,6 +179,16 @@ namespace INV.Infrastructure.Storage.SupplierStorages
 
             return count > 0;
         }
-        
+
+        public async ValueTask<int> DeleteSupplierById(Guid id)
+        {
+            using var sqlConnection = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand(deleteSupplierByIdQuery, sqlConnection);
+            cmd.Parameters.AddWithValue("@aId", id);
+
+            await sqlConnection.OpenAsync();
+            return await cmd.ExecuteNonQueryAsync();
+        }
+
     }
 }

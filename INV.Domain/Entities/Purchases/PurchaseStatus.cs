@@ -2,9 +2,8 @@
 {
     public enum PurchaseStatus
     {
-        Validated = 1,
-        Cancelled = 2,
-        Deleted = 3,
-        Editing = 4
+        Reject = -1,
+        Editing = 0,
+        Visi = 1
     }
 }

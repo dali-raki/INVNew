@@ -30,5 +30,11 @@ namespace INV.App.Services
         ValueTask<Result> RemoveReceiptProductAsync(Guid receptionId, Guid productId);
 
         ValueTask<ReceiptInfo> GetReceiptInfoById(Guid receiptId);
+
+        ValueTask<List<ReceiptInfo>> GetReceiptsBySupplierId(Guid supplierId);
+
+        ValueTask<List<Receipt>> GetReceiptsByPurchaseIdWhenStatus1(Guid purchaseId);
+
+        ValueTask<Result<bool>> ReceiptExistById(Guid id);
     }
 }

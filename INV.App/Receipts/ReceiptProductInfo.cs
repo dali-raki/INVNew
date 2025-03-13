@@ -9,4 +9,5 @@ public class ReceiptProductInfo
     public string Designation { get; set; }
     public decimal UnitPrice { set; get; }
     public Guid DefaultWareHouseId { get; set; }
+    public string PurchaseNumber { get; set; }
 }

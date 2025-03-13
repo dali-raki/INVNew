@@ -9,7 +9,6 @@ namespace INV.Implementation.Service.Suppliers
     {
         public readonly ISupplierStorage supplierstorage;
 
-
         public SupplierService(ISupplierStorage _supplierStorage)
         {
             supplierstorage = _supplierStorage;
@@ -20,8 +19,7 @@ namespace INV.Implementation.Service.Suppliers
             try
             {
                 List<Error> errorList = await validateSupplierCreate(supplier);
-                
-                
+
                 if (errorList.Any())
                     return Result.Failure(errorList);
 
@@ -83,12 +81,10 @@ namespace INV.Implementation.Service.Suppliers
         {
             List<Error> errors = new List<Error>();
 
-            
-
             bool rcExists = await supplierstorage.SupplierExistsByRC(supplier.RC);
             if (rcExists)
                 errors.Add(SupplierError.RCExsist(supplier.RC));
-                
+
             bool nisExists = await supplierstorage.SupplierExistsByNIS(supplier.NIS);
             if (nisExists)
                 errors.Add(SupplierError.NISExsist);
@@ -97,6 +93,11 @@ namespace INV.Implementation.Service.Suppliers
                 errors.Add(SupplierError.RIBExsist);
 
             return errors;
+        }
+
+        public async ValueTask<int> RemoveSupplierById(Guid id)
+        {
+            return await supplierstorage.DeleteSupplierById(id);
         }
     }
 }

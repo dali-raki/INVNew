@@ -7,6 +7,7 @@ namespace INVUIs.Products.ProductsModel
         public Guid ID { get; set; }
         public int Number { get; set; }
         public Guid IDPurchaseOrder { get; set; }
+
         [Required(ErrorMessage = "Name Product is required")]
         public string Designation { get; set; }
 
@@ -22,8 +23,15 @@ namespace INVUIs.Products.ProductsModel
         [Required(ErrorMessage = "TVA is required")]
         public int TVA { get; set; }
 
+        [Required(ErrorMessage = "Delivery time is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Delivery time must be at least 1 day.")]
+        public int DeliveryTime { get; set; }
+
         public decimal TotalPrice { set; get; }
+
         //public int DefaultTVARate { get; set; }
-        public int DateDilevry { set; get; }
+        public string WareHouse { set; get; }
+
+        public int Received { set; get; }
     }
 }

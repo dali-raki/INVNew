@@ -14,7 +14,5 @@ namespace INVUIs.Suppliers
             moreInfoVisible = !moreInfoVisible;
             StateHasChanged();
         }
-
-        
     }
 }

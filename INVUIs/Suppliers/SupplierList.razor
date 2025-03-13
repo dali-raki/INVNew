@@ -1,14 +1,12 @@
 ﻿@using INV.App.Suppliers
 @rendermode InteractiveServer
 
-
 <button type="button" class="addsupplier-button" @onclick=@showSupplierForm>
     <i class="bi bi-person-plus"></i> Add a Supplier
 </button>
 
 <div>
-    <input type="text" @bind="searchName" @bind:event="oninput" placeholder="Search by supplier name" class="number-input"/>
-
+    <input type="text" @bind="searchName" @bind:event="oninput" placeholder="Search by supplier name" class="number-input" />
 </div>
 <br>
 @if (supplierFilter is null)
@@ -17,21 +15,30 @@
 }
 else
 {
-    <div class="list-supplier-container">
-        @foreach (SupplierInfo supplier in supplierFilter)
-        {
-            <div class="purchase-order-card" @onclick="()=>NavigateToSupplierDetails(supplier.ID)">
-                <label class="purchase-order-header">
-                    <a href=@selectedLink(supplier.ID)>
-                        @supplier.Name
-                    </a>
-                </label>
-                <label class="purchase-order">@supplier.Address</label>
-                <label class="purchase-order">@supplier.Email</label>
-                <label class="purchase-order">@supplier.Phone</label>
-            </div>
-        }
+
+    <div class="Container-list">
+        <RadzenDataGrid Data="@supplierFilter" AllowSorting="true" AllowFiltering="true"
+                        Style="width: 100%;" RowSelect="@((SupplierInfo supplier) => NavigateToSupplierDetails(supplier.ID))">
+            <Columns>
+                <RadzenDataGridColumn Property="@nameof(SupplierInfo.Address)" Title="Article" Width="10%"/>
+                <RadzenDataGridColumn Property="@nameof(SupplierInfo.Email)" Title="Purchase N°" Width="10%" />
+                <RadzenDataGridColumn Property="@nameof(SupplierInfo.Phone)" Title="Supplier Name" Width="10%" />
+                <RadzenDataGridColumn  Width="5%">
+                    <Template Context="supplier" >
+                        <RadzenButton Icon="delete" ButtonStyle="@ButtonStyle.Danger"
+                                      
+                                      @onclick:stopPropagation="true"
+                                      Click="@(() => DeleteSupplier(supplier))" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+
+
     </div>
+
 }
 
-<SupplierForm @ref=supplierForm />
+<SupplierForm @ref=supplierForm Update="false" />
+<SupplierDeleteConformation @ref=supplierDeleteConformation />

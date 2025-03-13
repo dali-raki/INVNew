@@ -18,7 +18,7 @@ namespace INV.App.Services
 
         public async ValueTask<ReceiptInfo> CreateReceiptFromPurchase(Guid purchaseId)
         {
-            using(TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled) )
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 try
                 {
@@ -30,12 +30,11 @@ namespace INV.App.Services
                     throw;
                 }
             }
-           
         }
 
         public async ValueTask<Result> ValidateReceipt(Guid receiptId)
         {
-            using(TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 try
                 {
@@ -48,7 +47,6 @@ namespace INV.App.Services
                     return Error.Exception(ex);
                 }
             }
-           
         }
 
         public async ValueTask<Result<List<ReceiptInfo>>> GetAllReceipts()
@@ -107,7 +105,6 @@ namespace INV.App.Services
                 }
                 catch (Exception ex)
                 {
-                  
                     return Error.Exception(ex);
                 }
             }
@@ -115,7 +112,7 @@ namespace INV.App.Services
 
         public async ValueTask<Result> UpdateReceipt(Receipt receipt)
         {
-            using(TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 try
                 {
@@ -132,7 +129,6 @@ namespace INV.App.Services
                     return Result.Failure(ReceiptError.ReceiptUpdateFailed);
                 }
             }
-           
         }
 
         public async ValueTask<Result> RemoveReceipt(Guid id)
@@ -221,6 +217,28 @@ namespace INV.App.Services
                 errors.Add(ReceiptError.ReceiptAlreadyValidated(purchaseId));
 
             return errors;
+        }
+
+        public async ValueTask<List<ReceiptInfo>> GetReceiptsBySupplierId(Guid supplierId)
+        {
+            return await receiptStorage.SelectReceiptsBySupplierId(supplierId);
+        }
+
+        public async ValueTask<List<Receipt>> GetReceiptsByPurchaseIdWhenStatus1(Guid purchaseId)
+        {
+            return await receiptStorage.SelectReceiptsByPurchaseIdWhenStatus1(purchaseId);
+        }
+
+        public async ValueTask<Result<bool>> ReceiptExistById(Guid id)
+        {
+            try
+            {
+                return Result.Success(await receiptStorage.ReceiptExistById(id));
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure<bool>(Error.Exception(ex));
+            }
         }
     }
 }

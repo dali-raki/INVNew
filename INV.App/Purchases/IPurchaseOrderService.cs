@@ -1,5 +1,6 @@
 ﻿using INV.Domain.Entities.Products;
 using INV.Domain.Entities.Purchases;
+using INV.Domain.Shared;
 
 namespace INV.App.Purchases
 {
@@ -17,8 +18,20 @@ namespace INV.App.Purchases
 
         Task<int> ValicatePurchaseOrder(PurchaseOrder purchaseOrder);
 
-        Task CreatePurchaseOrder(PurchaseOrder purchaseOrder, List<Product> products);
+        ValueTask<Result> CreatePurchaseOrder(PurchaseOrder purchaseOrder, List<PurchaseProduct> products);
 
         ValueTask<List<PurchaseOrderInfo>> GetPurchasesForReceiptCreation();
+
+        ValueTask<List<PurchaseProductInfo>> GetProductsByPurchaseId(Guid purchaseId);
+
+        ValueTask<int> RemovePurchaseProduct(PurchaseProduct purchaseProduct);
+
+        ValueTask<int> DeleteAllPurchaseProduct(Guid purchaseOrderId);
+
+        ValueTask<int> UpdatePurchaseProduct(PurchaseProduct purchaseProduct);
+
+        ValueTask<int> UpdatePurchaseOrder(PurchaseOrder purchaseOrder);
+
+        ValueTask<PurchaseStatus> GetPurchaseStatus(Guid id);
     }
 }

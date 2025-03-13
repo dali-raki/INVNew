@@ -1,10 +1,12 @@
 ﻿using INV.App.Purchases;
 using INV.App.Receipts;
 using INV.App.Services;
+using INV.Domain.Entities.Products;
 using INV.Domain.Entities.Purchases;
 using INV.Domain.Entities.Receipts;
 using INV.Domain.Shared;
 using INV.Implementation.Service.Purchses;
+using INVUIs.Products.ProductsModel;
 using Microsoft.AspNetCore.Components;
 
 namespace INV.Web.Components.Pages.Purchases
@@ -17,7 +19,7 @@ namespace INV.Web.Components.Pages.Purchases
 
         public PurchaseOrder purchaseOrder = new PurchaseOrder();
 
-      //  public List<PurchaseOrderInfo> purchaseOrderListById;
+        public List<PurchaseProductInfo> products;
 
         public List<Receipt> ReceptionsListByPurchase;
 
@@ -25,16 +27,10 @@ namespace INV.Web.Components.Pages.Purchases
         {
             purchaseOrder = await purchaseOrderService.GetPurchaseOrdersByID(Id);
 
-           // purchaseOrderListById = await purchaseOrderService.GetPurchaseOrdersByIdSupplier(purchaseOrder.SupplierId);
+            products = await purchaseOrderService.GetProductsByPurchaseId(Id);
 
-            var result = await receiptService.GetReceiptsByPurchaseId(purchaseOrder.Id);
-            if(result.IsSuccess)
-            {
-                ReceptionsListByPurchase = result.Value;
-            }
-
+            ReceptionsListByPurchase = await receiptService.GetReceiptsByPurchaseIdWhenStatus1(purchaseOrder.Id);
+           
         }
-
-       
     }
 }

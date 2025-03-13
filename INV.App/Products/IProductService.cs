@@ -6,8 +6,13 @@ namespace INV.App.Products
     public interface IProductService
     {
         Task<Result> CreateProduct(Product product);
+
         Task<int> SetProducts(Product product);
+
         Task<int> RemoveProduct(Guid id);
+
         Task<List<Product>> SelectProducts();
+
+        ValueTask<ProductInfo> GetProductById(Guid id);
     }
 }
