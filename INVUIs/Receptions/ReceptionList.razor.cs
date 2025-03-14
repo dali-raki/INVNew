@@ -13,6 +13,8 @@ namespace INVUIs.Receptions
         [Parameter] public EventCallback<ReceptionModel> OnCommand { get; set; }
         [Parameter] public List<ReceiptInfo> Receptions { get; set; }
         [Parameter] public RenderFragment Pills { get; set; }
+        [Parameter] public bool ShowPurchase { get; set; } = true;
+        [Parameter] public bool ShowSupplier { get; set; } = true;
         [Inject] public NavigationManager navigationManager { set; get; }
 
         public async Task navigatepage(Guid id) => Navigation.NavigateTo($"receptions/{id}");

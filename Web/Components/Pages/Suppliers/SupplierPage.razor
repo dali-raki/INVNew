@@ -2,8 +2,13 @@
 
 @rendermode InteractiveServer
 
+
+
 @if (Supplier is not null)
 {
+    
+    <PageHeader Title=@Supplier.CompanyName  SubTitle=@Supplier.Address/>
+
     <div class="content-profile">
         <div class="container-info-supplier ">
             <SupplierCard Supplier="Supplier" />

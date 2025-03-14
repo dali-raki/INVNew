@@ -9,9 +9,9 @@ namespace INV.App.Products
 
         Task<int> SetProducts(Product product);
 
-        Task<int> RemoveProduct(Guid id);
+        ValueTask<Result> RemoveProduct(Guid id);
 
-        Task<List<Product>> SelectProducts();
+        Task<List<Product>> GetProducts();
 
         ValueTask<ProductInfo> GetProductById(Guid id);
     }

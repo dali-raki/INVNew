@@ -215,3 +215,26 @@ C:\Users\Dali_Raki\Desktop\New folder (2)\INV_2.0\INVUIs\obj\Debug\net9.0\static
 C:\Users\Dali_Raki\Desktop\New folder (2)\INV_2.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\Dali_Raki\Desktop\New folder (2)\INV_2.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\Dali_Raki\Desktop\New folder (2)\INV_2.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\bouce\Source\Repos\INV_3.0\INVUIs\obj\Debug\net9.0\staticwebassets.build.json

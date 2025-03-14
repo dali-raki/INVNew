@@ -1,0 +1,5 @@
+﻿<RadzenButton @OnClick=@OnClick>@Label</RadzenButton>
+@code {
+    [Parameter] public string Label { get; set; }
+    [Parameter] public EventCallback OnClick { get; set; }
+}

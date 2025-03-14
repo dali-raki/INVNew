@@ -156,8 +156,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>wxxbatfskx</Fingerprint>
-      <Integrity>bLGZ+MNhnPGsIGlCXEGU2InmJ+QkZjuUuktq1Ml5q0o=</Integrity>
+      <Fingerprint>ucwea82ht3</Fingerprint>
+      <Integrity>TmWJKsgwd+YX3e5Tb3T4YuAd3ZH0UZ9twI5VNGj60uc=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\ICSS\SupplierList.css'))</OriginalItemSpec>

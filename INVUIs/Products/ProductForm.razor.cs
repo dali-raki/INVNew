@@ -8,6 +8,10 @@ namespace INVUIs.Products;
 
 public partial class ProductForm : ComponentBase
 {
+    [Parameter] public EventCallback<Product> OnProductCreated { get; set; }
+    [Inject] private IProductService productService { set; get; }
+    [Inject] private NavigationManager navigationManager { set; get; }
+
     private string failure = string.Empty;
 
     private bool isCreatingProduct = false;
@@ -18,9 +22,7 @@ public partial class ProductForm : ComponentBase
     private List<int> TVAOptions = new() { 9, 19 };
     private List<string> UnitMesures = new() { "U", "KG", "M", "L" };
     private bool visibility = false;
-    [Parameter] public EventCallback<Product> OnProductCreated { get; set; }
-    [Inject] private IProductService productService { set; get; }
-    [Inject] private NavigationManager navigationManager { set; get; }
+
 
     public async Task CreateProduct()
     {
@@ -47,7 +49,13 @@ public partial class ProductForm : ComponentBase
         }
 
         HideModal();
+        clearForm();
         StateHasChanged();
+    }
+
+    private void clearForm()
+    {
+        newProduct = new ProductModel();
     }
 
     public void ShowModal()

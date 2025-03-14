@@ -17,33 +17,7 @@
 }
 
 @code {
-	[Parameter] public SupplierInfo supplierInfo { get; set; }
+
 	//[Parameter] public EventCallback OnConfirm { get; set; }
-	[Inject] public ISupplierService SupplierService { get; set; }
-	public bool display = false;
-	private Supplier supplier;
-	public void show()
-	{
-		display = true;
-		StateHasChanged();
-	}
 
-	public void hide()
-	{
-		display = false;
-		StateHasChanged();
-	}
-
-	private async Task submit(SupplierInfo supplierInfo)
-	{
-		supplier = new Supplier
-			{
-				Id = supplierInfo.ID,
-
-				
-			};
-		await SupplierService.RemoveSupplierById(supplier.Id);
-		//await OnConfirm.InvokeAsync(null);
-		hide();
-	}
 }

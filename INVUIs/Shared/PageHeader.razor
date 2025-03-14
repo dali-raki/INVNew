@@ -1,7 +1,12 @@
 ﻿<div class="list-title">
-    <h4>@Title</h4>
+    <h2>@Title</h2>
+    @if(string.IsNullOrWhiteSpace(SubTitle)==false)
+    {
+        <h5 style="font-weight: 200">@SubTitle</h5>
+    }
 </div>
 
 @code {
     [Parameter] public string Title { get; set; }
+    [Parameter] public string SubTitle { get; set; } = string.Empty;
 }

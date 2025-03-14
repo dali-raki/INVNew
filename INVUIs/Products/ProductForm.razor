@@ -5,8 +5,7 @@
         <div class="popup-content">
             <RadzenTemplateForm TItem="ProductModel" Data="@newProduct" Submit="@CreateProduct">
                 <RadzenStack Gap="0.5rem">
-
-
+                    
                     <RadzenRow Style="margin-bottom: 0.1rem;">
                         <RadzenColumn Size="12">
                             <RadzenLabel Text="Designation *" />
@@ -31,21 +30,6 @@
                                             Style="width: 100%;" />
                         </RadzenColumn>
                     </RadzenRow>
-                    @if (result is not null)
-                    {
-                        @if (result.IsSuccess)
-                        {
-                            <RadzenAlert AllowClose="false" AlertStyle="AlertStyle.Success" Variant="Variant.Flat" Shade="Shade.Lighter">
-                                @success
-                            </RadzenAlert>
-                        }
-                        else
-                        {
-                            <RadzenAlert AllowClose="false" AlertStyle="AlertStyle.Danger" Variant="Variant.Flat" Shade="Shade.Lighter">
-                                @failure
-                            </RadzenAlert>
-                        }
-                    }
                     <RadzenRow Style="display: flex; justify-content: flex-end;">
                         <RadzenColumn Size="12" Style="text-align: right;">
                             <RadzenButton Text="Save" ButtonType="ButtonType.Submit" ButtonStyle="@ButtonStyle.Success" Style="margin-left: 1rem;" tyle="margin-left: 1rem; font-size: 14px;" />

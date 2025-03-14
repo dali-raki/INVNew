@@ -36,12 +36,21 @@ namespace INV.Implementation.Service.ProductServices
             return await productStorage.UpdateProduct(product);
         }
 
-        public async Task<int> RemoveProduct(Guid id)
+        public async ValueTask<Result> RemoveProduct(Guid id)
         {
-            return await productStorage.DeleteProduct(id);
+            try
+            {
+                 await productStorage.DeleteProduct(id);
+                 return Result.Success();
+            }
+            catch (Exception e)
+            {
+                return Error.Exception(e);
+            }
+           
         }
 
-        public async Task<List<Product>> SelectProducts()
+        public async Task<List<Product>> GetProducts()
         {
             return await productStorage.SelectProducts();
         }

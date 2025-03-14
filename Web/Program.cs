@@ -1,3 +1,4 @@
+using BlazorBootstrap;
 using INV.App.Budgets;
 using INV.App.Products;
 using INV.App.Purchases;
@@ -39,6 +40,7 @@ builder.Services.AddRadzenComponents();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<DialogService>();
+builder.Services.AddScoped<PreloadService>();
 builder.Services.AddLocalization();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
