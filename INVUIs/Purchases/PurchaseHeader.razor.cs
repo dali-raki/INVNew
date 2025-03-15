@@ -2,8 +2,10 @@ using System.ComponentModel.DataAnnotations;
 using INV.App.Budgets;
 using INV.Domain.Entities.Budget;
 using INVUIs.Purchases.PurchaseModels;
+using INVUIs.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 
 namespace INVUIs.Purchases;
 
@@ -11,8 +13,9 @@ public partial class PurchaseHeader : ComponentBase
 {
     [CascadingParameter] public PurchaseModel purchaseModel { get; set; } = new();
     [Parameter] public EventCallback<PurchaseModel> OnPurchaseOrder { get; set; }
-    [Inject] public IBudgetService budgetService { get; set; }
-
+    [Inject] private IBudgetService budgetService { get; set; }
+    [Inject] private IJSRuntime jsRuntime { set; get; }
+    private MyAlert myAlert;
     private int _selectedChapterCode;
     private int _selelctedArticleCode;
     private List<Article> articles = new();
@@ -54,6 +57,7 @@ public partial class PurchaseHeader : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
+        myAlert = new MyAlert(jsRuntime);
         var result = await budgetService.GetAllChapitres();
         if (result.IsSuccess)
         {
@@ -64,7 +68,7 @@ public partial class PurchaseHeader : ComponentBase
     private async void LoadChapterTitle()
     {
         var result = await budgetService.GetChapterByCode(SelectedChapterCode);
-        
+
         if (result.IsSuccess)
         {
             chapter = result.Value;
@@ -79,18 +83,20 @@ public partial class PurchaseHeader : ComponentBase
         var result = await budgetService.GetArticlesByCodeChapter(SelectedChapterCode);
         if (result.IsSuccess)
         {
-            articles= result.Value;
+            articles = result.Value;
         }
+
         StateHasChanged();
     }
 
     private async void LoadArticleTitle()
     {
-        var result= await budgetService.GetArticlesByCodeArticle(SelectedArticleCode);
+        var result = await budgetService.GetArticlesByCodeArticle(SelectedArticleCode);
         if (result.IsSuccess)
         {
             article = result.Value;
         }
+
         purchaseModel.description_article = article.Name;
         StateHasChanged();
     }
@@ -104,11 +110,21 @@ public partial class PurchaseHeader : ComponentBase
     {
         if (form is not null)
         {
-            form.EditContext?.Validate();
-            if (form.EditContext?.Validate() == true)
+            var editContext = form.EditContext;
+            if (editContext is not null && !editContext.Validate())
             {
-                await Save();
+                var errors = editContext.GetValidationMessages().ToList();
+
+                if (errors.Any())
+                {
+                    var errorMessage = string.Join("<br>", errors);
+                    await myAlert.ShowErrorAlert("Error validation ", errorMessage);
+                }
+
+                return;
             }
+
+            await Save();
         }
     }
 }

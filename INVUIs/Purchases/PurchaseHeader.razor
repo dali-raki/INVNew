@@ -1,7 +1,7 @@
 @using INVUIs.Shared.Models
 @rendermode InteractiveServer
 <EditForm Model="purchaseModel" OnValidSubmit="Save" FormName="purchaseForm" Enhance @ref="form">
-    <DataAnnotationsValidator />
+    <DataAnnotationsValidator/>
 
     <CascadingValue Value="purchaseModel">
         <div style="display: grid;grid-template-columns: 1fr 1fr;grid-gap: 32px; padding-inline: 32px">
@@ -13,36 +13,36 @@
                         <option value="2">Equipment Expenses</option>
                         <option value="3">Other Expenses</option>
                     </InputSelect>
-                    <ValidationMessage For="@(() => purchaseModel.selectedCategory)" class="text-danger"/>
                 </CommandInput>
                 <CommandInput Label="Choose a Chapter:">
-                    <InputSelect id="chapter" style="width: 6rem" @bind-Value="SelectedChapterCode" class="form-control valid">
+                    <InputSelect id="chapter" style="width: 6rem" @bind-Value="SelectedChapterCode"
+                                 class="form-control valid">
                         <option value="" selected>-- Select a Chapter --</option>
                         @foreach (var chapter in chapters)
                         {
                         <option value="@chapter.CodeChapter">@chapter.CodeChapter</option>
                         }
                     </InputSelect>
-                    <InputText id="title" @bind-Value="purchaseModel.title_chapter" class="form-control valid" readonly/>
-                    <ValidationMessage For="@(() => purchaseModel.selectedChapter)" class="text-danger"/>
+                    <InputText id="title" @bind-Value="purchaseModel.title_chapter" class="form-control valid"
+                               readonly/>
                 </CommandInput>
-                
+
                 <div class="input2">
                     <div class="commend-input">
                         <div class="label-input-group">
                             <label for="article" style="width: 10rem">Choose an Article:</label>
-                            <InputSelect id="article" style="width: 6rem" @bind-Value="SelectedArticleCode" class="form-control valid">
+                            <InputSelect id="article" style="width: 6rem" @bind-Value="SelectedArticleCode"
+                                         class="form-control valid">
                                 <option value="" selected>-- Select an Article --</option>
                                 @foreach (var article in articles)
                                 {
-                                    <option value="@article.CodeArticle">@article.CodeArticle</option>
+                                <option value="@article.CodeArticle">@article.CodeArticle</option>
                                 }
                             </InputSelect>
 
                             <InputText id="description" @bind-Value="purchaseModel.description_article"
                                        class="form-control valid" placeholder="Enter Description" readonly/>
                         </div>
-                        <ValidationMessage For="@(() => purchaseModel.selectedArticle)" class="text-danger"/>
                     </div>
                 </div>
             </div>
@@ -57,14 +57,12 @@
                             <option value="3">Services</option>
                         </InputSelect>
 
-                        <ValidationMessage For="@(() => purchaseModel.selectedService)" class="text-danger" />
                     </div>
                     <div class="commend-input">
                         <div class="label-input-group">
                             <label for="productNumber" class="form-label" style="width: 10rem">Delivery Time :</label>
-                            <InputText @bind-Value="purchaseModel.DeliveryTime" style="width: 6rem" />
+                            <InputText @bind-Value="purchaseModel.DeliveryTime" style="width: 6rem"/>
                             <label class="form-label">days</label>
-                            <ValidationMessage For="@(() => purchaseModel.DeliveryTime)" class="text-danger" />
                         </div>
                     </div>
 
@@ -76,15 +74,15 @@
     </CascadingValue>
 </EditForm>
 
-                            <style>
+<style>
     .label-input-group {
         display: flex;
         align-items: center;
         gap: 10px;
     }
 
-        .label-input-group label {
-            white-space: nowrap;
-            font-weight: 600;
-        }
-                            </style>
+    .label-input-group label {
+        white-space: nowrap;
+        font-weight: 600;
+    }
+</style>

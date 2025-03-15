@@ -20,6 +20,7 @@ using INV.Infrastructure.Storage.SupplierStorages;
 using INV.Infrastructure.Storage.WareHouseStorages;
 using INV.Web.Components;
 using INV.Web.Services.Suppliers;
+using INVUIs.Shared;
 using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +43,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<PreloadService>();
+
 builder.Services.AddLocalization();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
