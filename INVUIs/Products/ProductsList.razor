@@ -1,0 +1,47 @@
+﻿@using INV.App.Products;
+@using INV.Domain.Entities.Products
+@inject NavigationManager Navigation
+@rendermode InteractiveServer
+
+
+
+<button class="addsupplier-button" @onclick="() =>productForm.ShowModal()">
+    <i class="bi bi-cart-plus"></i> Add Product
+</button>
+
+@if (Products is null)
+{
+    <h3>Loading...</h3>
+}
+else
+{
+    <br />
+    <br />
+    <div class="Container-list">
+        <RadzenDataGrid @ref="grid" Data="@Products" AllowSorting="true"
+                        AllowFiltering="true" RowSelect="@((Product ProductInfo) => navigatepage(ProductInfo.Id))"
+                        PageSize="8" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
+            <Columns>
+                <RadzenDataGridColumn Property="@nameof(Product.Designation)" Title="Designation" Width="300px" />
+                <RadzenDataGridColumn Property="@nameof(Product.Quantity)" Title="Quantity" Width="100px" />
+                <RadzenDataGridColumn Property="@nameof(Product.UnitMeasure)" Title="Unit Measure" Width="48px" Sortable="false" Filterable="false" />
+                <RadzenDataGridColumn Property="@nameof(Product.DefaultWareHouseId)" Title="WareHouse" Width="200px" />
+
+                <RadzenDataGridColumn Title="Actions" Sortable="false" Filterable="false" Width="100px">
+                    <Template Context="product">
+                        <RadzenButton Icon="offline_pin" ButtonStyle="ButtonStyle.Light"
+                                      Click="(e => EditProduct(product))"
+                                      @onclick:stopPropagation="true">
+                        </RadzenButton>
+                        <RadzenButton Icon="highlight_off" ButtonStyle="ButtonStyle.Danger"
+                                      Click="(e => DeleteProduct(product.Id))"
+                                      @onclick:stopPropagation="true">
+                        </RadzenButton> </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGrid>
+
+
+    </div>
+}
+<ProductForm @ref="productForm" OnProductCreated="async (product) => { Products.Add(product); await grid.Reload(); StateHasChanged(); }"/>
