@@ -21,53 +21,78 @@ namespace INV.Implementation.Service.Purchses
             this.productStorage = productStorage;
         }
 
-        public async Task<int> AddPurchaseOrder(PurchaseOrder purchaseOrder)
+        /*public async ValueTask<Result> AddPurchaseOrder(PurchaseOrder purchaseOrder)
         {
             if (purchaseOrder == null)
                 return 0;
             // return await purchaseOrderStorage.InsertPurchaseOrder(purchaseOrder);
             return 1;
-        }
+        }*/
 
-        public async Task<List<PurchaseOrder>> GetPurchaseOrdersByDate(DateOnly dateOnly)
+        public async ValueTask<Result<List<PurchaseOrder>>> GetPurchaseOrdersByDate(DateOnly dateOnly)
         {
-            if (dateOnly == null)
-                throw new ArgumentNullException(nameof(dateOnly));
-
-            return await purchaseOrderStorage.SelectPurchaseOrdersByDate(dateOnly);
+            try
+            {
+                var result = await purchaseOrderStorage.SelectPurchaseOrdersByDate(dateOnly);
+                return Result.Success(result);
+            }
+            catch (Exception e)
+            {
+                return Error.Exception(e);
+            }
         }
 
-        public async Task<List<PurchaseOrderInfo>> GetPurchaseOrderInfo()
+        public async ValueTask<Result<List<PurchaseOrderInfo>>> GetPurchaseOrderInfo()
         {
             try
             {
                 IAsyncEnumerable<PurchaseOrderInfo> result = purchaseOrderStorage.SelectPurchaseOrderInfo();
-                return await result.ToListAsync();
+                return Result.Success(await result.ToListAsync());
             }
             catch (Exception e)
             {
-                throw new($"Purchase Order service error : {e.Message}");
+                return Error.Exception(e);
             }
         }
 
-        public async Task<List<PurchaseOrderInfo>> GetPurchaseOrdersByIdSupplier(Guid idSupplier)
+        public async ValueTask<Result<List<PurchaseOrderInfo>>> GetPurchaseOrdersByIdSupplier(Guid idSupplier)
         {
-            if (idSupplier == null)
-                throw new ArgumentNullException(nameof(idSupplier));
+            try
+            {
+                var result = await purchaseOrderStorage.SelectPurchaseOrdersByIdSupplier(idSupplier);
 
-            return await purchaseOrderStorage.SelectPurchaseOrdersByIdSupplier(idSupplier);
+                return Result.Success(result);
+            }
+            catch (Exception e)
+            {
+                return Error.Exception(e);
+            }
         }
 
-        public async Task<PurchaseOrder> GetPurchaseOrdersByID(Guid id)
+        public async ValueTask<Result<PurchaseOrder>> GetPurchaseOrdersById(Guid id)
         {
-            return await purchaseOrderStorage.SelectPurchaseOrdersByID(id);
+            try
+            {
+                var result = await purchaseOrderStorage.SelectPurchaseOrdersByID(id);
+                return Result.Success(result);
+            }
+            catch (Exception e)
+            {
+                return Error.Exception(e);
+            }
         }
 
-        public async Task<int> ValicatePurchaseOrder(PurchaseOrder purchaseOrder)
+        public async ValueTask<Result> ValicatePurchaseOrder(PurchaseOrder purchaseOrder)
         {
-            if (purchaseOrder == null)
-                throw new ArgumentNullException(nameof(purchaseOrder));
-            return await purchaseOrderStorage.ValidatePurchase(purchaseOrder);
+            try
+            {
+                await purchaseOrderStorage.ValidatePurchase(purchaseOrder);
+                return Result.Success();
+            }
+            catch (Exception e)
+            {
+                return Error.Exception(e);
+            }
         }
 
         public async ValueTask<Result> CreatePurchaseOrder(PurchaseOrder purchaseOrder, List<PurchaseProduct> products)
@@ -91,63 +116,97 @@ namespace INV.Implementation.Service.Purchses
             }
         }
 
-        public async ValueTask<List<PurchaseOrderInfo>> GetPurchasesForReceiptCreation()
+        public async ValueTask<Result<List<PurchaseOrderInfo>>> GetPurchasesForReceiptCreation()
         {
             try
             {
-                return await purchaseOrderStorage.SelectPurchasesForReceiptCreation();
+                var result = await purchaseOrderStorage.SelectPurchasesForReceiptCreation();
+                return Result.Success(result);
             }
             catch (Exception e)
             {
-                throw new($"Purchase Order service error : {e.Message}");
+                return Error.Exception(e);
             }
         }
 
-        public async ValueTask<List<PurchaseProductInfo>> GetProductsByPurchaseId(Guid purchaseId)
+        public async ValueTask<Result<List<PurchaseProductInfo>>> GetProductsByPurchaseId(Guid purchaseId)
         {
             try
             {
-                return await purchaseOrderStorage.SelectProductsByPurchaseId(purchaseId);
+                var result = await purchaseOrderStorage.SelectProductsByPurchaseId(purchaseId);
+                return Result.Success(result);
             }
             catch (Exception e)
             {
-                throw new($"Purchase Order service error : {e.Message}");
+                return Error.Exception(e);
             }
         }
 
-        //new
 
-        public async ValueTask<int> RemovePurchaseProduct(PurchaseProduct purchaseProduct)
+        public async ValueTask<Result> RemovePurchaseProduct(PurchaseProduct purchaseProduct)
         {
-            if (purchaseProduct == null)
-                throw new ArgumentNullException(nameof(purchaseProduct));
-            return await purchaseOrderStorage.DeletePurchaseProduct(purchaseProduct);
+            try
+            {
+                await purchaseOrderStorage.DeletePurchaseProduct(purchaseProduct);
+                return Result.Success();
+            }
+            catch (Exception e)
+            {
+                return Error.Exception(e);
+            }
         }
 
-        public async ValueTask<int> UpdatePurchaseOrder(PurchaseOrder purchaseOrder)
+        public async ValueTask<Result> UpdatePurchaseOrder(PurchaseOrder purchaseOrder)
         {
-            if (purchaseOrder == null)
-                throw new ArgumentNullException(nameof(purchaseOrder));
-            return await purchaseOrderStorage.SetPurchaseOrder(purchaseOrder);
+            try
+            {
+                await purchaseOrderStorage.SetPurchaseOrder(purchaseOrder);
+                return Result.Success();
+            }
+            catch (Exception e)
+            {
+                return Error.Exception(e);
+            }
         }
 
-        public async ValueTask<int> UpdatePurchaseProduct(PurchaseProduct purchaseProduct)
+        public async ValueTask<Result> UpdatePurchaseProduct(PurchaseProduct purchaseProduct)
         {
-            if (purchaseProduct == null)
-                throw new ArgumentNullException(nameof(purchaseProduct));
-            return await purchaseOrderStorage.SetPurchaseProduct(purchaseProduct);
+            try
+            {
+                await purchaseOrderStorage.SetPurchaseProduct(purchaseProduct);
+                return Result.Success();
+            }
+            catch (Exception e)
+            {
+                return Error.Exception(e);
+            }
         }
 
-        public async ValueTask<int> DeleteAllPurchaseProduct(Guid purchaseOrderId)
+        public async ValueTask<Result> DeleteAllPurchaseProduct(Guid purchaseOrderId)
         {
-            if (purchaseOrderId == null)
-                throw new ArgumentNullException(nameof(purchaseOrderId));
-            return await purchaseOrderStorage.DeleteAllPurchaseProduct(purchaseOrderId);
+            try
+            {
+                 await purchaseOrderStorage.DeleteAllPurchaseProduct(purchaseOrderId);
+                 return Result.Success();
+            }
+            catch (Exception e)
+            {
+                return Error.Exception(e);
+            }
+           
         }
 
-        public async ValueTask<PurchaseStatus> GetPurchaseStatus(Guid id)
+        public async ValueTask<Result<PurchaseStatus>> GetPurchaseStatus(Guid id)
         {
-            return await purchaseOrderStorage.selectPurchaseStatus(id);
+            try
+            {
+               var result= await purchaseOrderStorage.selectPurchaseStatus(id);
+                return Result.Success(result);
+            }
+            catch (Exception e)
+            {
+                return Error.Exception(e);
+            }
         }
     }
 }

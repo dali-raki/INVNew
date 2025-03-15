@@ -6,7 +6,7 @@ using INV.App.Services;
 using INV.App.Suppliers;
 using INV.App.WareHouses;
 using INV.Implementation.Service.BudgetServices;
-using INV.Implementation.Service.ProductServices;
+using INV.Implementation.Service.Products;
 using INV.Implementation.Service.Purchses;
 using INV.Implementation.Service.Suppliers;
 using INV.Implementation.Service.WareHouses;

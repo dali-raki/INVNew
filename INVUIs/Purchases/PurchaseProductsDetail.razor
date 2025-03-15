@@ -60,7 +60,11 @@ else
         if (products != null && products.Count > 0)
         {
             PurchaseId = products.FirstOrDefault().PurchaseId;
-            PurchaseStatus = await purchaseOrderService.GetPurchaseStatus(PurchaseId);
+            var result = await purchaseOrderService.GetPurchaseStatus(PurchaseId);
+            if (result.IsSuccess)
+            {
+                PurchaseStatus = result.Value;
+            }
             StateHasChanged();
         }
     }
@@ -87,7 +91,11 @@ else
             });
 
         // Refresh the product list
-        products = await purchaseOrderService.GetProductsByPurchaseId(product.PurchaseId);
+        var result = await purchaseOrderService.GetProductsByPurchaseId(product.PurchaseId);
+        if (result.IsSuccess)
+        {
+            products = result.Value;
+        }
         StateHasChanged();
     }
 }

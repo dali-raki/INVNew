@@ -15,9 +15,11 @@ public partial class PurchaseHeader : ComponentBase
 
     private int _selectedChapterCode;
     private int _selelctedArticleCode;
-    public List<Article> articles = new();
+    private List<Article> articles = new();
 
-    public List<Chapter> chapters = new();
+    private List<Chapter> chapters = new();
+    private Chapter chapter = new();
+    private Article article = new();
     private int selectedChapterCode;
     private EditForm form;
 
@@ -52,26 +54,43 @@ public partial class PurchaseHeader : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        chapters = await budgetService.GetAllChapitres();
+        var result = await budgetService.GetAllChapitres();
+        if (result.IsSuccess)
+        {
+            chapters = result.Value;
+        }
     }
 
     private async void LoadChapterTitle()
     {
-        var chapter = await budgetService.GetChapterByCode(SelectedChapterCode);
+        var result = await budgetService.GetChapterByCode(SelectedChapterCode);
+        
+        if (result.IsSuccess)
+        {
+            chapter = result.Value;
+        }
+
         purchaseModel.title_chapter = chapter.Name;
         StateHasChanged();
     }
 
     private async void LoadArticlesBycodeChapter()
     {
-        articles = await budgetService.GetArticlesByCodeChapter(SelectedChapterCode);
-
+        var result = await budgetService.GetArticlesByCodeChapter(SelectedChapterCode);
+        if (result.IsSuccess)
+        {
+            articles= result.Value;
+        }
         StateHasChanged();
     }
 
     private async void LoadArticleTitle()
     {
-        var article = await budgetService.GetArticlesByCodeArticle(SelectedArticleCode);
+        var result= await budgetService.GetArticlesByCodeArticle(SelectedArticleCode);
+        if (result.IsSuccess)
+        {
+            article = result.Value;
+        }
         purchaseModel.description_article = article.Name;
         StateHasChanged();
     }

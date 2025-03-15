@@ -17,6 +17,7 @@ public class AppSupplierService : IAppSupplierService
     public async ValueTask<SupplierDetail> GetSupplierDetail(Guid id)
     {
         ISupplier supplier = await supplierService.GetSupplierByID(id);
+        var result = await purchaseOrderService.GetPurchaseOrdersByIdSupplier(supplier.Id);
 
         return new SupplierDetail()
         {
@@ -33,7 +34,7 @@ public class AppSupplierService : IAppSupplierService
             NIF = supplier.NIF,
             BankAgency = supplier.BankAgency,
             State = supplier.State,
-           Purchases = await purchaseOrderService.GetPurchaseOrdersByIdSupplier(supplier.Id)
+           Purchases = result.IsSuccess?result.Value:new List<PurchaseOrderInfo>()
         };
     }
 }

@@ -5,14 +5,14 @@ namespace INV.App.Products
 {
     public interface IProductService
     {
-        Task<Result> CreateProduct(Product product);
+        ValueTask<Result> CreateProduct(Product product);
 
-        Task<int> SetProducts(Product product);
+        ValueTask<Result> SetProducts(Product product);
 
         ValueTask<Result> RemoveProduct(Guid id);
 
-        Task<List<Product>> GetProducts();
+        ValueTask<Result<List<Product>>> GetProducts();
 
-        ValueTask<ProductInfo> GetProductById(Guid id);
+        ValueTask<Result<ProductInfo>> GetProductById(Guid id);
     }
 }

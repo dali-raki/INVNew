@@ -21,7 +21,7 @@ namespace INV.Web.Components.Pages
             if (searchDate.HasValue)
             {
                 DateOnly selectedDate = DateOnly.FromDateTime(searchDate.Value);
-                purchaseOrders = await purchaseOrderService.GetPurchaseOrdersByDate(selectedDate);
+                var purchaseOrders = await purchaseOrderService.GetPurchaseOrdersByDate(selectedDate);
                 SearchOrders();
             }
         }

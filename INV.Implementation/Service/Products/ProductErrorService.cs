@@ -1,6 +1,6 @@
 ﻿using INV.Domain.Shared;
 
-namespace INV.Implementation.Service.ProductServices;
+namespace INV.Implementation.Service.Products;
 
 public static class ProductErrorService
 {

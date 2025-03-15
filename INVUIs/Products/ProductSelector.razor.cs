@@ -50,8 +50,11 @@ public partial class ProductSelector : ComponentBase
 
     public async Task LoadProducts()
     {
-        products = await productService.GetProducts();
-
+        var result = await productService.GetProducts();
+        if (result.IsSuccess)
+        {
+            products = result.Value;
+        }
         filterProducts();
     }
 

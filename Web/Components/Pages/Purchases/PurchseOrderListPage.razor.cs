@@ -12,7 +12,11 @@ namespace INV.Web.Components.Pages.Purchases
 
         protected override async Task OnInitializedAsync()
         {
-            purchaseOrderInfos = await purchaseOrderService.GetPurchaseOrderInfo();
+            var result= await purchaseOrderService.GetPurchaseOrderInfo();
+            if (result.IsSuccess)
+            {
+                purchaseOrderInfos = result.Value;
+            }
             purchaseOrderInfos = purchaseOrderInfos.OrderBy(s => s.Number).ToList();
         }
         private void NavigateToPurchaseOrder() => navigationManager.NavigateTo($"{PageRoutes.CreatePurchase}");

@@ -25,10 +25,16 @@ namespace INV.Web.Components.Pages.Purchases
 
         protected override async Task OnInitializedAsync()
         {
-            purchaseOrder = await purchaseOrderService.GetPurchaseOrdersByID(Id);
-
-            products = await purchaseOrderService.GetProductsByPurchaseId(Id);
-
+            var resultToPurchase = await purchaseOrderService.GetPurchaseOrdersById(Id);
+            if (resultToPurchase.IsSuccess)
+            {
+                purchaseOrder = resultToPurchase.Value;
+            }
+            var resultToproduct = await purchaseOrderService.GetProductsByPurchaseId(Id);
+            if (resultToproduct.IsSuccess)
+            {
+                products = resultToproduct.Value;
+            }
             ReceptionsListByPurchase = await receiptService.GetReceiptsByPurchaseIdWhenStatus1(purchaseOrder.Id);
            
         }

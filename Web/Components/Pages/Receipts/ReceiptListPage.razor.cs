@@ -24,12 +24,15 @@ public partial class ReceiptListPage
 
     protected override async Task OnInitializedAsync()
     {
-        purchases = await purchaseService.GetPurchasesForReceiptCreation();
-
-        var result = await ReceiptService.GetAllReceipts();
-        if (result.IsSuccess)
+        var resultToPurchase = await purchaseService.GetPurchasesForReceiptCreation();
+        if (resultToPurchase.IsSuccess)
         {
-            receipts = result.Value;
+            purchases = resultToPurchase.Value;
+        }
+        var resultToReceipt = await ReceiptService.GetAllReceipts();
+        if (resultToReceipt.IsSuccess)
+        {
+            receipts = resultToReceipt.Value;
         }
     }
 

@@ -32,7 +32,11 @@ namespace INV.Web.Components.Pages.Suppliers
             try
             {
                 Supplier = await serviceSupplier.GetSupplierDetail(id);
-                purchases = await purchaseOrderService.GetPurchaseOrdersByIdSupplier(id);
+                var result = await purchaseOrderService.GetPurchaseOrdersByIdSupplier(id);
+                if (result.IsSuccess)
+                {
+                    purchases= result.Value;
+                }
                 Receptions = await receiptService.GetReceiptsBySupplierId(id);
             }
             catch (Exception e)

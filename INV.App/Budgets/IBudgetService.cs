@@ -4,23 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using INV.Domain.Entities.Budget;
+using INV.Domain.Shared;
 
 namespace INV.App.Budgets
 {
     public interface IBudgetService
     {
-        Task<int> AddArticle(Article Article);
+        ValueTask<Result> AddArticle(Article article);
 
-        Task<List<Article>> GetAllArticles();
+        ValueTask<Result<List<Article>>> GetAllArticles();
 
-        Task<Article> GetArticlesByCodeArticle(int CodeArticle);
+        ValueTask<Result<Article>> GetArticlesByCodeArticle(int codeArticle);
 
-        Task<List<Article>> GetArticlesByCodeChapter(int CodeChapter);
+        ValueTask<Result<List<Article>>> GetArticlesByCodeChapter(int codeChapter);
 
-        Task<int> AddChapter(Chapter Chapter);
+        ValueTask<Result> AddChapter(Chapter chapter);
 
-        Task<List<Chapter>> GetAllChapitres();
+        ValueTask<Result<List<Chapter>>> GetAllChapitres();
 
-        Task<Chapter> GetChapterByCode(int CodeChapter);
+        ValueTask<Result<Chapter>> GetChapterByCode(int codeChapter);
     }
 }

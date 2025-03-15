@@ -1,5 +1,6 @@
 ﻿using INV.App.Budgets;
 using INV.Domain.Entities.Budget;
+using INV.Domain.Shared;
 using INV.Infrastructure.Storage.Budget;
 using INV.Infrastructure.Storage.Budgets;
 
@@ -14,38 +15,94 @@ public class BudgetService : IBudgetService
         this.budgetStorage = budgetStorage;
     }
 
-    public async Task<int> AddArticle(Article Article)
+    public async ValueTask<Result> AddArticle(Article article)
     {
-        return await budgetStorage.InsertArticle(Article);
+        try
+        {
+            var result = await budgetStorage.InsertArticle(article);
+            return Result.Success(result);
+        }
+        catch (Exception e)
+        {
+            return Error.Exception(e);
+        }
     }
 
-    public async Task<List<Article>> GetAllArticles()
+    public async ValueTask<Result<List<Article>>> GetAllArticles()
     {
-        return await budgetStorage.SelectAllArticles();
+        try
+        {
+            var result = await budgetStorage.SelectAllArticles();
+            return Result.Success(result);
+        }
+        catch (Exception e)
+        {
+            return Error.Exception(e);
+        }
     }
 
-    public async Task<Article> GetArticlesByCodeArticle(int CodeArticle)
+    public async ValueTask<Result<Article>> GetArticlesByCodeArticle(int codeArticle)
     {
-        return await budgetStorage.SelectArticlesByCodeArticle(CodeArticle);
+        try
+        {
+            var result = await budgetStorage.SelectArticlesByCodeArticle(codeArticle);
+            return Result.Success(result);
+        }
+        catch (Exception e)
+        {
+            return Error.Exception(e);
+        }
     }
 
-    public async Task<List<Article>> GetArticlesByCodeChapter(int CodeChapter)
+    public async ValueTask<Result<List<Article>>> GetArticlesByCodeChapter(int codeChapter)
     {
-        return await budgetStorage.SelectArticlesByCodeChapter(CodeChapter);
+        try
+        {
+            var result = await budgetStorage.SelectArticlesByCodeChapter(codeChapter);
+            return Result.Success(result);
+        }
+        catch (Exception e)
+        {
+            return Error.Exception(e);
+        }
     }
 
-    public async Task<int> AddChapter(Chapter Chapter)
+    public async ValueTask<Result> AddChapter(Chapter chapter)
     {
-        return await budgetStorage.InsertChapter(Chapter);
+        try
+        {
+            var result = await budgetStorage.InsertChapter(chapter);
+            return Result.Success(result);
+        }
+        catch (Exception e)
+        {
+            return Error.Exception(e);
+        }
     }
 
-    public async Task<List<Chapter>> GetAllChapitres()
+    public async ValueTask<Result<List<Chapter>>> GetAllChapitres()
     {
-        return await budgetStorage.SelectAllChapitres();
+        try
+        {
+            var result = await budgetStorage.SelectAllChapitres();
+            return Result.Success(result);
+        }
+        catch (Exception e)
+        {
+            return Error.Exception(e);
+        }
     }
 
-    public async Task<Chapter> GetChapterByCode(int CodeChapter)
+    public async ValueTask<Result<Chapter>> GetChapterByCode(int codeChapter)
     {
-        return await budgetStorage.SelectChapterByCode(CodeChapter);
+        try
+        {
+            var result = await budgetStorage.SelectChapterByCode(codeChapter);
+            return Result.Success(result);
+        }
+        catch (Exception e)
+        {
+            return Error.Exception(e);
+        }
     }
 }

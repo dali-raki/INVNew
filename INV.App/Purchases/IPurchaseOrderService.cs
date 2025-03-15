@@ -6,32 +6,32 @@ namespace INV.App.Purchases
 {
     public interface IPurchaseOrderService
     {
-        Task<int> AddPurchaseOrder(PurchaseOrder purchaseOrder);
+        /*ValueTask<Result> AddPurchaseOrder(PurchaseOrder purchaseOrder);*/
 
-        Task<List<PurchaseOrder>> GetPurchaseOrdersByDate(DateOnly dateOnly);
+        ValueTask<Result<List<PurchaseOrder>>> GetPurchaseOrdersByDate(DateOnly dateOnly);
 
-        Task<List<PurchaseOrderInfo>> GetPurchaseOrderInfo();
+        ValueTask<Result<List<PurchaseOrderInfo>>> GetPurchaseOrderInfo();
 
-        Task<List<PurchaseOrderInfo>> GetPurchaseOrdersByIdSupplier(Guid idSupplier);
+        ValueTask<Result<List<PurchaseOrderInfo>>> GetPurchaseOrdersByIdSupplier(Guid idSupplier);
 
-        Task<PurchaseOrder> GetPurchaseOrdersByID(Guid id);
+        ValueTask<Result<PurchaseOrder>> GetPurchaseOrdersById(Guid id);
 
-        Task<int> ValicatePurchaseOrder(PurchaseOrder purchaseOrder);
+        ValueTask<Result> ValicatePurchaseOrder(PurchaseOrder purchaseOrder);
 
         ValueTask<Result> CreatePurchaseOrder(PurchaseOrder purchaseOrder, List<PurchaseProduct> products);
 
-        ValueTask<List<PurchaseOrderInfo>> GetPurchasesForReceiptCreation();
+        ValueTask<Result<List<PurchaseOrderInfo>>> GetPurchasesForReceiptCreation();
 
-        ValueTask<List<PurchaseProductInfo>> GetProductsByPurchaseId(Guid purchaseId);
+        ValueTask<Result<List<PurchaseProductInfo>>> GetProductsByPurchaseId(Guid purchaseId);
 
-        ValueTask<int> RemovePurchaseProduct(PurchaseProduct purchaseProduct);
+        ValueTask<Result> RemovePurchaseProduct(PurchaseProduct purchaseProduct);
 
-        ValueTask<int> DeleteAllPurchaseProduct(Guid purchaseOrderId);
+        ValueTask<Result> DeleteAllPurchaseProduct(Guid purchaseOrderId);
 
-        ValueTask<int> UpdatePurchaseProduct(PurchaseProduct purchaseProduct);
+        ValueTask<Result> UpdatePurchaseProduct(PurchaseProduct purchaseProduct);
 
-        ValueTask<int> UpdatePurchaseOrder(PurchaseOrder purchaseOrder);
+        ValueTask<Result> UpdatePurchaseOrder(PurchaseOrder purchaseOrder);
 
-        ValueTask<PurchaseStatus> GetPurchaseStatus(Guid id);
+        ValueTask<Result<PurchaseStatus>> GetPurchaseStatus(Guid id);
     }
 }
