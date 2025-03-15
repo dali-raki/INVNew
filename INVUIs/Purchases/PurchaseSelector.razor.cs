@@ -1,5 +1,5 @@
 ﻿using INV.App.Purchases;
-using INV.App.Services;
+using INV.App.Receipts;
 using Microsoft.AspNetCore.Components;
 
 namespace INVUIs.Purchases;

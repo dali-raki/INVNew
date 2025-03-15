@@ -1,6 +1,5 @@
 ﻿using INV.App.Purchases;
 using INV.App.Receipts;
-using INV.App.Services;
 using INV.App.Suppliers;
 using INV.Domain.Entities.Receipts;
 using INV.Web.Services.Suppliers;
@@ -13,14 +12,15 @@ namespace INV.Web.Components.Pages.Suppliers
     public partial class SupplierPage
     {
         [Parameter] public Guid id { get; set; }
-        private SupplierDetail Supplier { get; set; }
-        private List<PurchaseOrderInfo> purchases;
-        private List<ReceiptInfo> Receptions;
-
-        public SupplierForm supplierForm = new SupplierForm();
         [Inject] public IAppSupplierService serviceSupplier { set; get; }
         [Inject] public IPurchaseOrderService purchaseOrderService { get; set; }
         [Inject] public IReceiptService receiptService { get; set; }
+        private SupplierDetail supplier { get; set; }
+        private List<PurchaseOrderInfo> purchases;
+        private List<ReceiptInfo> receptions;
+
+        private SupplierForm supplierForm = new SupplierForm();
+     
 
         protected override async Task OnInitializedAsync()
         {
@@ -29,38 +29,36 @@ namespace INV.Web.Components.Pages.Suppliers
 
         private async Task LoadSupplierData()
         {
-            try
+            supplier = await serviceSupplier.GetSupplierDetail(id);
+            var result = await purchaseOrderService.GetPurchaseOrdersByIdSupplier(id);
+            if (result.IsSuccess)
             {
-                Supplier = await serviceSupplier.GetSupplierDetail(id);
-                var result = await purchaseOrderService.GetPurchaseOrdersByIdSupplier(id);
-                if (result.IsSuccess)
-                {
-                    purchases= result.Value;
-                }
-                Receptions = await receiptService.GetReceiptsBySupplierId(id);
+                purchases = result.Value;
             }
-            catch (Exception e)
+
+            var recepipt = await receiptService.GetReceiptsBySupplierId(id);
+            if (recepipt.IsSuccess)
             {
-                Console.WriteLine(e);
+                receptions = recepipt.Value.ToList();
             }
         }
 
-        private void EditSupplier()
+        private void editSupplier()
         {
             supplierForm.SupplierToEdit = new SupplierModel
             {
-                ID = Supplier.Id,
-                NameSupplier = Supplier.ManagerName,
-                NameCompany = Supplier.CompanyName,
-                Email = Supplier.Email,
-                Address = Supplier.Address,
-                Phone = Supplier.Phone,
-                ART = Supplier.ART,
-                NIF = Supplier.NIF,
-                RC = Supplier.RC,
-                NIS = Supplier.NIS,
-                RIB = Supplier.RIB,
-                BankAgency = Supplier.BankAgency
+                ID = supplier.Id,
+                NameSupplier = supplier.ManagerName,
+                NameCompany = supplier.CompanyName,
+                Email = supplier.Email,
+                Address = supplier.Address,
+                Phone = supplier.Phone,
+                ART = supplier.ART,
+                NIF = supplier.NIF,
+                RC = supplier.RC,
+                NIS = supplier.NIS,
+                RIB = supplier.RIB,
+                BankAgency = supplier.BankAgency
             };
             supplierForm.Update = true;
             supplierForm.ShowModal();

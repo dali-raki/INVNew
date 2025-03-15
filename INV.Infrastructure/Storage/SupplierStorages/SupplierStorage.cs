@@ -107,7 +107,7 @@ IF NOT EXISTS (SELECT 1 FROM [INV].[purchase].[ORDERS] WHERE SupplierId = @aId)
             return suppliers;
         }
 
-        public async Task<Supplier?> SelectSupplierByID(Guid id)
+        public async Task<Supplier?> SelectSupplierById(Guid id)
         {
             using var sqlConnection = new SqlConnection(_connectionString);
             using var cmd = new SqlCommand(selectSuppliersByIdQuery, sqlConnection);

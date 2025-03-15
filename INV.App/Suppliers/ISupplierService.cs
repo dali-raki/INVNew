@@ -5,16 +5,15 @@ namespace INV.App.Suppliers
 {
     public interface ISupplierService
     {
-        Task<Result> AddSupplier(Supplier supplier);
+        ValueTask<Result> AddSupplier(Supplier supplier);
 
-        Task<List<SupplierInfo>> GetAllSupplier();
+        ValueTask<Result<List<SupplierInfo>>> GetAllSupplier();
+        
 
-        Task<List<SupplierInfo>> GetSupplierByName(string name);
+        ValueTask<Result<ISupplier>> GetSupplierById(Guid id);
 
-        Task<ISupplier> GetSupplierByID(Guid id);
+        ValueTask<Result> SetSupplier(Supplier supplier);
 
-        Task<int> SetSupplier(Supplier supplier);
-
-        ValueTask<int> RemoveSupplierById(Guid id);
+        ValueTask<Result> RemoveSupplierById(Guid id);
     }
 }

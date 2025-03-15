@@ -1,10 +1,9 @@
 ﻿@page "/receptions/{Id:guid}"
 @page "/receptions/new/{purchaseId:guid}"
 @using INV.App.Receipts
-@using INV.App.Services
 @using INV.Domain.Shared
 
-<NewReception ReceiptInfo="receiptInfo" />
+<NewReception ReceiptInfo="receiptInfo"/>
 
 @code {
 
@@ -18,11 +17,19 @@
     {
         if (Id != Guid.Empty)
         {
-            receiptInfo = await receiptService.GetReceiptInfoById(Id);
+            var receipt = await receiptService.GetReceiptInfoById(Id);
+            if (receipt.IsSuccess)
+            {
+                receiptInfo = receipt.Value;
+            }
         }
         else
         {
-            receiptInfo = await receiptService.CreateReceiptFromPurchase(purchaseId);
+            var receipt = await receiptService.CreateReceiptFromPurchase(purchaseId);
+            if (receipt.IsSuccess)
+            {
+                receiptInfo = receipt.Value;
+            }
         }
     }
 

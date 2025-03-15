@@ -7,19 +7,25 @@ namespace INVUIs.Purchases;
 
 public partial class PurchaseSupplier
 {
-    private bool isSupplierSelected = false;
+    [Parameter] public EventCallback<SupplierInfo> OnSupplierSelected { get; set; }
+    [Inject] public ISupplierService supplierService { get; set; }
+    
     public SupplierInfo selectedSupplier = null;
     private SupplierForm supplierForm;
     private List<SupplierInfo> supplierInfo = new();
     private SupplierModel supplierModel = new();
-    private bool SupplierSelected = false;
     public SupplierSelector supplierSelector;
-    [Parameter] public EventCallback<SupplierInfo> OnSupplierSelected { get; set; }
-    [Inject] public ISupplierService supplierService { get; set; }
+    
+    private bool isSupplierSelected = false;
+    private bool supplierSelect = false;
 
     protected override async Task OnInitializedAsync()
     {
-        supplierInfo = await supplierService.GetAllSupplier();
+        var result = await supplierService.GetAllSupplier();
+        if (result.IsSuccess)
+        {
+            supplierInfo = result.Value;
+        }
     }
 
     private async Task supplierSelected(SupplierInfo supplier)

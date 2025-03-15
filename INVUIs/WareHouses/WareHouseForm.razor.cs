@@ -8,7 +8,7 @@ namespace INVUIs.WareHouses;
 
 public partial class WareHouseForm : ComponentBase
 {
-    [Inject] public IWareHouseService wareHouseService { set; get; }
+    [Inject] private IWareHouseService wareHouseService { set; get; }
     private WareHouseModel newWareHouse = new WareHouseModel();
     private bool visibility = false;
     private Result result;

@@ -2,19 +2,11 @@
 using INV.Domain.Entities.Budget;
 using INV.Domain.Shared;
 using INV.Infrastructure.Storage.Budget;
-using INV.Infrastructure.Storage.Budgets;
 
-namespace INV.Implementation.Service.BudgetServices;
+namespace INV.Implementation.Service.Budgets;
 
-public class BudgetService : IBudgetService
+public class BudgetService(IBudgetStorage budgetStorage) : IBudgetService
 {
-    private readonly IBudgetStorage budgetStorage;
-
-    public BudgetService(IBudgetStorage budgetStorage)
-    {
-        this.budgetStorage = budgetStorage;
-    }
-
     public async ValueTask<Result> AddArticle(Article article)
     {
         try

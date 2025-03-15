@@ -1,33 +1,27 @@
 ﻿using System.Transactions;
 using INV.App.Receipts;
-using INV.Domain.Entities.Purchases;
 using INV.Domain.Entities.Receipts;
 using INV.Domain.Shared;
 using INV.Infrastructure.Storage.Receipts;
 
-namespace INV.App.Services
+namespace INV.Implementation.Service.Receipts
 {
-    public class ReceiptService : IReceiptService
+    public class ReceiptService(IReceiptStorage receiptStorage) : IReceiptService
     {
-        private readonly IReceiptStorage receiptStorage;
-
-        public ReceiptService(IReceiptStorage receiptStorage)
-        {
-            this.receiptStorage = receiptStorage;
-        }
-
-        public async ValueTask<ReceiptInfo> CreateReceiptFromPurchase(Guid purchaseId)
+        public async ValueTask<Result<ReceiptInfo>> CreateReceiptFromPurchase(Guid purchaseId)
         {
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 try
                 {
                     var receipt = await receiptStorage.CreateReceiptFromPurchase(purchaseId);
-                    return receipt;
+                    scope.Complete();
+                    return Result.Success(receipt);
                 }
                 catch (Exception ex)
                 {
-                    throw;
+                    scope.Dispose();
+                    return Error.Exception(ex);
                 }
             }
         }
@@ -100,6 +94,7 @@ namespace INV.App.Services
                     {
                         await receiptStorage.InsertReceiptProduct(product);
                     }
+
                     scope.Complete();
                     return Result.Success();
                 }
@@ -121,12 +116,13 @@ namespace INV.App.Services
                     {
                         await receiptStorage.UpdateReceiptProduct(product);
                     }
+
                     scope.Complete();
                     return Result.Success();
                 }
                 catch (Exception ex)
                 {
-                    return Result.Failure(ReceiptError.ReceiptUpdateFailed);
+                    return Error.Exception(ex);
                 }
             }
         }
@@ -140,7 +136,7 @@ namespace INV.App.Services
             }
             catch (Exception ex)
             {
-                return Result.Failure(ReceiptError.ReceiptDeletionFailed);
+                return Error.Exception(ex);
             }
         }
 
@@ -153,7 +149,7 @@ namespace INV.App.Services
             }
             catch (Exception ex)
             {
-                return Result.Failure<List<ReceiptProduct>>(ReceiptError.ReceiptProductNotFound(Guid.Empty));
+                return Error.Exception(ex);
             }
         }
 
@@ -166,7 +162,7 @@ namespace INV.App.Services
             }
             catch (Exception ex)
             {
-                return Result.Failure<List<ReceiptProduct>>(ReceiptError.ReceiptProductNotFound(receptionId));
+                return Error.Exception(ex);
             }
         }
 
@@ -179,24 +175,60 @@ namespace INV.App.Services
             }
             catch (Exception ex)
             {
-                return Result.Failure(ReceiptError.ReceiptProductDeletionFailed);
+                 return Error.Exception(ex);
             }
         }
 
-        public async ValueTask<ReceiptInfo> GetReceiptInfoById(Guid receiptId)
+        public async ValueTask<Result<ReceiptInfo>> GetReceiptInfoById(Guid receiptId)
         {
             try
             {
                 var receiptInfo = await receiptStorage.GetReceiptInfoById(receiptId, true);
-                /*if (receiptInfo == null)
-                {
-                    return ReceiptError.ReceiptNotFound(receiptId);
-                }*/
-                return receiptInfo;
+
+                return Result.Success(receiptInfo);
             }
             catch (Exception ex)
             {
-                throw;
+                return Error.Exception(ex);
+            }
+        }
+
+
+        public async ValueTask<Result<List<ReceiptInfo>>> GetReceiptsBySupplierId(Guid supplierId)
+        {
+            try
+            {
+                var result = await receiptStorage.SelectReceiptsBySupplierId(supplierId);
+                return Result.Success(result);
+            }
+            catch (Exception ex)
+            {
+                return Error.Exception(ex);
+            }
+        }
+
+        public async ValueTask<Result<List<Receipt>>> GetReceiptsByPurchaseIdWhenStatus(Guid purchaseId)
+        {
+            try
+            {
+                var result = await receiptStorage.SelectReceiptsByPurchaseIdWhenStatus1(purchaseId);
+                return Result.Success(result);
+            }
+            catch (Exception ex)
+            {
+                return Error.Exception(ex);
+            }
+        }
+
+        public async ValueTask<Result<bool>> ReceiptExistById(Guid id)
+        {
+            try
+            {
+                return Result.Success(await receiptStorage.ReceiptExistById(id));
+            }
+            catch (Exception ex)
+            {
+                return Error.Exception(ex);
             }
         }
 
@@ -205,7 +237,7 @@ namespace INV.App.Services
             List<Error> errors = new List<Error>();
 
             var purchase = await receiptStorage.SelectReceiptsByPurchaseId(purchaseId);
-            if (purchase == null || !purchase.Any())
+            if (!purchase.Any())
                 errors.Add(ReceiptError.ReceiptNotFound(purchaseId));
 
             var purchaseOrder = await receiptStorage.SelectReceiptById(purchaseId);
@@ -217,28 +249,6 @@ namespace INV.App.Services
                 errors.Add(ReceiptError.ReceiptAlreadyValidated(purchaseId));
 
             return errors;
-        }
-
-        public async ValueTask<List<ReceiptInfo>> GetReceiptsBySupplierId(Guid supplierId)
-        {
-            return await receiptStorage.SelectReceiptsBySupplierId(supplierId);
-        }
-
-        public async ValueTask<List<Receipt>> GetReceiptsByPurchaseIdWhenStatus1(Guid purchaseId)
-        {
-            return await receiptStorage.SelectReceiptsByPurchaseIdWhenStatus1(purchaseId);
-        }
-
-        public async ValueTask<Result<bool>> ReceiptExistById(Guid id)
-        {
-            try
-            {
-                return Result.Success(await receiptStorage.ReceiptExistById(id));
-            }
-            catch (Exception ex)
-            {
-                return Result.Failure<bool>(Error.Exception(ex));
-            }
         }
     }
 }

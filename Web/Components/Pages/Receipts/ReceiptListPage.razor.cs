@@ -1,6 +1,5 @@
 ﻿using INV.App.Purchases;
 using INV.App.Receipts;
-using INV.App.Services;
 using INV.Domain.Entities.Receipts;
 using INV.Domain.Entities.WareHouse;
 using INV.Domain.Shared;
@@ -19,7 +18,7 @@ public partial class ReceiptListPage
     [Inject] public IReceiptService ReceiptService { get; set; }
     [Inject] public NavigationManager navigationManager { set; get; }
     private List<PurchaseOrderInfo> purchases;
-    private WareHouseForm wareHouseForm;
+
     private List<ReceiptInfo> receipts;
 
     protected override async Task OnInitializedAsync()

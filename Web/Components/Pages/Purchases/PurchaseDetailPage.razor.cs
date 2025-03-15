@@ -1,6 +1,5 @@
 ﻿using INV.App.Purchases;
 using INV.App.Receipts;
-using INV.App.Services;
 using INV.Domain.Entities.Products;
 using INV.Domain.Entities.Purchases;
 using INV.Domain.Entities.Receipts;
@@ -21,7 +20,7 @@ namespace INV.Web.Components.Pages.Purchases
 
         public List<PurchaseProductInfo> products;
 
-        public List<Receipt> ReceptionsListByPurchase;
+        public List<Receipt> receptionsListByPurchase;
 
         protected override async Task OnInitializedAsync()
         {
@@ -35,8 +34,11 @@ namespace INV.Web.Components.Pages.Purchases
             {
                 products = resultToproduct.Value;
             }
-            ReceptionsListByPurchase = await receiptService.GetReceiptsByPurchaseIdWhenStatus1(purchaseOrder.Id);
-           
+            var receiptsByPurchase=await receiptService.GetReceiptsByPurchaseIdWhenStatus(purchaseOrder.Id);
+            if (receiptsByPurchase.IsSuccess)
+            {
+                receptionsListByPurchase = receiptsByPurchase.Value.ToList();
+            }
         }
     }
 }

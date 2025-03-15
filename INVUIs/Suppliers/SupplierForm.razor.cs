@@ -13,13 +13,12 @@ namespace INVUIs.Suppliers
 
         [Parameter] public bool Update { get; set; } = false;
         [Parameter] public string CreateButtonLabel { get; set; } = "Create";
-        [Parameter] public SupplierModel SupplierToEdit { get; set; } // New parameter to accept supplier data for editing
+        [Parameter] public SupplierModel SupplierToEdit { get; set; } 
         [Inject] public ISupplierService SupplierService { get; set; }
         [Inject] public NavigationManager navigationManager { get; set; }
         private SupplierModel newSupplier = new SupplierModel();
         private bool displayModal = false;
         private Result result;
-        private int resultUpdate;
         private string success = string.Empty;
 
         private void close()
@@ -29,7 +28,7 @@ namespace INVUIs.Suppliers
             StateHasChanged();
         }
 
-        public void closeModel()
+        public void CloseModel()
         {
             newSupplier = new SupplierModel();
             displayModal = false;
@@ -40,7 +39,7 @@ namespace INVUIs.Suppliers
         {
             if (Update && SupplierToEdit != null)
             {
-                newSupplier = SupplierToEdit; // Populate the form with existing supplier data
+                newSupplier = SupplierToEdit;
             }
             displayModal = true;
             StateHasChanged();
@@ -50,7 +49,7 @@ namespace INVUIs.Suppliers
         {
             var sup = new Supplier()
             {
-                Id = Update ? SupplierToEdit.ID : Guid.NewGuid(), // Use existing ID if updating
+                Id = Update ? SupplierToEdit.ID : Guid.NewGuid(), 
                 ManagerName = newSupplier.NameSupplier,
                 CompanyName = newSupplier.NameCompany,
                 Email = newSupplier.Email,
@@ -67,7 +66,7 @@ namespace INVUIs.Suppliers
 
             if (Update)
             {
-                resultUpdate = await SupplierService.SetSupplier(sup);
+                var result= await SupplierService.SetSupplier(sup);
             }
             else
             {
@@ -95,7 +94,7 @@ namespace INVUIs.Suppliers
 
             await OnSupplierCreated.InvokeAsync(createdSupplierInfo);
             // await OnSave.InvokeAsync(createdSupplierInfo);
-            closeModel();
+            CloseModel();
             success = "The supplier has been added successfully";
             await ClearForm();
         }

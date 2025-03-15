@@ -14,11 +14,11 @@
             <PurchaseProductsDetail products="products" />
         </Content>
     </Tab>
-    @if (purchaseOrder.Status == PurchaseStatus.Visi && ReceptionsListByPurchase.Count >0)
+    @if (purchaseOrder.Status == PurchaseStatus.Visi && receptionsListByPurchase.Count >0)
     {
         <Tab Title="Receipts">
         <Content>
-            <ReceptionListByPurchase Receptions="ReceptionsListByPurchase" />
+            <ReceptionListByPurchase Receptions="receptionsListByPurchase" />
         </Content>
     </Tab>
 	}

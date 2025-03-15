@@ -1,34 +1,15 @@
 ﻿using System.Transactions;
 using INV.App.Purchases;
-using INV.Domain.Entities.Products;
 using INV.Domain.Entities.Purchases;
 using INV.Domain.Shared;
 using INV.Infrastructure.Storage.Products;
 using INV.Infrastructure.Storage.Purchases;
-using Microsoft.AspNetCore.Components;
 
 namespace INV.Implementation.Service.Purchses
 {
-    public class PurchaseOrderService : IPurchaseOrderService
+    public class PurchaseOrderService(IPurchaseOrderStorage purchaseOrderStorage, IProductStorage productStorage)
+        : IPurchaseOrderService
     {
-        private readonly IPurchaseOrderStorage purchaseOrderStorage;
-
-        private readonly IProductStorage productStorage;
-
-        public PurchaseOrderService(IPurchaseOrderStorage purchaseOrderStorage, IProductStorage productStorage)
-        {
-            this.purchaseOrderStorage = purchaseOrderStorage;
-            this.productStorage = productStorage;
-        }
-
-        /*public async ValueTask<Result> AddPurchaseOrder(PurchaseOrder purchaseOrder)
-        {
-            if (purchaseOrder == null)
-                return 0;
-            // return await purchaseOrderStorage.InsertPurchaseOrder(purchaseOrder);
-            return 1;
-        }*/
-
         public async ValueTask<Result<List<PurchaseOrder>>> GetPurchaseOrdersByDate(DateOnly dateOnly)
         {
             try
@@ -110,7 +91,6 @@ namespace INV.Implementation.Service.Purchses
                 }
                 catch (Exception ex)
                 {
-                    scope.Dispose();
                     return Error.Exception(ex);
                 }
             }
@@ -186,21 +166,20 @@ namespace INV.Implementation.Service.Purchses
         {
             try
             {
-                 await purchaseOrderStorage.DeleteAllPurchaseProduct(purchaseOrderId);
-                 return Result.Success();
+                await purchaseOrderStorage.DeleteAllPurchaseProduct(purchaseOrderId);
+                return Result.Success();
             }
             catch (Exception e)
             {
                 return Error.Exception(e);
             }
-           
         }
 
         public async ValueTask<Result<PurchaseStatus>> GetPurchaseStatus(Guid id)
         {
             try
             {
-               var result= await purchaseOrderStorage.selectPurchaseStatus(id);
+                var result = await purchaseOrderStorage.selectPurchaseStatus(id);
                 return Result.Success(result);
             }
             catch (Exception e)

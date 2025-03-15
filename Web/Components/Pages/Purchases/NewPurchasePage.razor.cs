@@ -18,12 +18,12 @@ namespace INV.Web.Components.Pages.Purchases
         public PurchaseModel purchaseModel { set; get; } = new();
         private SupplierInfo selectedSupplier = new();
         private PurchaseHeader purchaseHeaderRef;
-        public string errorMessage { get; set; }
+        private string errorMessage { get; set; }
 
         private async Task create()
         {
             await purchaseHeaderRef.SubmitForm();
-            if (productModel is null || productModel.Count == 0)
+            if (productModel.Count == 0)
             {
                 showError("Please add at least one product before submitting the order.");
                 return;
@@ -35,13 +35,6 @@ namespace INV.Web.Components.Pages.Purchases
                 return;
             }
 
-            /*
-            if (purchaseModel.DeliveryTime == 0)
-            {
-                showError(" Required Delivery time.");
-                return;
-            }
-            */
 
             purchaseModel.ProductModels = productModel;
 

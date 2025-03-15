@@ -4,16 +4,16 @@
 
 
 
-@if (Supplier is not null)
+@if (supplier is not null)
 {
     
-    <PageHeader Title=@Supplier.CompanyName  SubTitle=@Supplier.Address/>
+    <PageHeader Title=@supplier.CompanyName  SubTitle=@supplier.Address/>
 
     <div class="content-profile">
         <div class="container-info-supplier ">
-            <SupplierCard Supplier="Supplier" />
+            <SupplierCard Supplier="supplier" />
             <div style="display:flex; justify-content:end" class="m-2">
-                <button class="btn-custom btn-submit" type="button" @onclick="EditSupplier"><i class="bi bi-pen"></i>Edit</button>
+                <button class="btn-custom btn-submit" type="button" @onclick="editSupplier"><i class="bi bi-pen"></i>Edit</button>
             </div>
            
 
@@ -26,11 +26,11 @@
                         <PurchaseList purchaseOrderInfos="purchases" ShowSupplier="false" />
                     </Content>
                 </Tab>
-                @if (Receptions != null && Receptions.Count > 0)
+                @if (receptions != null && receptions.Count > 0)
                 {
                     <Tab Title="Reseption">
                         <Content>
-                            <ReceptionList Receptions="Receptions" />
+                            <ReceptionList Receptions="receptions" />
                         </Content>
                     </Tab>
                 }

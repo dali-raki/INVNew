@@ -1,13 +1,10 @@
 ﻿using INV.Domain.Entities.Receipts;
 using INV.Domain.Shared;
-using INV.App.Receipts;
-using INV.Domain.Entities.Purchases;
-
-namespace INV.App.Services
+namespace INV.App.Receipts
 {
     public interface IReceiptService
     {
-        ValueTask<ReceiptInfo> CreateReceiptFromPurchase(Guid purchaseId);
+        ValueTask<Result<ReceiptInfo>> CreateReceiptFromPurchase(Guid purchaseId);
 
         ValueTask<Result> ValidateReceipt(Guid receiptId);
 
@@ -29,11 +26,11 @@ namespace INV.App.Services
 
         ValueTask<Result> RemoveReceiptProductAsync(Guid receptionId, Guid productId);
 
-        ValueTask<ReceiptInfo> GetReceiptInfoById(Guid receiptId);
+        ValueTask<Result<ReceiptInfo>> GetReceiptInfoById(Guid receiptId);
 
-        ValueTask<List<ReceiptInfo>> GetReceiptsBySupplierId(Guid supplierId);
+        ValueTask<Result<List<ReceiptInfo>>> GetReceiptsBySupplierId(Guid supplierId);
 
-        ValueTask<List<Receipt>> GetReceiptsByPurchaseIdWhenStatus1(Guid purchaseId);
+        ValueTask<Result<List<Receipt>>> GetReceiptsByPurchaseIdWhenStatus(Guid purchaseId);
 
         ValueTask<Result<bool>> ReceiptExistById(Guid id);
     }

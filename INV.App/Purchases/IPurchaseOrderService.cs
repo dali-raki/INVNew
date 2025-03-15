@@ -1,13 +1,10 @@
-﻿using INV.Domain.Entities.Products;
-using INV.Domain.Entities.Purchases;
+﻿using INV.Domain.Entities.Purchases;
 using INV.Domain.Shared;
 
 namespace INV.App.Purchases
 {
     public interface IPurchaseOrderService
     {
-        /*ValueTask<Result> AddPurchaseOrder(PurchaseOrder purchaseOrder);*/
-
         ValueTask<Result<List<PurchaseOrder>>> GetPurchaseOrdersByDate(DateOnly dateOnly);
 
         ValueTask<Result<List<PurchaseOrderInfo>>> GetPurchaseOrderInfo();

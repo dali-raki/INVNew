@@ -5,7 +5,7 @@ namespace INV.Web.Components.Pages.Suppliers
 {
     public partial class SupplierListPage : ComponentBase
     {
-        [Inject] public ISupplierService supplierService { get; set; }
+        [Inject] private ISupplierService supplierService { get; set; }
 
         private List<SupplierInfo> suppliers;
 
@@ -13,7 +13,11 @@ namespace INV.Web.Components.Pages.Suppliers
 
         protected override async Task OnInitializedAsync()
         {
-            suppliers = await supplierService.GetAllSupplier();
+            var result = await supplierService.GetAllSupplier();
+            if (result.IsSuccess)
+            {
+                suppliers = result.Value;
+            }
         }
     }
 }

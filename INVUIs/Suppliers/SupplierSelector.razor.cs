@@ -18,12 +18,16 @@ public partial class SupplierSelector
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadSuppliers();
+        await loadSuppliers();
     }
 
-    private async Task LoadSuppliers()
+    private async Task loadSuppliers()
     {
-        displayedItems = await supplierService.GetAllSupplier();
+        var result = await supplierService.GetAllSupplier();
+        if (result.IsSuccess)
+        {
+            displayedItems = result.Value.ToList();
+        }
         StateHasChanged();
     }
 
@@ -38,7 +42,7 @@ public partial class SupplierSelector
 
     private async Task OnSupplierSelected(SupplierInfo newSupplier)
     {
-        await LoadSuppliers();
+        await loadSuppliers();
         selectedSupplier = newSupplier;
         await OnSelected.InvokeAsync(newSupplier);
         StateHasChanged();

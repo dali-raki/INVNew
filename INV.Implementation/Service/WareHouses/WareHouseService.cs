@@ -5,16 +5,11 @@ using INV.Infrastructure.Storage.WareHouseStorages;
 
 namespace INV.Implementation.Service.WareHouses;
 
-public class WareHouseService : IWareHouseService
+public class WareHouseService(IWareHouseStorage wareHouseStorage) : IWareHouseService
 {
-    public readonly IWareHouseStorage wareHouseStorage;
 
-    public WareHouseService(IWareHouseStorage _wareHouseStorage)
-    {
-        wareHouseStorage = _wareHouseStorage;
-    }
 
-    public async ValueTask<List<WareHouse>> GetAllReceipts()
+    public async ValueTask<Result<List<WareHouse>>> GetAllReceipts()
     {
         try
         {

@@ -16,8 +16,10 @@ public class AppSupplierService : IAppSupplierService
     }
     public async ValueTask<SupplierDetail> GetSupplierDetail(Guid id)
     {
-        ISupplier supplier = await supplierService.GetSupplierByID(id);
-        var result = await purchaseOrderService.GetPurchaseOrdersByIdSupplier(supplier.Id);
+       
+        var supplierById= await supplierService.GetSupplierById(id);
+        ISupplier supplier =(supplierById.IsSuccess? supplierById.Value: null)!;
+        var purchaseOrders = await purchaseOrderService.GetPurchaseOrdersByIdSupplier(supplier.Id);
 
         return new SupplierDetail()
         {
@@ -34,7 +36,7 @@ public class AppSupplierService : IAppSupplierService
             NIF = supplier.NIF,
             BankAgency = supplier.BankAgency,
             State = supplier.State,
-           Purchases = result.IsSuccess?result.Value:new List<PurchaseOrderInfo>()
+           Purchases = purchaseOrders.Value
         };
     }
 }
