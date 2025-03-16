@@ -9,13 +9,15 @@
                             Data="@displayedItems"
                             Name="DropDownDataGridChangeEvent"
                             TextProperty="CompanyName"
-                            Change="@(args => selectRowSepplier((SupplierInfo)args))">
+                            Change="@(args => selectRowSepplier((SupplierInfo)args))"
+                            Responsive="true">
         <Columns>
             <RadzenDropDownDataGridColumn Property="CompanyName" Title="Company Name" />
             <RadzenDropDownDataGridColumn Property="Email" Title="Email" />
         </Columns>
     </RadzenDropDownDataGrid>
-    <RadzenButton Text="Create Supplier" Click="supplierForm.ShowModal" Style="margin-left: 1rem;" />
+    <RadzenButton Text="Supplier" Click="supplierForm.ShowModal" Style="margin-left: 1rem;" 
+                  Shade="Shade.Light" ButtonStyle="ButtonStyle.Base" Icon="note_add"/>
 
 </RadzenStack>
 <style>
@@ -24,5 +26,5 @@
         margin: 0 !important;
     }
 </style>
-@*OnSave=""*@
+
 <SupplierForm @ref="supplierForm" CreateButtonLabel="Create and select" OnSupplierCreated="OnSupplierSelected" />

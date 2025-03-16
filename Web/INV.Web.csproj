@@ -27,7 +27,7 @@
       <PackageReference Include="NumberToWordsArabic" Version="1.0.0" />
       <PackageReference Include="NumberToWordsConverter" Version="1.0.0" />
       <PackageReference Include="PuppeteerSharp" Version="20.1.0" />
-      <PackageReference Include="Radzen.Blazor" Version="6.1.1" />
+      <PackageReference Include="Radzen.Blazor" Version="6.2.7" />
       <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.1" />
     </ItemGroup>
 

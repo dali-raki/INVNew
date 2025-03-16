@@ -1,10 +1,8 @@
 ﻿@page "/purchases/create"
 @rendermode InteractiveServer
-@using BlazorBootstrap
+
 <PageTitle>Purchase Order</PageTitle>
-<div class="list-title">
-    <h4>New Purchase</h4>
-</div>
+<h4 class="list-title">New Purchase</h4>
 @if (showAlert)
 {
     <Alert Color="AlertColor.Warning">
@@ -14,25 +12,21 @@
 }
 
 <CascadingValue Value="purchaseModel">
-    <PurchaseHeader @ref="purchaseHeaderRef" />
+    <PurchaseHeader @ref="purchaseHeaderRef" OnCreate="create"/>
 </CascadingValue>
 
 <RadzenTabs RenderMode="TabRenderMode.Client">
     <Tabs>
         <RadzenTabsItem Text="economic operator">
             <CascadingValue Value="selectedSupplier">
-                <PurchaseSupplier OnSupplierSelected="@(supplier => selectedSupplier = supplier)" />
+                <PurchaseSupplier OnSupplierSelected="@(supplier => selectedSupplier = supplier)"/>
             </CascadingValue>
         </RadzenTabsItem>
 
         <RadzenTabsItem Text="Products Order">
             <CascadingValue Value="productModel">
-                <PurchaseProducts />
+                <PurchaseProducts/>
             </CascadingValue>
-            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-
-                <button @onclick="create" type="button" >Enregistre</button>
-            </div>
         </RadzenTabsItem>
     </Tabs>
 </RadzenTabs>

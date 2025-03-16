@@ -22,7 +22,7 @@ namespace INVUIs.Purchases.PurchaseModels
         public string selectedService { get; set; }
 
         [Required(ErrorMessage = "Delivery time is required.")]
-        [RegularExpression(@"^\d{1,10}$", ErrorMessage = "Invalid delivery time format.")]
+        [RegularExpression(@"^\d{1,9}$", ErrorMessage = "Invalid delivery time format.")]
         public string DeliveryTime { get; set; }
 
         public List<ProductModel> ProductModels { get; set; } = new();

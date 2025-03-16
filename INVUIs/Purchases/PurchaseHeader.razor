@@ -8,7 +8,7 @@
             <div>
                 <CommandInput Label="Select a Budget:">
                     <InputSelect @bind-Value="purchaseModel.selectedCategory">
-                        <option value="" selected disabled>Select a Budget</option>
+                        <option value="" selected disabled>--Select--</option>
                         <option value="1">Operating Expenses</option>
                         <option value="2">Equipment Expenses</option>
                         <option value="3">Other Expenses</option>
@@ -17,10 +17,10 @@
                 <CommandInput Label="Choose a Chapter:">
                     <InputSelect id="chapter" style="width: 6rem" @bind-Value="SelectedChapterCode"
                                  class="form-control valid">
-                        <option value="" selected>-- Select a Chapter --</option>
+                        <option value="" selected>--Select--</option>
                         @foreach (var chapter in chapters)
                         {
-                        <option value="@chapter.CodeChapter">@chapter.CodeChapter</option>
+                            <option value="@chapter.CodeChapter">@chapter.CodeChapter</option>
                         }
                     </InputSelect>
                     <InputText id="title" @bind-Value="purchaseModel.title_chapter" class="form-control valid"
@@ -33,10 +33,10 @@
                             <label for="article" style="width: 10rem">Choose an Article:</label>
                             <InputSelect id="article" style="width: 6rem" @bind-Value="SelectedArticleCode"
                                          class="form-control valid">
-                                <option value="" selected>-- Select an Article --</option>
+                                <option value="" selected>--Select--</option>
                                 @foreach (var article in articles)
                                 {
-                                <option value="@article.CodeArticle">@article.CodeArticle</option>
+                                    <option value="@article.CodeArticle">@article.CodeArticle</option>
                                 }
                             </InputSelect>
 
@@ -47,25 +47,25 @@
                 </div>
             </div>
             <div>
+                <CommandInput Label="Select a Service:">
+                    <InputSelect @bind-Value="purchaseModel.selectedService">
+                        <option value="" selected>--Select--</option>
+                        <option value="1">Works</option>
+                        <option value="2">Equipment</option>
+                        <option value="3">Services</option>
+                    </InputSelect>
+
+                </CommandInput>
                 <div class="commend-input">
                     <div class="label-input-group">
-                        <label>Select a Service:</label>
-                        <InputSelect @bind-Value="purchaseModel.selectedService">
-                            <option value="" selected disabled>Select a Service</option>
-                            <option value="1">Works</option>
-                            <option value="2">Equipment</option>
-                            <option value="3">Services</option>
-                        </InputSelect>
-
+                        <label for="productNumber" class="form-label" style="width: 7.5rem">Delivery Time :</label>
+                        <InputText @bind-Value="purchaseModel.DeliveryTime" style="width: 6rem"/>
+                        <label class="form-label">days</label>
                     </div>
-                    <div class="commend-input">
-                        <div class="label-input-group">
-                            <label for="productNumber" class="form-label" style="width: 10rem">Delivery Time :</label>
-                            <InputText @bind-Value="purchaseModel.DeliveryTime" style="width: 6rem"/>
-                            <label class="form-label">days</label>
-                        </div>
-                    </div>
-
+                </div>
+                <div style="display: flex; justify-content: flex-end; width: 100%">
+                    <RadzenButton Size="ButtonSize.Medium" Click="create" Text="Create"
+                                  Icon="add_circle" ButtonStyle="ButtonStyle.Primary"/>
                 </div>
             </div>
         </div>

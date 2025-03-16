@@ -12,14 +12,15 @@ namespace INVUIs.Purchases;
 public partial class PurchaseHeader : ComponentBase
 {
     [CascadingParameter] public PurchaseModel purchaseModel { get; set; } = new();
+    [Parameter] public EventCallback OnCreate { get; set; }
     [Parameter] public EventCallback<PurchaseModel> OnPurchaseOrder { get; set; }
     [Inject] private IBudgetService budgetService { get; set; }
     [Inject] private IJSRuntime jsRuntime { set; get; }
-    private MyAlert myAlert;
+    private MyAlert myAlert { set; get; }
+
     private int _selectedChapterCode;
     private int _selelctedArticleCode;
     private List<Article> articles = new();
-
     private List<Chapter> chapters = new();
     private Chapter chapter = new();
     private Article article = new();
@@ -55,9 +56,19 @@ public partial class PurchaseHeader : ComponentBase
         }
     }
 
-    protected override async Task OnInitializedAsync()
+    private async Task create()
+    {
+        await OnCreate.InvokeAsync();
+    }
+
+    protected override void OnInitialized()
     {
         myAlert = new MyAlert(jsRuntime);
+        base.OnInitialized();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
         var result = await budgetService.GetAllChapitres();
         if (result.IsSuccess)
         {

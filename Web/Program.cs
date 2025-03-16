@@ -20,7 +20,6 @@ using INV.Infrastructure.Storage.SupplierStorages;
 using INV.Infrastructure.Storage.WareHouseStorages;
 using INV.Web.Components;
 using INV.Web.Services.Suppliers;
-using INVUIs.Shared;
 using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,5 +56,6 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAntiforgery();
 app.MapStaticAssets();
-app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
+app.MapRazorComponents<App>().
+    AddInteractiveServerRenderMode();
 app.Run();
