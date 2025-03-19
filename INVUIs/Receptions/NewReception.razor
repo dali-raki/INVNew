@@ -5,49 +5,106 @@
     <ValidationSummary />
     @if (ReceiptInfo != null)
     {
-        <div class="details-container">
-            <div class="details-grid">
-                <div class="detail-item">
-                    <span class="detail-label">Purchase Number</span>
-                    <span class="detail-value number">@ReceiptInfo.purchaseNumber</span>
-                </div>
 
-                <div class="detail-item">
+        <RadzenCard class="mb-3">
+           
+            <RadzenRow>
+                <RadzenColumn Size="6">
+
+                    <p class="detail-label">Purchase Number</p>
+                    <p class="detail-value number">@ReceiptInfo.purchaseNumber</p>
+
+                    <p class="detail-label">Supplier Name</p>
+                    <p class="detail-value">@ReceiptInfo.supplierName</p>
+
+                    <p class="detail-label">Status</p>
+                    <p class="status-badge editing"> @ReceiptInfo.Status</p>
+
+
+                </RadzenColumn>
+                <RadzenColumn Size="6">
                     <span class="detail-label">Delivery Number</span>
                     <InputText @bind-Value="@ReceiptInfo.DeliveryNumber" class="date-input" disabled="@statusInput" />
-                    <ValidationMessage For="() => ReceiptInfo.DeliveryNumber" />
-                </div>
 
-                <div class="detail-item">
-                    <span class="detail-label">Supplier Name</span>
-                    <span class="detail-value">@ReceiptInfo.supplierName</span>
-                </div>
+                    <span class="detail-label">Delivery Number</span>
+                    <InputText @bind-Value="@ReceiptInfo.DeliveryNumber" class="date-input" disabled="@statusInput" />
 
-                <div class="detail-item">
-                    <span class="detail-label">Delivery Date</span>
-                    <InputDate @bind-Value="@ReceiptInfo.DeliveryDate" class="date-input" disabled="@statusInput" />
-                    <ValidationMessage For="() => ReceiptInfo.DeliveryDate" />
-                </div>
-
-
-                <div class="detail-item">
-                    <span class="detail-label">Status</span>
-                    <span class="status-badge editing"> @ReceiptInfo.Status</span>
-                </div>
-
-                <div class="detail-item">
                     <span class="detail-label">Documents</span>
                     <InputFile class="file-upload" disabled="@statusInput" />
-                </div>
 
-            </div>
-        </div>
+                </RadzenColumn>
+              
+           
+
+                </RadzenRow>
+
+            <RadzenRow>
+                <RadzenColumn Size="12">
+
+
+                    <div class="footer-form mb-2 mt-2" style="display: flex; flex-direction: row-reverse; justify-content: flex-start;">
+                        @if (ReceiptInfo.Status == ReceiptStatus.validated) { }
+                        else if (ReceiptInfo.Status == ReceiptStatus.editing)
+                        {
+                            @if (statusInput)
+                            {
+
+                                <button type="submit" class="btn-custom btn-submit" @onclick="Validate">validate</button>
+                                <button type="button" class="btn-custom btn-cancel" @onclick="StartEditing">Modifier</button>
+
+
+                            }
+                            else
+                            {
+                                <button type="button" class="btn-custom btn-submit" @onclick="SaveChanges">Register </button>
+                                <button type="button" class="btn-custom btn-cancel" @onclick="CancelEditing">Cancel</button>
+
+                            }
+                        }
+
+
+
+                    </div>
+
+                </RadzenColumn>
+       
+
+
+
+            </RadzenRow>
+
+
+
+        </RadzenCard>
     }
 
 
 
     @if (ReceiptInfo.ReceiptProducts != null)
     {
+        @* <div class="footer-form mb-2 mt-2"  style="display: flex; flex-direction: row-reverse;">
+            @if (ReceiptInfo.Status == ReceiptStatus.validated) { }
+            else if (ReceiptInfo.Status == ReceiptStatus.editing)
+            {
+                @if (statusInput)
+                {
+
+                    <button type="submit" class="btn-custom btn-submit" @onclick="Validate">Valider</button>
+                    <button type="button" class="btn-custom btn-cancel" @onclick="StartEditing">Modifier</button>
+
+
+                }
+                else
+                {
+                    <button type="button" class="btn-custom btn-submit" @onclick="SaveChanges">Enregistrer</button>
+                    <button type="button" class="btn-custom btn-cancel" @onclick="CancelEditing">Annuler</button>
+
+                }
+            } 
+
+
+
+        </div>*@
 
 
         <div class="Container-list">
@@ -71,32 +128,7 @@
             </RadzenDataGrid>
         </div>
 
-        <div class="footer-form" style="display: flex; flex-direction: row-reverse;">
-            @if (ReceiptInfo.Status == ReceiptStatus.validated) { }
-            else if (ReceiptInfo.Status == ReceiptStatus.editing)
-            {
-                @if (statusInput)
-                {
-
-                    <button type="submit" class="btn-custom btn-submit" @onclick="Validate">Valider</button>
-                    <button type="button" class="btn-custom btn-cancel" @onclick="StartEditing">Modifier</button>
-
-
-                }
-                else
-                {
-                    <button type="button" class="btn-custom btn-submit" @onclick="SaveChanges">Enregistrer</button>
-                    <button type="button" class="btn-custom btn-cancel" @onclick="CancelEditing">Annuler</button>
-
-                }
-            }
-
-
-
-
-
-
-        </div>
+       
     }
 </EditForm>
 <style>

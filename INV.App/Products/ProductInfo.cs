@@ -16,8 +16,7 @@ namespace INV.App.Products
         public decimal UnitPrice { get; set; }
         public int TVA { get; set; }
         public Guid DefaultWareHouseId { get; set; }
-        public int Rest { get; set; }
         public string WareHouse { get; set; }
-        public List<ReceiptInfo> ReceiptInfos { get; set; }
+        public List<ReceiptInfo> ReceiptInfos { get; set; } = new();
     }
 }

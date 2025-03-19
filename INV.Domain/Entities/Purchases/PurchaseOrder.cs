@@ -19,7 +19,7 @@ namespace INV.Domain.Entities.Purchases
         public DateOnly? VisaDate { set; get; }
 
         public string Observation { get; set; } = "";
-        public PurchaseStatus Status { set; get; }
+        public PurchaseStatus Status { set; get; } = PurchaseStatus.Editing;
 
         public List<PurchaseProduct> Products { get; set; } = new();
     }

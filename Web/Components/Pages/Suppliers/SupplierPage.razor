@@ -6,21 +6,31 @@
 
 @if (supplier is not null)
 {
-    
-    <PageHeader Title=@supplier.CompanyName  SubTitle=@supplier.Address/>
+    <PageHeader Title="Supplier Profile" />
 
     <div class="content-profile">
-        <div class="container-info-supplier ">
-            <SupplierCard Supplier="supplier" />
-            <div style="display:flex; justify-content:end" class="m-2">
-                <button class="btn-custom btn-submit" type="button" @onclick="editSupplier"><i class="bi bi-pen"></i>Edit</button>
-            </div>
+        <div style="width:100%" class="mb-3">
+            
+            <SupplierCard Supplier="supplier">
+
+                <Pills>
+
+                    <div style="display: flex; justify-content: flex-end;">
+                        <button class="btn-custom btn-submit" type="button" @onclick="editSupplier">
+                            <i class="bi bi-pen"></i> Edit
+                        </button>
+                    </div>
+
+                </Pills>
+
+            </SupplierCard>
+           
            
 
         </div>
 
         <div class="container-work-supplier">
-            <Tabs EnableFadeEffect="true" NavStyle="NavStyle.Pills">
+            <Tabs>
                 <Tab Title="Purchases" IsActive="true">
                     <Content>
                         <PurchaseList purchaseOrderInfos="purchases" ShowSupplier="false" />
@@ -30,12 +40,13 @@
                 {
                     <Tab Title="Reseption">
                         <Content>
-                            <ReceptionList Receptions="receptions" />
+                            <ReceptionList Receptions="receptions" ShowSupplier="false" ShowPurchase="false" />
                         </Content>
                     </Tab>
                 }
               
             </Tabs>
+
         </div>
     </div>
 }

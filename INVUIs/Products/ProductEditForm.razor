@@ -6,32 +6,41 @@
 {
 	<Modal Titel="Edit Product">
 		<Pills>
-			<EditForm Model="product" OnValidSubmit="Update">
-				<div class="titel-secondary">
-					<h4>@product.Designation</h4>
-				</div>
-				<div class="info-box">
-					<label>Quantity</label>
-					<InputNumber @bind-Value=@product.Quantity/>
-				</div>
 
-				<div class="info-box">
-					<label>UnitPrice</label>
-					<InputNumber @bind-Value=@product.UnitPrice />
-				</div>
+			<RadzenTemplateForm TItem="ProductModel" Data="@selectedProductModel" Submit="@SaveEditedProduct">
+				<RadzenStack Gap="1rem">
+					<RadzenRow Style="display: flex; align-items: center;">
+						<RadzenColumn Size="12" Style="text-align: left;">
+							<RadzenLabel Text="@selectedProductModel.Designation"
+							Style="font-size: 25px; font-weight: bold; color: #257180FF; display: block;" />
+						</RadzenColumn>
+					</RadzenRow>
+					<RadzenRow>
+						<RadzenColumn Size="4">
+							<RadzenLabel Text="Quantity" Style="font-size: 14px;" />
+							<RadzenNumeric TValue="int" @bind-Value="selectedProductModel.Quantity" Min="1" Style="width: 100%; font-size: 14px;" />
+						</RadzenColumn>
+						<RadzenColumn Size="6">
+							<RadzenLabel Text="Unit Price" Style="font-size: 14px;" />
+							<RadzenNumeric TValue="decimal" @bind-Value="selectedProductModel.UnitPrice" Min="1" Style="width: 100%; font-size: 14px;" />
+						</RadzenColumn>
+					</RadzenRow>
+					<RadzenRow Style="display: flex; justify-content: flex-end;">
+						<RadzenColumn Size="8" Style="text-align: right;">
+							<RadzenButton Text="Save" ButtonStyle="ButtonStyle.Success" ButtonType="ButtonType.Submit" Style="margin-left: 1rem; font-size: 14px;" />
+							<RadzenButton Text="Cancel" ButtonStyle="ButtonStyle.Danger" ButtonType="ButtonType.Button" Click="@CloseEditPopup" Style="font-size: 14px;" />
+						</RadzenColumn>
+					</RadzenRow>
+				</RadzenStack>
+			</RadzenTemplateForm>
 
-
-				<div class="footer-form mt-4">
-					<button type="button" class="btn-custom btn-cancel" @onclick="hide">No</button>
-					<button type="submit" class="btn-custom btn-submit">Yes</button>
-
-				</div>
-			</EditForm>
 		</Pills>
 	</Modal>
 }
 @code{
 	[Parameter] public PurchaseProductInfo product { get; set; }
+	[Parameter] public ProductModel selectedProductModel { get; set; }
+	[Parameter] public EventCallback<ProductModel> productEdit  { get; set; }
 	[Inject] public IPurchaseOrderService purchaseOrderService { get; set; }
 	public bool display = false;
 	private PurchaseProduct editproduct;
@@ -40,27 +49,39 @@
 		display = true;
 		StateHasChanged();
 	}
-	public void hide()
+	public void CloseEditPopup()
 	{
 		display = false;
 		StateHasChanged();
 	}
 
 
-	public async Task Update()
+	public async Task SaveEditedProduct(ProductModel product)
 	{
 
-		editproduct = new PurchaseProduct
-			{
-				ProductId = product.ProductId,
-				PurchaseOrderId = product.PurchaseId,
-				Quantity = product.Quantity,
-				UnitPrice = product.UnitPrice,
+		if(product.IDPurchaseOrder != Guid.Empty){
+			editproduct = new PurchaseProduct
+				{
+					ProductId = product.ID,
+					PurchaseOrderId = product.IDPurchaseOrder!,
+					Quantity = product.Quantity,
+					UnitPrice = product.UnitPrice,
 
-			};
+				};
+			await purchaseOrderService.UpdatePurchaseProduct(editproduct);
+		}
+		else{
 
-		await purchaseOrderService.UpdatePurchaseProduct(editproduct);
-		hide();
+			product.Quantity = selectedProductModel.Quantity;
+			product.UnitPrice = selectedProductModel.UnitPrice;
+			product.TotalPrice = product.Quantity * product.UnitPrice;
+
+		}
+
+		await productEdit.InvokeAsync(product);
+
+		CloseEditPopup();
+		
 	}
 
 }

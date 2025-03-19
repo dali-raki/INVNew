@@ -13,14 +13,18 @@ public partial class PurchaseCard
 
     public void visa(PurchaseOrder purchaseInfo)
     {
-        purchaseInfo.Status = PurchaseStatus.Visi;
+        displayVisa = false;
+        purchaseInfo.Status = PurchaseStatus.Vised;
         purchaseOrderService.UpdatePurchaseOrder(purchaseInfo);
+        StateHasChanged();
     }
 
     public void reject(PurchaseOrder purchaseInfo)
     {
+        displayReject = false;
         purchaseInfo.Status = PurchaseStatus.Reject;
         purchaseOrderService.UpdatePurchaseOrder(purchaseInfo);
+        StateHasChanged();
     }
 
     public void ShowVisa()
@@ -39,6 +43,9 @@ public partial class PurchaseCard
 
     public void Showreject()
     {
+        purchaseInfo.VisaDate = null;
+        purchaseInfo.VisaNumber = null;
+        purchaseInfo.Observation = null;
         displayReject = true;
         StateHasChanged();
     }

@@ -13,7 +13,7 @@ namespace INVUIs.Components.Status
         {
             return status switch
             {
-                PurchaseStatus.Visi => "status-completed",
+                PurchaseStatus.Vised => "status-completed",
                 PurchaseStatus.Editing => "status-in-progress",
                 PurchaseStatus.Reject => "status-pending",
                 _ => string.Empty
@@ -24,7 +24,7 @@ namespace INVUIs.Components.Status
         {
             return status switch
             {
-                PurchaseStatus.Visi => "bi bi-check-circle", // Font Awesome icon for completed
+                PurchaseStatus.Vised => "bi bi-check-circle", // Font Awesome icon for completed
                 PurchaseStatus.Editing => "bi bi-clock", // Font Awesome spinning icon
                 PurchaseStatus.Reject => "bi bi-exclamation-circle", // Font Awesome clock icon
                 _ => "fas fa-question-circle"

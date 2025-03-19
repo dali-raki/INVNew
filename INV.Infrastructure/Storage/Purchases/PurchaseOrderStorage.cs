@@ -256,7 +256,7 @@ namespace INV.Infrastructure.Storage.Purchases
             cmd.Parameters.AddWithValue("@aId", purchaseOrder.Id);
             cmd.Parameters.AddWithValue("@aVisaNumber", purchaseOrder.VisaNumber);
             cmd.Parameters.AddWithValue("@aVisaDate", purchaseOrder.VisaDate);
-            cmd.Parameters.AddWithValue("@aStatus", PurchaseStatus.Visi.ToString());
+            cmd.Parameters.AddWithValue("@aStatus", PurchaseStatus.Vised.ToString());
             return await cmd.ExecuteNonQueryAsync();
         }
 
@@ -315,12 +315,12 @@ namespace INV.Infrastructure.Storage.Purchases
 
         //new
 
-        public async ValueTask<int> DeletePurchaseProduct(PurchaseProduct purchaseProduct)
+        public async ValueTask<int> DeletePurchaseProduct(Guid productId, Guid purchaseId)
         {
             using var sqlConnection = new SqlConnection(_connectionString);
             var cmd = new SqlCommand(deletePurchaseProductCommand, sqlConnection);
-            cmd.Parameters.AddWithValue("@aPurchaseId", purchaseProduct.PurchaseOrderId);
-            cmd.Parameters.AddWithValue("@aProductId", purchaseProduct.ProductId);
+            cmd.Parameters.AddWithValue("@aPurchaseId", purchaseId);
+            cmd.Parameters.AddWithValue("@aProductId", productId);
             await sqlConnection.OpenAsync();
             return await cmd.ExecuteNonQueryAsync();
         }

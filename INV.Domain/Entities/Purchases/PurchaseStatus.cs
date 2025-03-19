@@ -4,6 +4,6 @@
     {
         Reject = -1,
         Editing = 0,
-        Visi = 1
+        Vised = 1
     }
 }

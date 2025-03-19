@@ -4,40 +4,48 @@
 @using INVUIs.Products.ProductsModel
 @if (products != null)
 {
-    <div class="Container-list">
+    @* <div class="Container-list">
         <RadzenDataGrid Data="@products" AllowSorting="true" AllowFiltering="true"
         Style="width: 100%;">
             <Columns>
 
-                <RadzenDataGridColumn Property="@nameof(ProductModel.Designation)" Title="Designation" />
-                <RadzenDataGridColumn Property="@nameof(ProductModel.Quantity)" Title="Quantity" />
-                <RadzenDataGridColumn Property="@nameof(ProductModel.UnitPrice)" Title="UnitPrice" />
-                <RadzenDataGridColumn Property="@nameof(ProductModel.TVA)" Title="TVA" />
-                <RadzenDataGridColumn Property="@nameof(ProductModel.Received)" Title="Received" />
-                <RadzenDataGridColumn Property="@nameof(ProductModel.Quantity)" Title="Totale" />
-                <RadzenDataGridColumn Property="TotalPrice" Title="Total" Width="18%">
-                    <Template Context="product">
-                        @((product.UnitPrice * product.Quantity).ToString("N"))
-                    </Template>
+                <RadzenDataGridColumn Property="@nameof(ProductModel.Designation)" Title="Designation" Width="20%">
+                    <FooterTemplate>
+                        <div style="width:100%; display: flex; justify-content: flex-end; align-items:flex-start;">
+                            <strong>Price Total:@products.Sum(p => p.UnitPrice * p.Quantity).ToString("N") DA</strong>
+                        </div>
 
+                    </FooterTemplate>
                 </RadzenDataGridColumn>
+                <RadzenDataGridColumn Property="@nameof(ProductModel.Quantity)" Title="Quantity" Width="10%" />
+                <RadzenDataGridColumn Property="@nameof(ProductModel.UnitPrice)" Title="UnitPrice" Width="10%" />
+                <RadzenDataGridColumn Property="@nameof(ProductModel.TVA)" Title="TVA" Width="10%" />
+                <RadzenDataGridColumn Property="@nameof(ProductModel.Received)" Title="Received" Width="10%">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn Property="@nameof(ProductModel.Quantity)" Title="Totale" Width="10%" />
+                  
                   @if (PurchaseStatus == PurchaseStatus.Editing)
                 {
-                <RadzenDataGridColumn Title="">
+                <RadzenDataGridColumn Width="15%" >
                     <Template Context="product">
                         <button class="btn-submit" @onclick="() => EditProduct(product)">Edit </button>
                         <button class="btn-delete" @onclick="DeleteProduct">Delete </button>
                     </Template>
+                        
                 </RadzenDataGridColumn>
                    }
-
+             
+                    
+              
             </Columns>
+           
         </RadzenDataGrid>
     </div>
 
     <ProductEditForm product="product" @ref="productEditForm" />
-    <ConformationForm @ref="conformationForm" product="product" OnConfirm="OnConfirmDelete" />
+    <ConformationForm @ref="conformationForm" product="product" OnConfirm="OnConfirmDelete" /> *@
 
+ 
 }
 else
 {

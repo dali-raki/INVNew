@@ -1,12 +1,18 @@
-﻿@using INVUIs.Products.ProductsModel
+﻿@using INV.Domain.Entities.Purchases
+@using INVUIs.Products.ProductsModel
 @rendermode InteractiveServer
 <CascadingValue Value="products">
 
     <RadzenDataGrid @ref="grid" TItem="ProductModel" Data="@products" AllowVirtualization="true" Style="height:370px"
                     GridLines="DataGridGridLines.Horizontal">
         <Columns>
-            <RadzenDataGridColumn Property="Number" Title="N°" Width="7%"/>
-            <RadzenDataGridColumn Property="Designation" Title="Designation" Width="34%">
+            <RadzenDataGridColumn Property="Number" Title="N°" Width="7%">
+                <Template Context="product">
+                    @(products.IndexOf(product) + 1)
+                </Template>
+
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn Property="Designation" Title="Designation" Width="34%" Visible="@(StatusButton(PurchaseInfo))">
                 <FooterTemplate>
                     <div style="width: 100%; display: flex; justify-content: flex-start; align-items: center;">
                         <RadzenButton Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Success" Icon="add_circle" Text="Add Product" Click="() => productSelector.ShowModal()"/>
@@ -31,13 +37,15 @@
                     </div>
                 </FooterTemplate>
             </RadzenDataGridColumn>
-            <RadzenDataGridColumn Title="" Width="15%">
+             
+            <RadzenDataGridColumn Title="" Width="15%" Visible="@(StatusButton(PurchaseInfo))">
                 <Template Context="product">
                     <RadzenButton ButtonStyle="ButtonStyle.Success" Click="() => EditProduct(product)" Icon="offline_pin"></RadzenButton>
                     <RadzenButton ButtonStyle="ButtonStyle.Danger" Click="() => DeleteProduct(product)" Icon="highlight_off"></RadzenButton>
                 </Template>
             </RadzenDataGridColumn>
         </Columns>
+
     </RadzenDataGrid>
 
 </CascadingValue>
@@ -46,7 +54,7 @@
 
 @if (showEditPopup)
 {
-    <div class="popup">
+    @* <div class="popup">
         <div class="popup-content">
             <RadzenTemplateForm TItem="ProductModel" Data="@selectedProductModel" Submit="@SaveEditedProduct">
                 <RadzenStack Gap="1rem">
@@ -75,5 +83,9 @@
                 </RadzenStack>
             </RadzenTemplateForm>
         </div>
-    </div>
+    </div> *@
+
+    
 }
+
+<ProductEditForm @ref="productEditForm" selectedProductModel="selectedProductModel" productEdit="loadtab"/>

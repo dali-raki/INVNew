@@ -3,18 +3,21 @@
 @rendermode InteractiveServer
 
 <PageTitle>Purchase Order</PageTitle>
+<PageHeader Title="Purchase Details" SubTitle="Review and manage purchase order details" />
+<div class="mb-3">
+    <PurchaseCard purchaseInfo="purchaseOrder" />
+</div>
 
-<PurchaseCard purchaseInfo="purchaseOrder" />
 
 
 
 <Tabs>
     <Tab Title="Products" Active="true">
         <Content>
-            <PurchaseProductsDetail products="products" />
+            <PurchaseProducts ProductList="products" PurchaseInfo="purchaseOrder" />
         </Content>
     </Tab>
-    @if (purchaseOrder.Status == PurchaseStatus.Visi && receptionsListByPurchase.Count >0)
+    @if (purchaseOrder.Status == PurchaseStatus.Vised && receptionsListByPurchase.Count > 0)
     {
         <Tab Title="Receipts">
         <Content>

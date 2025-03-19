@@ -1,26 +1,35 @@
-﻿@using INV.Domain.Entities.Purchases
+﻿@using INV.Domain.Entities.Budget
+@using INV.Domain.Entities.Purchases
+
 <div class="info-box">
     <div class="info-box-icon">
-        @if (string.IsNullOrWhiteSpace(IconClass) == false)
+        @if (!string.IsNullOrWhiteSpace(IconClass))
         {
-            <i class=@IconClass></i>
+            <i class="@IconClass"></i>
         }
-        @Label
     </div>
-    <label> @Value</label>
-    @*
-    <div class="info-box-text">@Number</div>
-*@
+
+    <label>@Label: @GetDisplayValue()</label>
 </div>
 
 @code {
     [Parameter] public string Label { get; set; }
-    [Parameter] public int Number { get; set; }
+    [Parameter] public int? Number { get; set; }
     [Parameter] public string IconClass { get; set; } = String.Empty;
     [Parameter] public string Value { get; set; }
-    [Parameter] public DateOnly Date { get; set; }
+    [Parameter] public DateOnly? Date { get; set; }
+    [Parameter] public PurchaseStatus? Status { get; set; }
+    [Parameter] public ServiceType? ServiceType { get; set; }
+    [Parameter] public BudgeType? BudgeType { get; set; }
 
-
-    [Parameter] public PurchaseStatus Status { get; set; }
-
+    private string GetDisplayValue()
+    {
+        if (!string.IsNullOrEmpty(Value)) return Value;
+        if (Number.HasValue) return Number.Value.ToString();
+        if (Date.HasValue) return Date.Value.ToString("dd/MM/yyyy");
+        if (Status.HasValue) return Status.ToString();
+        if (ServiceType.HasValue) return ServiceType.ToString();
+        if (BudgeType.HasValue) return BudgeType.ToString();
+        return "N/A"; // Default value if nothing is set
+    }
 }

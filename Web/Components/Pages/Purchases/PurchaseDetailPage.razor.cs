@@ -18,7 +18,7 @@ namespace INV.Web.Components.Pages.Purchases
 
         public PurchaseOrder purchaseOrder = new PurchaseOrder();
 
-        public List<PurchaseProductInfo> products;
+        public List<ProductModel> products = new List<ProductModel>();
 
         public List<Receipt> receptionsListByPurchase;
 
@@ -32,9 +32,18 @@ namespace INV.Web.Components.Pages.Purchases
             var resultToproduct = await purchaseOrderService.GetProductsByPurchaseId(Id);
             if (resultToproduct.IsSuccess)
             {
-                products = resultToproduct.Value;
+                products = resultToproduct.Value.Select(s => new ProductModel()
+                {
+                    IDPurchaseOrder = s.PurchaseId,
+                    ID = s.ProductId,
+                    Designation = s.Designation,
+                    Quantity = s.Quantity,
+                    UnitPrice = s.UnitPrice,
+                    TVA = s.TVA,
+                    UnitMeasure = "U"
+                }).ToList();
             }
-            var receiptsByPurchase=await receiptService.GetReceiptsByPurchaseIdWhenStatus(purchaseOrder.Id);
+            var receiptsByPurchase = await receiptService.GetReceiptsByPurchaseIdWhenStatus(purchaseOrder.Id);
             if (receiptsByPurchase.IsSuccess)
             {
                 receptionsListByPurchase = receiptsByPurchase.Value.ToList();

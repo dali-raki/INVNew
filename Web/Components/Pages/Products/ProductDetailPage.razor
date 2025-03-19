@@ -1,24 +1,19 @@
-﻿@page "/productDetail/{productId:guid}"
+﻿@page "/products/{productId:guid}"
 @using INV.App.Products
 @using INV.App.Receipts
 
 @inject IProductService ProductService
 
-
-<Header>
-    <h3>@(product?.Designation ?? "Product Detail")</h3>
-</Header>
+<PageHeader Title="Detailed Product Information" />
 
 @if (product != null)
 {
     <RadzenCard>
+        <h3>@product.Designation</h3>
         <RadzenRow>
             <RadzenColumn Size="6">
                 <p>
                     <strong>Quantité :</strong> @product.Quantity
-                </p>
-                <p>
-                    <strong>Rest a livree :</strong> @product.Rest
                 </p>
                 <p>
                     <strong>Prix unitaire :</strong> @product.UnitPrice.ToString("N")
@@ -37,27 +32,23 @@
         </RadzenRow>
     </RadzenCard>
 }
-@if (product.ReceiptInfos != null && product.ReceiptInfos.Count==0 && product.ReceiptInfos.Any())
-{
+@* @if (product.ReceiptInfos != null &&  product.ReceiptInfos.Any())
+{ *@
     <RadzenTabs>
         <Tabs>
             <RadzenTabsItem Text="Réceptions">
                 <RadzenDataGrid Data="@product.ReceiptInfos" TItem="ReceiptInfo">
                     <Columns>
-                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="Number" Title="Numéro"/>
-                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="Date" Title="Date de réception"/>
+                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="Number" Title="Number" />
+                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="supplierName" Title="supplierName" />
+                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="Date" Title="Date Of Reception"/>
                         <RadzenDataGridColumn TItem="ReceiptInfo" Property="DeliveryNumber" Title="Delivery Number"/>
-                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="DeliveryDate" Title="DeliveryDate"/>
-                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="Status" Title="Statut"/>
+                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="DeliveryDate" Title="Delivery Date"/>
+                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="Status" Title="Status" />
                     </Columns>
                 </RadzenDataGrid>
             </RadzenTabsItem>
         </Tabs>
     </RadzenTabs>
-}
+@* } *@
 
-@*else
-    {
-        
-        <p>Load Data</p>
-    }*@

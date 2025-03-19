@@ -6,6 +6,7 @@ namespace INV.Web.Components.Pages.Products;
 public partial class ProductDetailPage
 {
     [Parameter] public Guid ProductId { get; set; }
+
     private ProductInfo? product;
 
     protected override async Task OnInitializedAsync()

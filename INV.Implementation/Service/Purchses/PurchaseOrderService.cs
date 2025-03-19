@@ -96,6 +96,20 @@ namespace INV.Implementation.Service.Purchses
             }
         }
 
+        public async ValueTask<Result> CreateProductPurchase(PurchaseProduct purchaseProduct)
+        {
+            try
+            {
+                await purchaseOrderStorage.InsertProductPurchase(purchaseProduct);
+
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                return Error.Exception(ex);
+            }
+        }
+
         public async ValueTask<Result<List<PurchaseOrderInfo>>> GetPurchasesForReceiptCreation()
         {
             try
@@ -122,12 +136,11 @@ namespace INV.Implementation.Service.Purchses
             }
         }
 
-
-        public async ValueTask<Result> RemovePurchaseProduct(PurchaseProduct purchaseProduct)
+        public async ValueTask<Result> RemovePurchaseProduct(Guid productId, Guid purchaseId)
         {
             try
             {
-                await purchaseOrderStorage.DeletePurchaseProduct(purchaseProduct);
+                await purchaseOrderStorage.DeletePurchaseProduct(productId, purchaseId);
                 return Result.Success();
             }
             catch (Exception e)

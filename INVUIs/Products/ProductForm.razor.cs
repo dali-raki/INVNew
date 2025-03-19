@@ -33,7 +33,8 @@ public partial class ProductForm : ComponentBase
             Designation = newProduct.Designation,
             TVA = newProduct.TVA,
             UnitPrice = 0,
-            Quantity = 0
+            Quantity = 0,
+            DefaultWareHouseId= Guid.Parse("CF234288-B792-4FDA-BDFC-4D9AF018CA41")
         };
 
         result = await productService.CreateProduct(product);

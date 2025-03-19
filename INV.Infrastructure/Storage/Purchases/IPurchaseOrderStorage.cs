@@ -27,7 +27,7 @@ namespace INV.Infrastructure.Storage.Purchases
         ValueTask<List<PurchaseProductInfo>> SelectProductsByPurchaseId(Guid purchaseId); //DR
 
         //new
-        ValueTask<int> DeletePurchaseProduct(PurchaseProduct purchaseProduct);
+        ValueTask<int> DeletePurchaseProduct(Guid productId, Guid purchaseId);
 
         ValueTask<int> SetPurchaseOrder(PurchaseOrder purchaseOrder);
 

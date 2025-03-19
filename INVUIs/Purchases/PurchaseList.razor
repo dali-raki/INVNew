@@ -15,8 +15,9 @@
 else
 {
     <div class="Container-list">
-        <RadzenDataGrid Data="@purchaseOrderInfos" AllowSorting="true" AllowFiltering="true"
-                        Style="width: 100%;" RowSelect="@((PurchaseOrderInfo purchaseOrderInfo) => navigatepage(purchaseOrderInfo.Id))">
+        <RadzenDataGrid Data="@purchaseOrderInfos.OrderByDescending(p => p.Date)" AllowSorting="true" AllowFiltering="true"
+                        Style="width: 100%;" RowSelect="@((PurchaseOrderInfo purchaseOrderInfo) => navigatepage(purchaseOrderInfo.Id))"
+                        PageSize="8" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
             <Columns>
 
                 <RadzenDataGridColumn Property="@nameof(PurchaseOrderInfo.Status)" Title="Status" />
@@ -24,9 +25,8 @@ else
                 <RadzenDataGridColumn Property="@nameof(PurchaseOrderInfo.Date)" Title="Date" />
                 @if (ShowSupplier){
                     <RadzenDataGridColumn Property="@nameof(PurchaseOrderInfo.SupplierName)" Title="Supplier Name" />
+               
                 }
-                <RadzenDataGridColumn Property="@nameof(PurchaseOrderInfo.Status)" Title="Date" />
-                <RadzenDataGridColumn Property="@nameof(PurchaseOrderInfo.Status)" Title="Date" />
             </Columns>
         </RadzenDataGrid>
     </div>

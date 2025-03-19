@@ -175,7 +175,7 @@ namespace INV.Implementation.Service.Receipts
             }
             catch (Exception ex)
             {
-                 return Error.Exception(ex);
+                return Error.Exception(ex);
             }
         }
 
@@ -192,7 +192,6 @@ namespace INV.Implementation.Service.Receipts
                 return Error.Exception(ex);
             }
         }
-
 
         public async ValueTask<Result<List<ReceiptInfo>>> GetReceiptsBySupplierId(Guid supplierId)
         {

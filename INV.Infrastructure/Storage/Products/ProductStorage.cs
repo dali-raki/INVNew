@@ -18,8 +18,8 @@ namespace INV.Infrastructure.Storage.Products
         }
 
         private const string insertProductCommand = @"
-            INSERT INTO [dbo].[PRODUCTS] ( Id, Designation,UnitMeasure,Quantity, UnitPrice, TVA)
-            VALUES (@aId, @aDesignation,@aUnitMeasure, @aQuantity, @aUnitPrice, @aTVA)";
+            INSERT INTO [dbo].[PRODUCTS] ( Id, Designation,UnitMeasure,Quantity, UnitPrice, TVA,DefaultWareHouseId)
+            VALUES (@aId, @aDesignation,@aUnitMeasure, @aQuantity, @aUnitPrice, @aTVA, @aDefaultWareHouseId)";
 
         private const string updateProductCommand = @"
             UPDATE [dbo].[PRODUCTS] SET Designation = @aDesignation, UnitMeasure = @aUnitMeasure,Quantity = @aQuantity,
@@ -59,6 +59,7 @@ namespace INV.Infrastructure.Storage.Products
             cmd.Parameters.AddWithValue("@aQuantity", product.Quantity);
             cmd.Parameters.AddWithValue("@aUnitPrice", product.UnitPrice);
             cmd.Parameters.AddWithValue("@aTVA", product.TVA);
+            cmd.Parameters.AddWithValue("@aDefaultWareHouseId", product.DefaultWareHouseId);
             return await cmd.ExecuteNonQueryAsync();
         }
 
@@ -116,7 +117,7 @@ namespace INV.Infrastructure.Storage.Products
             return count > 0;
         }
 
-        public async ValueTask<ProductInfo> GetProductById(Guid productId)
+        public async ValueTask<ProductInfo> GetProductById(Guid productId, bool getReceipts = true)
         {
             using var sqlConnection = new SqlConnection(_connectionString);
             await sqlConnection.OpenAsync();
@@ -126,12 +127,13 @@ namespace INV.Infrastructure.Storage.Products
                 CommandType = CommandType.StoredProcedure
             };
             cmd.Parameters.AddWithValue("@ProductId", productId);
+            cmd.Parameters.AddWithValue("@aGetRecepits", getReceipts ? 1 : 0);
 
             var dataSet = new DataSet();
             using var adapter = new SqlDataAdapter(cmd);
             adapter.Fill(dataSet);
 
-            if (dataSet.Tables.Count == 0 || dataSet.Tables[0].Rows.Count == 0)
+            if (dataSet.Tables[0].Rows.Count == 0)
                 return null; // Aucun produit trouvé
 
             // Mapping du produit
@@ -145,13 +147,11 @@ namespace INV.Infrastructure.Storage.Products
                 UnitPrice = Convert.ToDecimal(productRow["UnitPrice"]),
                 TVA = Convert.ToInt32(productRow["TVA"]),
                 DefaultWareHouseId = (Guid)productRow["DefaultWareHouseID"],
-                Rest = Convert.ToInt32(productRow["Rest"]),
-                WareHouse = productRow["WareHouse"].ToString(),
-                ReceiptInfos = new List<ReceiptInfo>()
+                WareHouse = productRow["WareHouse"].ToString()
             };
 
             // Mapping des réceptions
-            if (dataSet.Tables.Count > 1)
+            if (getReceipts)
             {
                 foreach (DataRow row in dataSet.Tables[1].Rows)
                 {

@@ -24,7 +24,7 @@ else
             <Columns>
                 <RadzenDataGridColumn Property="@nameof(Product.Designation)" Title="Designation" Width="300px" />
                 <RadzenDataGridColumn Property="@nameof(Product.Quantity)" Title="Quantity" Width="100px" />
-                <RadzenDataGridColumn Property="@nameof(Product.UnitMeasure)" Title="Unit Measure" Width="48px" Sortable="false" Filterable="false" />
+                <RadzenDataGridColumn Property="@nameof(Product.UnitMeasure)" Title="U.M" Width="48px" Sortable="false" Filterable="false" />
                 <RadzenDataGridColumn Property="@nameof(Product.DefaultWareHouseId)" Title="WareHouse" Width="200px" />
 
                 <RadzenDataGridColumn Title="Actions" Sortable="false" Filterable="false" Width="100px">
@@ -45,3 +45,7 @@ else
     </div>
 }
 <ProductForm @ref="productForm" OnProductCreated="async (product) => { Products.Add(product); await grid.Reload(); StateHasChanged(); }"/>
+
+<ProductEditForm @ref="productEditForm" selectedProductModel="newProduct" /> 
+
+                                  @*     <ProductForm></ProductForm> *@

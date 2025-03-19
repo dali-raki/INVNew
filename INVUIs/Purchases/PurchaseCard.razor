@@ -1,95 +1,7 @@
 ﻿@using INV.App.Purchases
 @using INV.Domain.Entities.Purchases
 @using INVUIs.Shared
-<div class="container-supplier">
-    <div class="content-info-suplier">
-        <div class="info-box pos-titel-info-supplier">
-            
-            <div class="info-boxs-show" style="width:100%">
 
-                <div class="info-box-part1" style="width:100%">
-                    @if (purchaseInfo.VisaDate == null && purchaseInfo.VisaNumber == null)
-                    {
-                        <div style="display:flex;justify-content:end">
-                            <button @onclick="Showreject" class="btn-custom btn-delete">Reject</button>
-                            <button @onclick="ShowVisa" class="btn-custom btn-submit">Visa</button>
-
-                        </div>
-                    }
-
-
-                    <div class="purchase-container d-f justify-content:center">
-                        <div style="text-align:center;width:100%;">
-                            <h2>Purchase Details</h2>
-                        </div>
-
-                        <div class="purchase-container">
-                            <div class="purchase-info">
-
-                                <div class="purchase-info-part1">
-                                    <div class="purchase-item">
-                                        <strong>Status:</strong> <span>@purchaseInfo.Status</span>
-                                    </div>
-                                    <div class="purchase-item">
-                                        <strong>Number:</strong> <span>@purchaseInfo.Number</span>
-                                    </div>
-                                    <div class="purchase-item">
-                                        <strong>Date:</strong> <span>@purchaseInfo.Date.ToShortDateString()</span>
-                                    </div>
-                                    <div class="purchase-item">
-                                        <strong>Service Type:</strong> <span>@purchaseInfo.ServiceType</span>
-                                    </div>
-                                    <div class="purchase-item">
-                                        <strong>Budget Type:</strong> <span>@purchaseInfo.BudgeType</span>
-                                    </div>
-                                </div>
-
-                                <div class="purchase-info-part2">
-                                    <div class="purchase-item">
-                                        <strong>Budget Article:</strong> <span>@purchaseInfo.BudgeArticle</span>
-                                    </div>
-                                    <div class="purchase-item">
-                                        <strong>Completion Delay:</strong> <span>@purchaseInfo.CompletionDelay days</span>
-                                    </div>
-                                    @*<div class="purchase-item">
-                                        <strong>Total (HT):</strong> <span>@purchaseInfo.TotalHT.ToString("DA")</span>
-                                    </div>
-                                    <div class="purchase-item">
-                                        <strong>Total TVA:</strong> <span>@purchaseInfo.TotalTVA.ToString("DA")</span>
-                                    </div>
-                                    <div class="purchase-item">
-                                        <strong>Total (TTC):</strong> <span>@purchaseInfo.TotalTTC.ToString("DA")</span>
-                                    </div>*@
-
-
-                                </div>
-                            </div>
-
-                            <div class="purchase-visa ">
-                                @if (purchaseInfo.VisaDate != null && purchaseInfo.VisaNumber != null)
-                                {
-                                    <div class="purchase-item">
-                                        <strong>Visa Number:</strong> <span>@purchaseInfo.VisaNumber</span>
-                                    </div>
-                                    <div class="purchase-item">
-                                        <strong>Visa Date:</strong> <span>@purchaseInfo.VisaDate</span>
-                                    </div>
-                                }
-                                <div/>
-
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-
-    </div>
-</div>
 
 @if (displayVisa)
 {
@@ -121,6 +33,62 @@
         </div>
     </div>
 }
+
+<RadzenCard>
+    <RadzenRow>
+        <RadzenColumn Size="9">
+            <LabledValue Label="Number" Value="@purchaseInfo.Number" />
+        
+        </RadzenColumn>
+        <RadzenColumn Size="3">
+             @if (purchaseInfo.Status == PurchaseStatus.Editing)
+    {
+            <div style="display:flex;justify-content:end">
+                <button @onclick="Showreject" class="btn-custom btn-delete">Reject</button>
+                <button @onclick="ShowVisa" class="btn-custom btn-submit">Visa</button>
+            </div>
+    }
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenRow>
+        <RadzenColumn Size="6">
+            <LabledValue Label="Status" Status="@purchaseInfo.Status" />
+            <LabledValue Label="Date" Value="@purchaseInfo.Date.ToShortDateString()" />
+            <LabledValue Label="Budget Type" BudgeType="@purchaseInfo.BudgeType" />
+
+        </RadzenColumn>
+        <RadzenColumn Size="6">
+         
+          
+            <LabledValue Label="Budget Article" Value="@purchaseInfo.BudgeArticle" />
+            <LabledValue Label="Service Type" ServiceType="@purchaseInfo.ServiceType" />
+            <LabledValue Label="Completion Delay" Number="@purchaseInfo.CompletionDelay" />
+        </RadzenColumn>
+    </RadzenRow>
+    @if (purchaseInfo.Status == PurchaseStatus.Vised || purchaseInfo.Status == PurchaseStatus.Reject)
+    {
+        <RadzenRow>
+            <RadzenColumn Size="6">
+
+                <LabledValue Label="Visi Date" Date="@purchaseInfo.VisaDate" />
+                <LabledValue Label="Visi Number" Value="@purchaseInfo.VisaNumber" />
+            </RadzenColumn>
+            @if (purchaseInfo.Status == PurchaseStatus.Reject)
+            {
+            <RadzenColumn Size="6">
+
+                <LabledValue Label="Observation" Value="@purchaseInfo.Observation" />
+            </RadzenColumn>
+            }
+          
+
+        </RadzenRow>
+   }
+
+
+</RadzenCard>
+
+
 
 <style>
   .purchase-container{

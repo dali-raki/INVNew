@@ -1,5 +1,6 @@
 ﻿using INV.Domain.Entities.Receipts;
 using INV.Domain.Shared;
+
 namespace INV.App.Receipts
 {
     public interface IReceiptService

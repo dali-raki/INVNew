@@ -43,7 +43,7 @@
 				ProductId = product.ProductId,
 				PurchaseOrderId = product.PurchaseId,
 			};
-		await purchaseOrderService.RemovePurchaseProduct(purchaseProductInfo);
+		await purchaseOrderService.RemovePurchaseProduct(product.ProductId, product.PurchaseId);
 		await OnConfirm.InvokeAsync(null);
 		hide();
 	}
