@@ -1,6 +1,6 @@
-﻿using INV.Domain.Entities.WareHouse;
+﻿using INV.Domain.Entities.WareHouses;
 
-namespace INV.Infrastructure.Storage.WareHouseStorages;
+namespace INV.Infrastructure.Storage.WareHousesStorages;
 
 public interface IWareHouseStorage
 {

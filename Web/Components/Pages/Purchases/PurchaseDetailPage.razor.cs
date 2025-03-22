@@ -6,6 +6,7 @@ using INV.Domain.Entities.Receipts;
 using INV.Domain.Shared;
 using INV.Implementation.Service.Purchses;
 using INVUIs.Products.ProductsModel;
+using INVUIs.Purchases.PurchaseModels;
 using Microsoft.AspNetCore.Components;
 
 namespace INV.Web.Components.Pages.Purchases
@@ -18,9 +19,9 @@ namespace INV.Web.Components.Pages.Purchases
 
         public PurchaseOrder purchaseOrder = new PurchaseOrder();
 
-        public List<ProductModel> products = new List<ProductModel>();
+        public List<PurchaseProductModel> products = new List<PurchaseProductModel>();
 
-        public List<Receipt> receptionsListByPurchase;
+        public List<ReceiptInfo> receptionsListByPurchase;
 
         protected override async Task OnInitializedAsync()
         {
@@ -32,10 +33,10 @@ namespace INV.Web.Components.Pages.Purchases
             var resultToproduct = await purchaseOrderService.GetProductsByPurchaseId(Id);
             if (resultToproduct.IsSuccess)
             {
-                products = resultToproduct.Value.Select(s => new ProductModel()
+                products = resultToproduct.Value.Select(s => new PurchaseProductModel()
                 {
-                    IDPurchaseOrder = s.PurchaseId,
-                    ID = s.ProductId,
+                    PurchaseOrderId = s.PurchaseId,
+                    Id = s.ProductId,
                     Designation = s.Designation,
                     Quantity = s.Quantity,
                     UnitPrice = s.UnitPrice,

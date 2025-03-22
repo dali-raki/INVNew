@@ -39,7 +39,9 @@ else
                         N° @(reception.DeliveryNumber) - @(reception.DeliveryDate == default ? string.Empty : reception.DeliveryDate)
                     </Template>
                 </RadzenDataGridColumn>
-             
+
+
+                <RadzenDataGridColumn Property="@nameof(ReceiptInfo.Status)" Title="Status" Width="160px" />
 
             </Columns>
         </RadzenDataGrid>

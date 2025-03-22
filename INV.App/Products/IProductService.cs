@@ -11,8 +11,8 @@ namespace INV.App.Products
 
         ValueTask<Result> RemoveProduct(Guid id);
 
-        ValueTask<Result<List<Product>>> GetProducts();
-
-        ValueTask<Result<ProductInfo>> GetProductById(Guid id);
+        ValueTask<Result<List<ProductInfo>>> GetProducts();
+        
+        ValueTask<Result<ProductDetail>> GetProductById(Guid id);
     }
 }

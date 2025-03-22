@@ -13,7 +13,7 @@ namespace INV.Web.Components.Pages.Purchases
     {
         [Inject] public IPurchaseOrderService purchaseOrderService { get; set; }
         [Inject] public NavigationManager navigationManager { set; get; }
-        private readonly List<ProductModel> productModel = new();
+        private readonly List<PurchaseProductModel> productModel = new();
         private bool showAlert = false;
         public PurchaseModel purchaseModel { set; get; } = new();
         private SupplierInfo selectedSupplier = new();
@@ -35,7 +35,6 @@ namespace INV.Web.Components.Pages.Purchases
                 return;
             }
 
-
             purchaseModel.ProductModels = productModel;
 
             var purchaseOrder = new PurchaseOrder
@@ -55,7 +54,7 @@ namespace INV.Web.Components.Pages.Purchases
             var products = productModel.Select(pd => new PurchaseProduct
             {
                 PurchaseOrderId = purchaseOrder.Id,
-                ProductId = pd.ID,
+                ProductId = pd.Id,
                 UnitPrice = pd.UnitPrice,
                 Quantity = pd.Quantity
             }).ToList();

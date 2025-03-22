@@ -1,9 +1,10 @@
 ﻿@using INVUIs.Products.ProductsModel
+@using INVUIs.Purchases.PurchaseModels
 @if (visibility)
 {
     <div class="popup">
         <div class="popup-content">
-            <RadzenTemplateForm TItem="ProductModel" Data="@selectedProductModel" Submit="@onSelectClicked">
+            <RadzenTemplateForm TItem="PurchaseProductModel" Data="@selectedProductModel" Submit="@onSelectClicked">
                 <RadzenStack Gap="1rem">
                     @if (!isProductSelected && (SelectedProductId == null || SelectedProductId == Guid.Empty))
                     {

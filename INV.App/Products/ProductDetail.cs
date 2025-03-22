@@ -1,15 +1,16 @@
-﻿namespace INV.Domain.Entities.Products
+﻿using INV.App.Receipts;
+
+namespace INV.App.Products
 {
-    public class Product
+    public class ProductDetail
     {
         public Guid Id { get; set; }
-        public Guid DefaultWareHouseId { get; set; }
         public string Designation { get; set; }
         public string UnitMeasure { get; set; }
         public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
         public int TVA { get; set; }
+        public Guid DefaultWareHouseId { get; set; }
         public string WareHouse { get; set; }
-      
+        public List<ReceiptInfo> ReceiptInfos { get; set; } = new();
     }
 }

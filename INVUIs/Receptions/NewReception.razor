@@ -1,4 +1,5 @@
 ﻿@using INV.Domain.Entities.Receipts
+@using INVUIs.Receptions.Models
 
 <EditForm Model="ReceiptInfo" OnInvalidSubmit="Create" FormName="hello">
     <DataAnnotationsValidator />
@@ -80,8 +81,8 @@
 
 
 
-    @if (ReceiptInfo.ReceiptProducts != null)
-    {
+   @*  @if (ReceiptInfo.ReceiptProducts != null)
+    { *@
         @* <div class="footer-form mb-2 mt-2"  style="display: flex; flex-direction: row-reverse;">
             @if (ReceiptInfo.Status == ReceiptStatus.validated) { }
             else if (ReceiptInfo.Status == ReceiptStatus.editing)

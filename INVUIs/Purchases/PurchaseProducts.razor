@@ -1,9 +1,10 @@
 ﻿@using INV.Domain.Entities.Purchases
 @using INVUIs.Products.ProductsModel
+@using INVUIs.Purchases.PurchaseModels
 @rendermode InteractiveServer
 <CascadingValue Value="products">
 
-    <RadzenDataGrid @ref="grid" TItem="ProductModel" Data="@products" AllowVirtualization="true" Style="height:370px"
+    <RadzenDataGrid @ref="grid" TItem="PurchaseProductModel" Data="@products" AllowVirtualization="true" Style="height:370px"
                     GridLines="DataGridGridLines.Horizontal">
         <Columns>
             <RadzenDataGridColumn Property="Number" Title="N°" Width="7%">

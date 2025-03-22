@@ -4,42 +4,39 @@ using Microsoft.AspNetCore.Components;
 using INVUIs.Products.ProductsModel;
 using Radzen;
 using Radzen.Blazor;
+using INVUIs.Purchases.PurchaseModels;
 
 namespace INVUIs.Products
 {
     public partial class ProductsList
     {
-        [Parameter] public EventCallback<ProductModel> OnCommand { get; set; }
+        [Parameter] public EventCallback<PurchaseProductModel> OnCommand { get; set; }
         [Inject] public NavigationManager navigationManager { set; get; }
         [Inject] private IProductService ProductService { get; set; }
-        [Parameter] public List<Product> Products { get; set; }
+        [Parameter] public List<ProductInfo> Products { get; set; }
         public ProductForm productForm;
+        public ProductDetail productEdit;
         public ProductEditForm productEditForm;
-        private RadzenDataGrid<Product> grid;
+        private RadzenDataGrid<ProductInfo> grid;
 
         public async Task navigatepage(Guid id) => Navigation.NavigateTo($"/products/{id}");
 
         private bool CommandSelected = false;
 
-        private ProductModel newProduct = new ProductModel();
+        private PurchaseProductModel newProduct = new PurchaseProductModel();
         private bool showForm = false;
 
-        private void EditProduct(Product product)
+        private void EditProduct(ProductDetail product)
         {
-            newProduct = new ProductModel
+            productEdit = new ProductDetail
             {
-                ID = product.Id,
                 Designation = product.Designation,
-                Quantity = product.Quantity,
                 TVA = product.TVA,
                 UnitMeasure = product.UnitMeasure,
-                UnitPrice = product.UnitPrice,
-                DeliveryTime = 1,
-                WareHouse = "WareHouse",
-                TotalPrice = product.UnitPrice * product.Quantity
+                WareHouse = product.WareHouse,
             };
 
-            productEditForm.show();
+            productForm.ShowModal();
         }
 
         private async Task DeleteProduct(Guid productId)

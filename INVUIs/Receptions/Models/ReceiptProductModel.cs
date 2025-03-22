@@ -1,4 +1,4 @@
-﻿namespace INVUIs.Receptions;
+﻿namespace INVUIs.Receptions.Models;
 
 internal class ReceiptProductModel
 {

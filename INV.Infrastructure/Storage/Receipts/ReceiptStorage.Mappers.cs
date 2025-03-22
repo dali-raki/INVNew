@@ -40,7 +40,6 @@ namespace INV.Infrastructure.Storage.Receipts
                 DeliveryDate = reader.IsDBNull("DeliveryDate") ? default : DateOnly.FromDateTime(reader.GetDateTime(reader.GetOrdinal("DeliveryDate"))),
                 supplierId = reader.GetGuid(reader.GetOrdinal("SupplierId")),
                 supplierName = reader.GetString(reader.GetOrdinal("SupplierName")),
-                BudgetArticle = reader.GetString(reader.GetOrdinal("BudgetArticle")),
                 Status = (ReceiptStatus)reader.GetInt32(reader.GetOrdinal("Status"))
             };
         }
@@ -69,6 +68,23 @@ namespace INV.Infrastructure.Storage.Receipts
         private static ReceiptInfo GetReceiptInfoFromDataRow(DataRow row)
         {
             return new ReceiptInfo()
+            {
+                Id = (Guid)row["Id"],
+                Number = row.IsNull("Number") ? null : (string)row["Number"],
+                PurchaseId = (Guid)row["PurchaseId"],
+                Date = row.IsNull("Date") ? (DateOnly?)null : DateOnly.FromDateTime((DateTime)row["Date"]),
+                purchaseNumber = row.IsNull("PurchaseNumber") ? null : (string)row["PurchaseNumber"],
+                supplierId = (Guid)row["supplierId"],
+                supplierName = row.IsNull("supplierName") ? null : (string)row["supplierName"],
+                DeliveryNumber = row.IsNull("DeliveryNumber") ? null : (string)row["DeliveryNumber"],
+                DeliveryDate = row.IsNull("DeliveryDate") ? (DateOnly?)null : DateOnly.FromDateTime((DateTime)row["DeliveryDate"]),
+                Status = (ReceiptStatus)row["Status"]
+            };
+        }
+
+        private static ReceiptDetail GetReceiptDetailFromDataRow(DataRow row)
+        {
+            return new ReceiptDetail()
             {
                 Id = (Guid)row["Id"],
                 Number = row.IsNull("Number") ? null : (string)row["Number"],

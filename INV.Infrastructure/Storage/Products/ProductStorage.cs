@@ -23,7 +23,7 @@ namespace INV.Infrastructure.Storage.Products
 
         private const string updateProductCommand = @"
             UPDATE [dbo].[PRODUCTS] SET Designation = @aDesignation, UnitMeasure = @aUnitMeasure,Quantity = @aQuantity,
-            UnitPrice = @aUnitPrice, TVA = @aTVA  WHERE Id = @aId";
+           TVA = @aTVA  WHERE Id = @aId";
 
         private const string deleteProductCommand = @"
             Delete from [dbo].[PRODUCTS] where Id=@aId";
@@ -34,15 +34,14 @@ namespace INV.Infrastructure.Storage.Products
         private const string selectProductCountByIdQuery = @"
             SELECT count(*) FROM Products WHERE Designation = @aDesignation";
 
-        private static Product getProductData(SqlDataReader reader)
+        private static ProductInfo getProductData(SqlDataReader reader)
         {
-            return new Product
+            return new ProductInfo
             {
                 Id = (Guid)reader["Id"],
                 Designation = (string)reader["Designation"],
                 UnitMeasure = (string)reader["UnitMeasure"],
                 Quantity = (int)reader["Quantity"],
-                UnitPrice = (decimal)reader["UnitPrice"],
                 TVA = (int)reader["TVA"],
             };
         }
@@ -73,7 +72,6 @@ namespace INV.Infrastructure.Storage.Products
             cmd.Parameters.AddWithValue("@aDesignation", product.Designation);
             cmd.Parameters.AddWithValue("@aUnitMeasure", product.UnitMeasure);
             cmd.Parameters.AddWithValue("@aQuantity", product.Quantity);
-            cmd.Parameters.AddWithValue("@aUnitPrice", product.UnitPrice);
             cmd.Parameters.AddWithValue("@aTVA", product.TVA);
 
             return await cmd.ExecuteNonQueryAsync();
@@ -88,9 +86,9 @@ namespace INV.Infrastructure.Storage.Products
             return await cmd.ExecuteNonQueryAsync();
         }
 
-        public async Task<List<Product>> SelectProducts()
+        public async Task<List<ProductInfo>> SelectProducts()
         {
-            var products = new List<Product>();
+            var products = new List<ProductInfo>();
 
             using var sqlConnection = new SqlConnection(_connectionString);
             var cmd = new SqlCommand(selectProductsQuery, sqlConnection);
@@ -117,7 +115,7 @@ namespace INV.Infrastructure.Storage.Products
             return count > 0;
         }
 
-        public async ValueTask<ProductInfo> GetProductById(Guid productId, bool getReceipts = true)
+        public async ValueTask<ProductDetail> GetProductById(Guid productId)
         {
             using var sqlConnection = new SqlConnection(_connectionString);
             await sqlConnection.OpenAsync();
@@ -127,7 +125,7 @@ namespace INV.Infrastructure.Storage.Products
                 CommandType = CommandType.StoredProcedure
             };
             cmd.Parameters.AddWithValue("@ProductId", productId);
-            cmd.Parameters.AddWithValue("@aGetRecepits", getReceipts ? 1 : 0);
+            //cmd.Parameters.AddWithValue("@aGetRecepits", getReceipts ? 1 : 0);
 
             var dataSet = new DataSet();
             using var adapter = new SqlDataAdapter(cmd);
@@ -138,36 +136,35 @@ namespace INV.Infrastructure.Storage.Products
 
             // Mapping du produit
             var productRow = dataSet.Tables[0].Rows[0];
-            var product = new ProductInfo
+            var product = new ProductDetail
             {
                 Id = (Guid)productRow["Id"],
                 Designation = productRow["Designation"].ToString(),
                 UnitMeasure = productRow["UnitMeasure"].ToString(),
                 Quantity = Convert.ToInt32(productRow["Quantity"]),
-                UnitPrice = Convert.ToDecimal(productRow["UnitPrice"]),
                 TVA = Convert.ToInt32(productRow["TVA"]),
                 DefaultWareHouseId = (Guid)productRow["DefaultWareHouseID"],
                 WareHouse = productRow["WareHouse"].ToString()
             };
 
             // Mapping des réceptions
-            if (getReceipts)
+            /*    if (getReceipts)
+                {*/
+            foreach (DataRow row in dataSet.Tables[1].Rows)
             {
-                foreach (DataRow row in dataSet.Tables[1].Rows)
+                var receipt = new ReceiptInfo
                 {
-                    var receipt = new ReceiptInfo
-                    {
-                        Id = (Guid)row["Id"],
-                        Number = row.IsNull("Number") ? null : row["Number"].ToString(),
-                        PurchaseId = (Guid)row["PurchaseId"],
-                        Date = row.IsNull("Date") ? default : DateOnly.FromDateTime((DateTime)row["Date"]),
-                        DeliveryNumber = row.IsNull("DeliveryNumber") ? string.Empty : row["DeliveryNumber"].ToString(),
-                        DeliveryDate = row.IsNull("DeliveryDate") ? default : DateOnly.FromDateTime((DateTime)row["DeliveryDate"]),
-                        Status = (ReceiptStatus)row["Status"]
-                    };
-                    product.ReceiptInfos.Add(receipt);
-                }
+                    Id = (Guid)row["Id"],
+                    Number = row.IsNull("Number") ? null : row["Number"].ToString(),
+                    PurchaseId = (Guid)row["PurchaseId"],
+                    Date = row.IsNull("Date") ? default : DateOnly.FromDateTime((DateTime)row["Date"]),
+                    DeliveryNumber = row.IsNull("DeliveryNumber") ? string.Empty : row["DeliveryNumber"].ToString(),
+                    DeliveryDate = row.IsNull("DeliveryDate") ? default : DateOnly.FromDateTime((DateTime)row["DeliveryDate"]),
+                    Status = (ReceiptStatus)row["Status"]
+                };
+                product.ReceiptInfos.Add(receipt);
             }
+            /*   }*/
 
             return product;
         }

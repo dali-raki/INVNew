@@ -17,10 +17,10 @@ namespace INV.Infrastructure.Storage.Receipts
             _connectionString = configuration.GetConnectionString("INV");
         }
 
-        private const string selectAllReceiptsQuery = "SELECT * FROM [reception].[List]";
+        private const string selectAllReceiptsQuery = "SELECT * FROM reception.GetList()";
         private const string selectReceiptByIdQuery = "SELECT * FROM [reception].[HEADERS] WHERE Id = @aId";
         private const string selectReceiptsByPurchaseIdQuery = "SELECT * FROM [reception].[HEADERS] WHERE PurchaseId = @aPurchaseId";
-        private const string selectReceiptsByPurchaseIdQueryWhenStatus1 = "SELECT * FROM [reception].[HEADERS] WHERE PurchaseId = @aPurchaseId and Status=1";
+        private const string selectReceiptsByPurchaseIdQueryWhenStatus1 = "SELECT * FROM reception.GetList() WHERE PurchaseId = @aPurchaseId and Status=1";
 
         private const string insertReceiptCommand = @"
             INSERT INTO [reception].[HEADERS] (Id, PurchaseId, Date, DeliveryNumber, DeliveryDate, Status)
@@ -66,7 +66,7 @@ FROM [INV].[reception].[HEADERS] H
 JOIN [INV].[purchase].[ORDERS] O ON H.PurchaseId = O.Id
 WHERE O.SupplierId = @aSupplierId;";
 
-        public async ValueTask<ReceiptInfo> CreateReceiptFromPurchase(Guid purchaseId)
+        public async ValueTask<ReceiptDetail> CreateReceiptFromPurchase(Guid purchaseId)
         {
             using var connection = new SqlConnection(_connectionString);
 
@@ -124,9 +124,9 @@ WHERE O.SupplierId = @aSupplierId;";
             return receipts;
         }
 
-        public async ValueTask<List<Receipt>> SelectReceiptsByPurchaseIdWhenStatus1(Guid purchaseId)
+        public async ValueTask<List<ReceiptInfo>> SelectReceiptsByPurchaseIdWhenStatus1(Guid purchaseId)
         {
-            var receipts = new List<Receipt>();
+            var receipts = new List<ReceiptInfo>();
             using var sqlConnection = new SqlConnection(_connectionString);
             var cmd = new SqlCommand(selectReceiptsByPurchaseIdQueryWhenStatus1, sqlConnection);
             cmd.Parameters.AddWithValue("@aPurchaseId", purchaseId);
@@ -135,7 +135,7 @@ WHERE O.SupplierId = @aSupplierId;";
             using var reader = await cmd.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                receipts.Add(GetReceiptData(reader));
+                receipts.Add(getReceiptInfoFromReader(reader));
             }
 
             return receipts;
@@ -254,7 +254,7 @@ WHERE O.SupplierId = @aSupplierId;";
             return await cmd.ExecuteNonQueryAsync();
         }
 
-        public async ValueTask<ReceiptInfo> GetReceiptInfoById(Guid receiptId, bool includeProducts = true)
+        public async ValueTask<ReceiptDetail> GetReceiptInfoById(Guid receiptId, bool includeProducts = true)
         {
             if (receiptId == Guid.Empty)
             {
@@ -295,14 +295,14 @@ WHERE O.SupplierId = @aSupplierId;";
             }
         }
 
-        private ReceiptInfo GetReceiptFromDataSet(DataSet ds, bool includeProducts)
+        private ReceiptDetail GetReceiptFromDataSet(DataSet ds, bool includeProducts)
         {
             if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
             {
                 return null; // Receipt not found (e.g., return 1001)
             }
 
-            var receiptInfo = GetReceiptInfoFromDataRow(ds.Tables[0].Rows[0]);
+            var receiptInfo = GetReceiptDetailFromDataRow(ds.Tables[0].Rows[0]);
             receiptInfo.ReceiptProducts = includeProducts && ds.Tables.Count > 1 && ds.Tables[1].Rows.Count > 0
                 ? ds.Tables[1].AsEnumerable().Select(GetReceiptProductInfoFromDataRow).ToList()
                 : new List<ReceiptProductInfo>();
@@ -318,7 +318,7 @@ WHERE O.SupplierId = @aSupplierId;";
                 ProductId = row.IsNull("ProductId") ? Guid.Empty : row.Field<Guid>("ProductId"),
                 Quantity = row.IsNull("Quantity") ? 0 : row.Field<int>("Quantity"),
                 Designation = row.IsNull("Designation") ? string.Empty : row.Field<string>("Designation"),
-                UnitPrice = row.IsNull("UnitPrice") ? 0m : row.Field<decimal?>("UnitPrice") ?? 0m,
+                //UnitPrice = row.IsNull("UnitPrice") ? 0m : row.Field<decimal?>("UnitPrice") ?? 0m,
                 Received = row.IsNull("Received") ? 0 : row.Field<int>("Received"),
                 DefaultWareHouseId = row.IsNull("WareHouseId") ? Guid.Empty : row.Field<Guid>("WareHouseId")
             };
@@ -330,17 +330,17 @@ WHERE O.SupplierId = @aSupplierId;";
             if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 receiptInfo = GetReceiptInfoFromDataRow(ds.Tables[0].Rows[0]);
-                receiptInfo.ReceiptProducts = new List<ReceiptProductInfo>();
-                if (includeProducts)
-                {
-                    if (ds.Tables.Count > 1)
-                    {
-                        foreach (DataRow productRow in ds.Tables[1].Rows)
-                        {
-                            receiptInfo.ReceiptProducts.Add(GetReceiptProductInfoDataFromDataRow(productRow));
-                        }
-                    }
-                }
+                /*  receiptInfo.ReceiptProducts = new List<ReceiptProductInfo>();
+                  if (includeProducts)
+                  {
+                      if (ds.Tables.Count > 1)
+                      {
+                          foreach (DataRow productRow in ds.Tables[1].Rows)
+                          {
+                              receiptInfo.ReceiptProducts.Add(GetReceiptProductInfoDataFromDataRow(productRow));
+                          }
+                      }
+                  }*/
             }
             return receiptInfo;
         }

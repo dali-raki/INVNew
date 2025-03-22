@@ -1,4 +1,4 @@
-﻿namespace INV.Domain.Entities.WareHouse;
+﻿namespace INV.Domain.Entities.WareHouses;
 
 public class WareHouse
 {

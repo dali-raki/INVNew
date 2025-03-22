@@ -6,6 +6,7 @@ using INV.Implementation.Service.Products;
 using INVUIs.Components.Status;
 using INVUIs.Products;
 using INVUIs.Products.ProductsModel;
+using INVUIs.Purchases.PurchaseModels;
 using Microsoft.AspNetCore.Components;
 using Radzen.Blazor;
 
@@ -13,20 +14,20 @@ namespace INVUIs.Purchases;
 
 public partial class PurchaseProducts : ComponentBase
 {
-    [CascadingParameter] public List<ProductModel> products { set; get; } = new();
-    [Parameter] public EventCallback<List<ProductModel>> OnProductAddProduct { get; set; }
+    [CascadingParameter] public List<PurchaseProductModel> products { set; get; } = new();
+    [Parameter] public EventCallback<List<PurchaseProductModel>> OnProductAddProduct { get; set; }
     [Parameter] public PurchaseOrder PurchaseInfo { get; set; }
-    [Parameter] public EventCallback<ProductModel> OnEditProduct { get; set; }
-    [Parameter] public List<ProductModel> ProductList { get; set; }
+    [Parameter] public EventCallback<PurchaseProductModel> OnEditProduct { get; set; }
+    [Parameter] public List<PurchaseProductModel> ProductList { get; set; }
     [Inject] private IPurchaseOrderService purchaseOrderService { get; set; }
 
     private List<int> TVAOptions = new() { 9, 19 };
     private List<string> UnitMesures = new() { "U", "KG", "M", "L" };
-    public RadzenDataGrid<ProductModel> grid;
+    public RadzenDataGrid<PurchaseProductModel> grid;
     private ProductEditForm productEditForm;
     private ProductForm productForm = new();
     public ProductSelector productSelector = new();
-    private ProductModel? selectedProductModel = null;
+    private PurchaseProductModel? selectedProductModel = null;
     public ProductModel productModel { get; set; }
 
     private bool showEditPopup = false;
@@ -46,17 +47,16 @@ public partial class PurchaseProducts : ComponentBase
     {
         if (ProductList != null)
         {
-            products = new List<ProductModel>(ProductList);
+            products = new List<PurchaseProductModel>(ProductList);
         }
     }
 
-    private async Task DeleteProduct(ProductModel product)
+    private async Task DeleteProduct(PurchaseProductModel product)
     {
         products.Remove(product);
-        for (var i = 0; i < products.Count; i++) products[i].Number = i + 1;
 
         OnProductAddProduct.InvokeAsync(products);
-        await purchaseOrderService.RemovePurchaseProduct(product.ID, product.IDPurchaseOrder);
+        await purchaseOrderService.RemovePurchaseProduct(product.Id, product.PurchaseOrderId);
     }
 
     private void Clear() => productModel = new ProductModel();
@@ -68,7 +68,7 @@ public partial class PurchaseProducts : ComponentBase
         Clear();
     }
 
-    private async Task AddProductToGrid(ProductModel product)
+    private async Task AddProductToGrid(PurchaseProductModel product)
     {
         // product.Number = products.Count + 1;
         product.TotalPrice = product.Quantity * product.UnitPrice;
@@ -76,7 +76,7 @@ public partial class PurchaseProducts : ComponentBase
         {
             var purchaseProduct = new PurchaseProduct
             {
-                ProductId = product.ID,
+                ProductId = product.Id,
                 PurchaseOrderId = PurchaseInfo.Id,
                 Quantity = product.Quantity,
                 UnitPrice = product.UnitPrice,
@@ -87,7 +87,7 @@ public partial class PurchaseProducts : ComponentBase
         {
             var purchaseProduct = new PurchaseProduct
             {
-                ProductId = product.ID,
+                ProductId = product.Id,
                 Quantity = product.Quantity,
                 UnitPrice = product.UnitPrice,
             };
@@ -103,12 +103,12 @@ public partial class PurchaseProducts : ComponentBase
         StateHasChanged();
     }
 
-    private async Task EditProduct(ProductModel product)
+    private async Task EditProduct(PurchaseProductModel product)
     {
-        selectedProductModel = new ProductModel
+        selectedProductModel = new PurchaseProductModel
         {
-            ID = product.ID,
-            IDPurchaseOrder = product.IDPurchaseOrder,
+            Id = product.Id,
+            PurchaseOrderId = product.PurchaseOrderId,
             Designation = product.Designation,
             UnitMeasure = product.UnitMeasure,
             Quantity = product.Quantity,
@@ -123,7 +123,7 @@ public partial class PurchaseProducts : ComponentBase
     {
         if (selectedProductModel != null)
         {
-            var product = products.FirstOrDefault(p => p.ID == selectedProductModel.ID);
+            var product = products.FirstOrDefault(p => p.Designation == selectedProductModel.Designation);
             if (product != null)
             {
                 product.Quantity = selectedProductModel.Quantity;
@@ -133,8 +133,8 @@ public partial class PurchaseProducts : ComponentBase
             showEditPopup = false;
             var purchaseProduct = new PurchaseProduct
             {
-                ProductId = product.ID,
-                PurchaseOrderId = product.IDPurchaseOrder,
+                ProductId = product.Id,
+                PurchaseOrderId = product.PurchaseOrderId,
                 Quantity = product.Quantity,
                 UnitPrice = product.UnitPrice,
             };
@@ -145,6 +145,13 @@ public partial class PurchaseProducts : ComponentBase
 
     public async void loadtab()
     {
+        var product = products.FirstOrDefault(p => p.Designation == selectedProductModel.Designation);
+        if (product != null)
+        {
+            product.Quantity = selectedProductModel.Quantity;
+            product.UnitPrice = selectedProductModel.UnitPrice;
+            product.TotalPrice = product.Quantity * product.UnitPrice;
+        }
         await grid.Reload();
     }
 

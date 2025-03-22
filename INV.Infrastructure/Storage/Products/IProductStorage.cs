@@ -11,10 +11,11 @@ namespace INV.Infrastructure.Storage.Products
 
         Task<int> DeleteProduct(Guid id);
 
-        Task<List<Product>> SelectProducts();
+        Task<List<ProductInfo>> SelectProducts();
 
         Task<bool> ProductExistsByaDesignation(string designation);
 
-        ValueTask<ProductInfo> GetProductById(Guid productId, bool getReceipts = true);
+       // ValueTask<ProductInfo> GetProductById(Guid productId, bool getReceipts = true);
+        ValueTask<ProductDetail> GetProductById(Guid productId);
     }
 }

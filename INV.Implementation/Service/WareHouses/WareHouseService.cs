@@ -1,7 +1,7 @@
 ﻿using INV.App.WareHouses;
-using INV.Domain.Entities.WareHouse;
+using INV.Domain.Entities.WareHouses;
 using INV.Domain.Shared;
-using INV.Infrastructure.Storage.WareHouseStorages;
+using INV.Infrastructure.Storage.WareHousesStorages;
 
 namespace INV.Implementation.Service.WareHouses;
 

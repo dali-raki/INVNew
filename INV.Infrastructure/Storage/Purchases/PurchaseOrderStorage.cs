@@ -22,9 +22,7 @@ namespace INV.Infrastructure.Storage.Purchases
         private const string selectAllPurchaseOrderByDateQuery =
             " SELECT * FROM [purchase].[ORDERS] WHERE CAST(Date AS DATE) = @aSelectedDate";
 
-        private const string selectPurchaseOrdersInfoQuery = @"SELECT
-        p.[Number],p.[Id],p.[SupplierId],s.CompanyName As CompanyName,p.[Date],p.[Status] FROM
-        [purchase].[ORDERS] p left Join SUPPLIERS s ON p.SupplierId=s.Id  ";
+        private const string selectPurchaseOrdersInfoQuery = "select * From Purchase.GetList()";
 
         private const string selectAllPurchaseOrderByIdSupplierQuery =
             "SELECT * FROM purchase.GetListBySupplier(@aSupplierId)";
@@ -113,7 +111,11 @@ namespace INV.Infrastructure.Storage.Purchases
                 Number = (string)reader["Number"],
                 Status = (PurchaseStatus)reader["Status"],
                 SupplierName = (string)reader["CompanyName"],
-                Date = DateOnly.FromDateTime((DateTime)reader["Date"])
+                Date = DateOnly.FromDateTime((DateTime)reader["Date"]),
+                BudgeArticle = (string)reader["BudgetArticle"],
+                BudgeType = (BudgeType)reader["BudgetType"],
+                ServiceType = (ServiceType)reader["ServiceType"],
+                TotalTTC = (decimal)reader["TotalTC"]
             };
             return r;
         }

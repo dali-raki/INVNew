@@ -1,9 +1,8 @@
 ﻿using INV.Domain.Entities.Budget;
-using INV.Infrastructure.Storage.Budget;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
-namespace INV.Infrastructure.Storage.Budgets;
+namespace INV.Infrastructure.Storage.Budget;
 
 public class BudgetStorage : IBudgetStorage
 {

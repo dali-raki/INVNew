@@ -41,7 +41,7 @@ namespace INV.Implementation.Service.Products
             }
         }
 
-        public async ValueTask<Result<List<Product>>> GetProducts()
+        public async ValueTask<Result<List<ProductInfo>>> GetProducts()
         {
             try
             {
@@ -55,7 +55,7 @@ namespace INV.Implementation.Service.Products
         }
 
 
-        public async ValueTask<Result<ProductInfo>> GetProductById(Guid id)
+        public async ValueTask<Result<ProductDetail>> GetProductById(Guid id)
         {
             try
             {

@@ -1,4 +1,4 @@
-﻿using INV.Domain.Entities.WareHouse;
+﻿using INV.Domain.Entities.WareHouses;
 using INV.Domain.Shared;
 
 namespace INV.App.WareHouses

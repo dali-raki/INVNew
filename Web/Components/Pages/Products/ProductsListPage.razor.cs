@@ -7,7 +7,7 @@ namespace INV.Web.Components.Pages.Products;
 public partial class ProductsListPage
 {
     [Inject] public IProductService productService { get; set; }
-    private List<Product> products;
+    private List<ProductInfo> products = new List<ProductInfo>();
 
     protected override async Task OnInitializedAsync()
     {

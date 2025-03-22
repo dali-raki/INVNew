@@ -25,7 +25,7 @@ namespace INVUIs.Purchases.PurchaseModels
         [RegularExpression(@"^\d{1,9}$", ErrorMessage = "Invalid delivery time format.")]
         public string DeliveryTime { get; set; }
 
-        public List<ProductModel> ProductModels { get; set; } = new();
+        public List<PurchaseProductModel> ProductModels { get; set; } = new();
 
         public decimal TotalHT => ProductModels.Sum(p => p.Quantity * p.UnitPrice);
 

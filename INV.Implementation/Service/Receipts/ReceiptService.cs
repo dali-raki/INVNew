@@ -8,7 +8,7 @@ namespace INV.Implementation.Service.Receipts
 {
     public class ReceiptService(IReceiptStorage receiptStorage) : IReceiptService
     {
-        public async ValueTask<Result<ReceiptInfo>> CreateReceiptFromPurchase(Guid purchaseId)
+        public async ValueTask<Result<ReceiptDetail>> CreateReceiptFromPurchase(Guid purchaseId)
         {
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -179,7 +179,7 @@ namespace INV.Implementation.Service.Receipts
             }
         }
 
-        public async ValueTask<Result<ReceiptInfo>> GetReceiptInfoById(Guid receiptId)
+        public async ValueTask<Result<ReceiptDetail>> GetReceiptInfoById(Guid receiptId)
         {
             try
             {
@@ -206,7 +206,7 @@ namespace INV.Implementation.Service.Receipts
             }
         }
 
-        public async ValueTask<Result<List<Receipt>>> GetReceiptsByPurchaseIdWhenStatus(Guid purchaseId)
+        public async ValueTask<Result<List<ReceiptInfo>>> GetReceiptsByPurchaseIdWhenStatus(Guid purchaseId)
         {
             try
             {

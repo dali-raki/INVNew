@@ -1,5 +1,5 @@
 ﻿using INV.App.WareHouses;
-using INV.Domain.Entities.WareHouse;
+using INV.Domain.Entities.WareHouses;
 using INV.Domain.Shared;
 using INVUIs.WareHouses.Models;
 using Microsoft.AspNetCore.Components;

@@ -3,11 +3,9 @@
 @inject NavigationManager Navigation
 @rendermode InteractiveServer
 
-
-
-<button class="addsupplier-button" @onclick="() =>productForm.ShowModal()">
-    <i class="bi bi-cart-plus"></i> Add Product
-</button>
+        <button class="addsupplier-button" @onclick="() => productForm?.ShowModal()">
+            <i class="bi bi-cart-plus"></i> Add Product
+        </button>
 
 @if (Products is null)
 {
@@ -15,25 +13,19 @@
 }
 else
 {
-    <br />
-    <br />
     <div class="Container-list">
         <RadzenDataGrid @ref="grid" Data="@Products" AllowSorting="true"
-                        AllowFiltering="true" RowSelect="@((Product ProductInfo) => navigatepage(ProductInfo.Id))"
+                        AllowFiltering="true" RowSelect="@((ProductInfo ProductInfo) => navigatepage(ProductInfo.Id))"
                         PageSize="8" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true">
             <Columns>
-                <RadzenDataGridColumn Property="@nameof(Product.Designation)" Title="Designation" Width="300px" />
-                <RadzenDataGridColumn Property="@nameof(Product.Quantity)" Title="Quantity" Width="100px" />
-                <RadzenDataGridColumn Property="@nameof(Product.UnitMeasure)" Title="U.M" Width="48px" Sortable="false" Filterable="false" />
-                <RadzenDataGridColumn Property="@nameof(Product.DefaultWareHouseId)" Title="WareHouse" Width="200px" />
+                <RadzenDataGridColumn Property="@nameof(ProductInfo.Designation)" Title="Designation" Width="300px" />
+                <RadzenDataGridColumn Property="@nameof(ProductInfo.Quantity)" Title="Quantity" Width="100px" />
+                <RadzenDataGridColumn Property="@nameof(ProductInfo.UnitMeasure)" Title="U.M" Width="48px" Sortable="false" Filterable="false" />
+                <RadzenDataGridColumn Property="@nameof(ProductInfo.WareHouse)" Title="WareHouse" Width="200px" />
 
                 <RadzenDataGridColumn Title="Actions" Sortable="false" Filterable="false" Width="100px">
                     <Template Context="product">
-                        <RadzenButton Icon="offline_pin" ButtonStyle="ButtonStyle.Light"
-                                      Click="(e => EditProduct(product))"
-                                      @onclick:stopPropagation="true">
-                        </RadzenButton>
-                        <RadzenButton Icon="highlight_off" ButtonStyle="ButtonStyle.Danger"
+                        <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger"
                                       Click="(e => DeleteProduct(product.Id))"
                                       @onclick:stopPropagation="true">
                         </RadzenButton> </Template>
@@ -44,8 +36,9 @@ else
 
     </div>
 }
-<ProductForm @ref="productForm" OnProductCreated="async (product) => { Products.Add(product); await grid.Reload(); StateHasChanged(); }"/>
+
 
 <ProductEditForm @ref="productEditForm" selectedProductModel="newProduct" /> 
 
-                                  @*     <ProductForm></ProductForm> *@
+<ProductForm @ref="productForm" OnProductCreated="async (product) => { Products.Add(product); await grid.Reload(); StateHasChanged(); }" productEdit="productEdit"/>
+                            

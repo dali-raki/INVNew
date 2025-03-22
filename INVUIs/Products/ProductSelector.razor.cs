@@ -1,22 +1,23 @@
 ﻿using INV.App.Products;
 using INV.Domain.Entities.Products;
 using INVUIs.Products.ProductsModel;
+using INVUIs.Purchases.PurchaseModels;
 using Microsoft.AspNetCore.Components;
 
 namespace INVUIs.Products;
 
 public partial class ProductSelector : ComponentBase
 {
-    private List<Product> filteredProducts;
+    private List<ProductInfo> filteredProducts;
     private string filterText;
     private bool isProductSelected = false;
     private ProductForm productForm = new();
 
-    private List<Product> products;
-    private ProductModel selectedProductModel;
+    private List<ProductInfo> products;
+    private PurchaseProductModel selectedProductModel;
 
     private bool visibility = false;
-    [Parameter] public EventCallback<ProductModel> OnProductSelected { get; set; }
+    [Parameter] public EventCallback<PurchaseProductModel> OnProductSelected { get; set; }
     [Inject] public IProductService productService { set; get; }
     private Guid? SelectedProductId { get; set; } = null;
     public decimal UnitPrice { get; set; }
@@ -28,15 +29,15 @@ public partial class ProductSelector : ComponentBase
         StateHasChanged();
     }
 
-    public void ShowModal(Product product)
+    public void ShowModal(ProductInfo product)
     {
-        selectedProductModel = new ProductModel
+        selectedProductModel = new PurchaseProductModel
         {
-            ID = product.Id,
+            Id = product.Id,
             Designation = product.Designation,
             UnitMeasure = product.UnitMeasure,
             TVA = product.TVA,
-            UnitPrice = product.UnitPrice,
+            /*     UnitPrice = product.UnitPrice,*/
             Quantity = product.Quantity
         };
         visibility = true;
@@ -68,7 +69,7 @@ public partial class ProductSelector : ComponentBase
                 .ToList();
 
         if (!filteredProducts.Any(p => p.Id == Guid.Empty))
-            filteredProducts.Insert(0, new Product { Id = Guid.Empty, Designation = "Create Product" });
+            filteredProducts.Insert(0, new ProductInfo { Id = Guid.Empty, Designation = "Create Product" });
     }
 
     public void HideModal()
@@ -100,13 +101,13 @@ public partial class ProductSelector : ComponentBase
                 var product = products.FirstOrDefault(p => p.Id == productId);
                 if (product != null)
                 {
-                    selectedProductModel = new ProductModel
+                    selectedProductModel = new PurchaseProductModel
                     {
-                        ID = product.Id,
+                        Id = product.Id,
                         Designation = product.Designation,
                         UnitMeasure = product.UnitMeasure,
                         TVA = product.TVA,
-                        UnitPrice = product.UnitPrice,
+                        /*     UnitPrice = product.UnitPrice,*/
                         Quantity = product.Quantity
                     };
 
@@ -137,15 +138,15 @@ public partial class ProductSelector : ComponentBase
             selectedProductModel.UnitPrice = UnitPrice;
             selectedProductModel.Quantity = Quantity;
 
-            products.RemoveAll(p => p.Id == selectedProductModel.ID);
-            filteredProducts.RemoveAll(p => p.Id == selectedProductModel.ID);
+            products.RemoveAll(p => p.Id == selectedProductModel.Id);
+            filteredProducts.RemoveAll(p => p.Id == selectedProductModel.Id);
 
             await OnProductSelected.InvokeAsync(selectedProductModel);
             HideModal();
         }
     }
 
-    private async Task onProductCreated(Product product)
+    private async Task onProductCreated(ProductInfo product)
     {
         products.Add(product);
         filteredProducts.Add(product);

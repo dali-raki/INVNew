@@ -1,78 +1,103 @@
 ﻿using INV.App.Products;
 using INV.Domain.Entities.Products;
 using INV.Domain.Shared;
+using INV.Shared;
 using INVUIs.Products.ProductsModel;
+using INVUIs.Purchases.PurchaseModels;
+using INVUIs.Shared.Models;
+using INVUIs.WareHouses.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace INVUIs.Products;
 
 public partial class ProductForm : ComponentBase
 {
-    [Parameter] public EventCallback<Product> OnProductCreated { get; set; }
+    [Parameter] public EventCallback<ProductInfo> OnProductCreated { get; set; }
+    [Parameter] public ProductDetail productEdit { get; set; }
+
+    [Parameter] public RenderFragment Pills { get; set; }
     [Inject] private IProductService productService { set; get; }
     [Inject] private NavigationManager navigationManager { set; get; }
 
-    private string failure = string.Empty;
+    public ProductForm productForm;
 
-    private bool isCreatingProduct = false;
+    public FormState formState;
+    public ProductModel productModel = new ProductModel();
 
-    private ProductModel newProduct = new() { TVA = 19, UnitMeasure = "U" };
     private Result result;
-    private string success = string.Empty;
+    private string message = string.Empty;
     private List<int> TVAOptions = new() { 9, 19 };
+
+    private List<WareHouseModel> WareHouse = new()
+{
+    new WareHouseModel { Id = Guid.NewGuid(), WareHouseName = "Chetma" },
+    new WareHouseModel { Id = Guid.NewGuid(), WareHouseName = "Biskra" }
+};
+
     private List<string> UnitMesures = new() { "U", "KG", "M", "L" };
     private bool visibility = false;
+    private string succesMessage => formState == FormState.Create ? "Product created" : "Product updated";
 
-
-    public async Task CreateProduct()
+    public async Task SubmitProduct()
     {
-        var product = new Product
+        var product = new ProductInfo
         {
-            Id = Guid.NewGuid(),
-            UnitMeasure = newProduct.UnitMeasure,
-            Designation = newProduct.Designation,
-            TVA = newProduct.TVA,
-            UnitPrice = 0,
-            Quantity = 0,
-            DefaultWareHouseId= Guid.Parse("CF234288-B792-4FDA-BDFC-4D9AF018CA41")
+            Id = productModel.ID,
+            UnitMeasure = productModel.UnitMeasure,
+            Designation = productModel.Designation,
+            TVA = productModel.TVA,
+            DefaultWareHouseId = productModel.WareHouseId
         };
-
-        result = await productService.CreateProduct(product);
-
-        if (result.IsSuccess)
+        if (formState == FormState.Create)
         {
-            success = "The product has been added successfully";
-            await OnProductCreated.InvokeAsync(product);
+            var productadd = new Product
+            {
+                Id = productModel.ID,
+                UnitMeasure = productModel.UnitMeasure,
+                Designation = productModel.Designation,
+                TVA = productModel.TVA,
+                DefaultWareHouseId = productModel.WareHouseId
+            };
+            result = await productService.CreateProduct(productadd);
         }
         else
         {
-            failure = result.Error.Description;
+            var productupdate = new Product
+            {
+                Id = productModel.ID,
+                UnitMeasure = productModel.UnitMeasure,
+                Designation = productModel.Designation,
+                TVA = productModel.TVA,
+                DefaultWareHouseId = productModel.WareHouseId
+            };
+
+            result = await productService.SetProducts(productupdate);
         }
 
-        HideModal();
-        clearForm();
-        StateHasChanged();
+        if (result.IsSuccess)
+        {
+            await OnProductCreated.InvokeAsync(product);
+            Hide();
+        }
+        else message = result.Error.Description;
     }
 
     private void clearForm()
     {
-        newProduct = new ProductModel();
+        productModel = new();
+        message = string.Empty;
     }
 
     public void ShowModal()
     {
         visibility = true;
-        success = string.Empty;
-        failure = string.Empty;
         StateHasChanged();
     }
 
-    public void HideModal()
+    public void Hide()
     {
-        isCreatingProduct = false;
+        clearForm();
         visibility = false;
-        success = string.Empty;
-        failure = string.Empty;
         StateHasChanged();
     }
 }

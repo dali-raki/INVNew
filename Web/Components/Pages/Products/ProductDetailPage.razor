@@ -15,9 +15,7 @@
                 <p>
                     <strong>Quantité :</strong> @product.Quantity
                 </p>
-                <p>
-                    <strong>Prix unitaire :</strong> @product.UnitPrice.ToString("N")
-                </p>
+               
 
             </RadzenColumn>
             <RadzenColumn Size="6">
@@ -30,25 +28,38 @@
                 </p>
             </RadzenColumn>
         </RadzenRow>
+            <RadzenRow>
+                    <RadzenColumn Size="12">
+                <div class="footer-form" style="display:flex;flex-direction: row-reverse;">
+                    <button class="btn-custom btn-submit" @onclick="() => ShowProductFormModal(product)">Edit</button>
+                        </div>
+              
+                    </RadzenColumn> 
+            </RadzenRow>
     </RadzenCard>
-}
-@* @if (product.ReceiptInfos != null &&  product.ReceiptInfos.Any())
-{ *@
-    <RadzenTabs>
-        <Tabs>
-            <RadzenTabsItem Text="Réceptions">
-                <RadzenDataGrid Data="@product.ReceiptInfos" TItem="ReceiptInfo">
-                    <Columns>
-                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="Number" Title="Number" />
-                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="supplierName" Title="supplierName" />
-                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="Date" Title="Date Of Reception"/>
-                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="DeliveryNumber" Title="Delivery Number"/>
-                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="DeliveryDate" Title="Delivery Date"/>
-                        <RadzenDataGridColumn TItem="ReceiptInfo" Property="Status" Title="Status" />
-                    </Columns>
-                </RadzenDataGrid>
-            </RadzenTabsItem>
-        </Tabs>
-    </RadzenTabs>
-@* } *@
 
+    @if (product.ReceiptInfos != null)
+    {
+        <RadzenTabs>
+            <Tabs>
+                <RadzenTabsItem Text="Réceptions">
+                    <RadzenDataGrid Data="@product.ReceiptInfos" TItem="ReceiptInfo">
+                        <Columns>
+                            <RadzenDataGridColumn TItem="ReceiptInfo" Property="Number" Title="Number" />
+                            <RadzenDataGridColumn TItem="ReceiptInfo" Property="supplierName" Title="supplierName" />
+                            <RadzenDataGridColumn TItem="ReceiptInfo" Property="Date" Title="Date Of Reception" />
+                            <RadzenDataGridColumn TItem="ReceiptInfo" Property="DeliveryNumber" Title="Delivery Number" />
+                            <RadzenDataGridColumn TItem="ReceiptInfo" Property="DeliveryDate" Title="Delivery Date" />
+                            <RadzenDataGridColumn TItem="ReceiptInfo" Property="Status" Title="Status" />
+                        </Columns>
+                    </RadzenDataGrid>
+                </RadzenTabsItem>
+            </Tabs>
+        </RadzenTabs>
+    }
+}
+else
+{
+    <p>Loading...</p>
+}
+<ProductForm @ref="ProductForm" productEdit="product"  />

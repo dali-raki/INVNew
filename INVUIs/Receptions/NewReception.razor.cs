@@ -3,6 +3,7 @@ using INV.App.Receipts;
 using INV.Domain.Entities.Purchases;
 using INV.Domain.Entities.Receipts;
 using INV.Domain.Shared;
+using INVUIs.Receptions.Models;
 using INVUIs.Shared.Models;
 using Microsoft.AspNetCore.Components;
 
@@ -12,7 +13,7 @@ namespace INVUIs.Receptions
     {
         [Inject] public IPurchaseOrderService PurchaseOrderService { get; set; }
         [Inject] public IReceiptService receptionService { get; set; }
-        [Parameter] public ReceiptInfo ReceiptInfo { get; set; }
+        [Parameter] public ReceiptDetail ReceiptInfo { get; set; }
         private List<ReceiptProductModel> products { get; set; }
         private bool statusInput = false;
         private bool restVisibility = true;
@@ -66,33 +67,33 @@ namespace INVUIs.Receptions
             if (send)
             {
                 Receipt receiptToSave = new()
-                {
-                    Id = ReceiptInfo.Id,
-                    Date = (DateOnly)ReceiptInfo.Date,
-                    DeliveryDate = (DateOnly)ReceiptInfo.DeliveryDate,
-                    DeliveryNumber = ReceiptInfo.DeliveryNumber,
-                    PurchaseId = ReceiptInfo.PurchaseId,
-                    Products = ReceiptInfo.ReceiptProducts.Select(p => new ReceiptProduct()
-                    {
-                        ReceptionId = p.ReceptionId,
-                        ProductId = p.ProductId,
-                        Quantity = products.FirstOrDefault(pp => p.ProductId == pp.ProductId).Received,
-                        WareHouseId = p.DefaultWareHouseId
-                    }).ToList(),
-                    Status = ReceiptStatus.editing
-                };
+                 {
+                     Id = ReceiptInfo.Id,
+                     Date = (DateOnly)ReceiptInfo.Date,
+                     DeliveryDate = (DateOnly)ReceiptInfo.DeliveryDate,
+                     DeliveryNumber = ReceiptInfo.DeliveryNumber,
+                     PurchaseId = ReceiptInfo.PurchaseId,
+                     Products = ReceiptInfo.ReceiptProducts.Select(p => new ReceiptProduct()
+                     {
+                         ReceptionId = p.ReceptionId,
+                         ProductId = p.ProductId,
+                         Quantity = products.FirstOrDefault(pp => p.ProductId == pp.ProductId).Received,
+                         WareHouseId = p.DefaultWareHouseId
+                     }).ToList(),
+                     Status = ReceiptStatus.editing
+                 };
 
                 var result = await receptionService.GetReceiptById(ReceiptInfo.Id);
-
-                if (result.IsSuccess)
-                {
-                    await receptionService.UpdateReceipt(receiptToSave);
-                }
-                else
-                {
-                    await receptionService.CreateReceipt(receiptToSave);
-                }
-                CancelEditing();
+                
+                                if (result.IsSuccess)
+                                {
+                                    await receptionService.UpdateReceipt(receiptToSave);
+                                }
+                                else
+                                {
+                                    await receptionService.CreateReceipt(receiptToSave);
+                                }
+                                CancelEditing();
             }
         }
 

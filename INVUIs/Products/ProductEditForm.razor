@@ -2,12 +2,14 @@
 @using INV.Domain.Entities.Products
 @using INV.Domain.Entities.Purchases
 @using INVUIs.Products.ProductsModel
+@using INVUIs.Purchases
+@using INVUIs.Purchases.PurchaseModels
 @if(display)
 {
 	<Modal Titel="Edit Product">
 		<Pills>
 
-			<RadzenTemplateForm TItem="ProductModel" Data="@selectedProductModel" Submit="@SaveEditedProduct">
+			<RadzenTemplateForm TItem="PurchaseProductModel" Data="@selectedProductModel" Submit="@SaveEditedProduct">
 				<RadzenStack Gap="1rem">
 					<RadzenRow Style="display: flex; align-items: center;">
 						<RadzenColumn Size="12" Style="text-align: left;">
@@ -39,8 +41,8 @@
 }
 @code{
 	[Parameter] public PurchaseProductInfo product { get; set; }
-	[Parameter] public ProductModel selectedProductModel { get; set; }
-	[Parameter] public EventCallback<ProductModel> productEdit  { get; set; }
+	[Parameter] public PurchaseProductModel selectedProductModel { get; set; }
+	[Parameter] public EventCallback<PurchaseProductModel> productEdit { get; set; }
 	[Inject] public IPurchaseOrderService purchaseOrderService { get; set; }
 	public bool display = false;
 	private PurchaseProduct editproduct;
@@ -56,14 +58,15 @@
 	}
 
 
-	public async Task SaveEditedProduct(ProductModel product)
+	public async Task SaveEditedProduct(PurchaseProductModel product)
 	{
 
-		if(product.IDPurchaseOrder != Guid.Empty){
+		if(product.PurchaseOrderId != Guid.Empty)
+		{
 			editproduct = new PurchaseProduct
 				{
-					ProductId = product.ID,
-					PurchaseOrderId = product.IDPurchaseOrder!,
+					ProductId = product.Id,
+					PurchaseOrderId = product.PurchaseOrderId!,
 					Quantity = product.Quantity,
 					UnitPrice = product.UnitPrice,
 
@@ -75,12 +78,12 @@
 			product.Quantity = selectedProductModel.Quantity;
 			product.UnitPrice = selectedProductModel.UnitPrice;
 			product.TotalPrice = product.Quantity * product.UnitPrice;
-
 		}
 
 		await productEdit.InvokeAsync(product);
-
+		
 		CloseEditPopup();
+
 		
 	}
 

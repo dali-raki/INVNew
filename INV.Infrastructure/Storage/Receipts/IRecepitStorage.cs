@@ -6,7 +6,7 @@ namespace INV.Infrastructure.Storage.Receipts;
 
 public interface IReceiptStorage
 {
-    ValueTask<ReceiptInfo> CreateReceiptFromPurchase(Guid purchaseId);
+    ValueTask<ReceiptDetail> CreateReceiptFromPurchase(Guid purchaseId);
 
     ValueTask<List<ReceiptInfo>> SelectAllReceipts();
 
@@ -30,13 +30,13 @@ public interface IReceiptStorage
 
     ValueTask<int> DeleteReceiptProduct(Guid receptionId, Guid productId);
 
-    ValueTask<ReceiptInfo> GetReceiptInfoById(Guid receiptId, bool includeProducts = false);
+    ValueTask<ReceiptDetail> GetReceiptInfoById(Guid receiptId, bool includeProducts = false);
 
     ValueTask ValidateReceipt(Guid receiptId);
 
     ValueTask<List<ReceiptInfo>> SelectReceiptsBySupplierId(Guid supplierId);
 
-    ValueTask<List<Receipt>> SelectReceiptsByPurchaseIdWhenStatus1(Guid purchaseId);
+    ValueTask<List<ReceiptInfo>> SelectReceiptsByPurchaseIdWhenStatus1(Guid purchaseId);
 
     ValueTask<bool> ReceiptExistById(Guid id);
 }

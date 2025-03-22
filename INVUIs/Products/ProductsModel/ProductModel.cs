@@ -4,9 +4,8 @@ namespace INVUIs.Products.ProductsModel
 {
     public class ProductModel
     {
-        public Guid ID { get; set; }
-        public int Number { get; set; }
-        public Guid IDPurchaseOrder { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid WareHouseId { set; get; }
 
         [Required(ErrorMessage = "Name Product is required")]
         public string Designation { get; set; }
@@ -14,24 +13,7 @@ namespace INVUIs.Products.ProductsModel
         [Required(ErrorMessage = "UnitMeasure is required")]
         public string UnitMeasure { get; set; }
 
-        [Required(ErrorMessage = "Quantity is required")]
-        public int Quantity { get; set; }
-
-        [Required(ErrorMessage = "UnitPrice is required")]
-        public decimal UnitPrice { get; set; }
-
         [Required(ErrorMessage = "TVA is required")]
         public int TVA { get; set; }
-
-        [Required(ErrorMessage = "Delivery time is required.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Delivery time must be at least 1 day.")]
-        public int DeliveryTime { get; set; }
-
-        public decimal TotalPrice { set; get; }
-
-        //public int DefaultTVARate { get; set; }
-        public string WareHouse { set; get; }
-
-        public int Received { set; get; }
     }
 }

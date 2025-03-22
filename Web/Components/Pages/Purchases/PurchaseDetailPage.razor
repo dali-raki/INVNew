@@ -8,9 +8,6 @@
     <PurchaseCard purchaseInfo="purchaseOrder" />
 </div>
 
-
-
-
 <Tabs>
     <Tab Title="Products" Active="true">
         <Content>
@@ -21,7 +18,9 @@
     {
         <Tab Title="Receipts">
         <Content>
-            <ReceptionListByPurchase Receptions="receptionsListByPurchase" />
+            @* <ReceptionListByPurchase Receptions="receptionsListByPurchase" /> *@
+
+				<ReceptionList Receptions="receptionsListByPurchase" ShowSupplier="false" ShowPurchase="true" />
         </Content>
     </Tab>
 	}

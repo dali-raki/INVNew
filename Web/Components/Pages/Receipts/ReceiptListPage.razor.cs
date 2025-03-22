@@ -1,7 +1,6 @@
 ﻿using INV.App.Purchases;
 using INV.App.Receipts;
 using INV.Domain.Entities.Receipts;
-using INV.Domain.Entities.WareHouse;
 using INV.Domain.Shared;
 using INVUIs.Purchases;
 using INVUIs.Receptions;
